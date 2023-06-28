@@ -43,7 +43,6 @@ public class Marked_Points : MonoBehaviour
             {
                 Pose pose = hit.pose;
                 GameObject obj = Instantiate(prefab, pose.position, pose.rotation);
-                arrowRotation.SetPoint(obj);
                 if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp)
                 {
                     Vector3 position = obj.transform.position;
@@ -56,6 +55,7 @@ public class Marked_Points : MonoBehaviour
                     obj.transform.rotation = obj.transform.rotation * targetRotation;
 
                 }
+                arrowRotation.SetPoint(obj);
             }
         }
     }

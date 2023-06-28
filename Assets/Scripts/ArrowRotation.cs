@@ -38,4 +38,11 @@ public class ArrowRotation : MonoBehaviour
     {
         point.Add(obj);
     }
+    public void DeletePoint()
+    {
+        if (point.Count != 0)
+        {
+            point.RemoveAt(0);
+        }
+    }
 }
