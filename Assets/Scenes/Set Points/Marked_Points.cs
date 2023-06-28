@@ -9,6 +9,8 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 public class Marked_Points : MonoBehaviour
 {
     [SerializeField]
+    ArrowRotation arrowRotation;
+    [SerializeField]
     private GameObject prefab;
 
     private ARRaycastManager aRRaycastManager;
@@ -41,10 +43,11 @@ public class Marked_Points : MonoBehaviour
             {
                 Pose pose = hit.pose;
                 GameObject obj = Instantiate(prefab, pose.position, pose.rotation);
-
+                arrowRotation.SetPoint(obj);
                 if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp)
                 {
                     Vector3 position = obj.transform.position;
+
                     Vector3 cameraPosition = Camera.main.transform.position;
                     Vector3 direction = cameraPosition - position;
                     Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
