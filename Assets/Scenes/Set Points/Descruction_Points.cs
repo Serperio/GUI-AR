@@ -13,8 +13,8 @@ public class Descruction_Points : MonoBehaviour
     {
         if (other.gameObject.CompareTag("MainCamera"))
         {
+        flecha.GetComponent<ArrowRotation>().DeletePoint();
         Destroy(gameObject);
-        //flecha.GetComponent<ArrowRotation>().DeletePoint();
         }
     }
 
