@@ -7,6 +7,9 @@ using TMPro;
 
 public class Wifi : MonoBehaviour
 {
+    [SerializeField]
+    API api;
+
     private static AndroidJavaObject unityActivity;
     private static AndroidJavaObject _wifiManager;
     private const string WIFI_ACCESS = "android.permission.ACCESS_WIFI_STATE";
@@ -15,7 +18,6 @@ public class Wifi : MonoBehaviour
     string IP = "146.235.246.2";
     [SerializeField]
     string port = "3000";
-    public struct Network { public string SSID; public int signalLevel; }
 
     [SerializeField]
     TextMeshProUGUI redes;
@@ -55,6 +57,7 @@ public class Wifi : MonoBehaviour
                     salida += "SSID: " + SSID + "| Level: " + signalStrength + "\n";
                     networks.Add(network);
                 }
+                api.getWifis(networks);
                 //StartCoroutine(Upload());
                 redes.text = salida;
                 
