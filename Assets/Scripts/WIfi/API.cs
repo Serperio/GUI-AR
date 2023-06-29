@@ -7,6 +7,9 @@ using TMPro;
 public class API : MonoBehaviour
 {
     [SerializeField]
+    TextMeshProUGUI npiso;
+
+    [SerializeField]
     List<WifiData> wifis;
 
     [SerializeField]
@@ -201,6 +204,7 @@ public class API : MonoBehaviour
         {
             Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
+            npiso.text= pred.prediction.ToString();
         }
     }
 
