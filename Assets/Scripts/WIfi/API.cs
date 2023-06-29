@@ -8,7 +8,16 @@ public class API : MonoBehaviour
 {
     [SerializeField]
     List<WifiData> wifis;
-    
+
+    [SerializeField]
+    FixedFormatoWifi fixedWifi;
+
+    List<string> wifisMAC= new List<string>();
+    List<string> wifisMACRef = new List<string>();
+    List<int> wifisIntensidades = new List<int>();
+
+    List<int> wifisIntensidadesfixed;
+
     public GameObject Text;
     [SerializeField]
     GameObject contenido;
@@ -45,7 +54,13 @@ public class API : MonoBehaviour
             Debug.Log("Form upload complete!");
         }
     }
+    public void getWifis(List<Network> wifis){
+        foreach(Network wifi in wifis){
+            wifisMAC.Add(wifi.SSID);
+                wifisIntensidades.Add(wifi.signalLevel);
+            }
 
+    }
     IEnumerator FindPointData(string name){
         // const string IP = "144.22.42.236";
         const string IP = "localhost";
@@ -121,6 +136,7 @@ public class API : MonoBehaviour
             // Entregar resultados
             foreach(Point point in points)
             {
+
                 GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
                 texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
                 texto.transform.parent = contenido.transform;
@@ -128,6 +144,63 @@ public class API : MonoBehaviour
                 texto.transform.localScale = Vector3.one;
                 Debug.Log(point.name);
             }
+        }
+    }
+
+    IEnumerator WifiDisponibles(){
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://"+IP+":"+port+"/api/";
+
+        UnityWebRequest www =  UnityWebRequest.Get(baseURI+"wifi");
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+        }
+        else
+        {
+            // Recuperar JSON
+            string response = www.downloadHandler.text;
+            // Obtener listado de puntos
+            
+            List<string> data = listJson(response);
+            // Transformar JSON a Point
+            List<WifiJson> points = new List<WifiJson>();
+            foreach(string dato in data){
+                points.Add(JsonUtility.FromJson<WifiJson>(dato));
+            }
+            // Entregar resultados
+            foreach(string mac in points[0].macs)
+            {
+                wifisMACRef.Add(mac);
+                /*
+                GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                texto.transform.parent = contenido.transform;
+                texto.transform.localPosition = Vector3.zero;
+                texto.transform.localScale = Vector3.one;*/
+            }
+        }
+        wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
+        print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count);
+        string macString = string.Join(",",wifisMACRef);
+        string intesidadesString = string.Join(",", wifisIntensidadesfixed);
+        WWWForm form = new WWWForm();
+        form.AddField("macs", macString);
+        form.AddField("intensities", intesidadesString);
+        www = UnityWebRequest.Post(baseURI+"predict",form);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+        }
+        else
+        {
+            Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
+            Debug.Log(pred.prediction);
         }
     }
 
@@ -160,6 +233,10 @@ public class API : MonoBehaviour
             data.Sort(SortByMac);
             foreach(WifiData wifi in data){
                 macs.Add(wifi.mac);
+
+                wifisMAC.Add(wifi.mac);
+                wifisIntensidades.Add(wifi.intensity);
+
                 intensities.Add(wifi.intensity.ToString());
             }
             string _macs = string.Join(",",macs);
@@ -170,6 +247,18 @@ public class API : MonoBehaviour
     }
 
     public void Start(){
-        StartCoroutine(DestinosDisponibles());
+        //StartCoroutine(DestinosDisponibles());
+        StartCoroutine(WifiDisponibles());
+    }
+
+    public class WifiJson {
+        public List<string> macs;
+        public List<int> intensities;
+        public int floor;
+    }
+
+    public class Prediccion {
+        public List<string> macs;
+        public int prediction;
     }
 }
