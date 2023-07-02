@@ -6,30 +6,6 @@ using TMPro;
 
 public class UIBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    TextMeshProUGUI csm;
-    [SerializeField]
-    TextMeshProUGUI wifiOn;
-    [SerializeField]
-    TextMeshProUGUI Datos;
-    [SerializeField]
-    Canvas canvasBueno;
-    [SerializeField]
-    Canvas canvasMalo;
-    private void Update()
-    {
-        /*
-        if(csm.text== "Si se ha activado el GPS" && (Datos.text=="Si hay datos"   || wifiOn.text == "Si se ha activado el Wifi"))
-        {
-            canvasBueno.enabled = true;
-            canvasMalo.enabled = false;
-        }
-        else
-        {
-            canvasBueno.enabled = false;
-            canvasMalo.enabled = true;
-        }*/
-    }
     // Start is called before the first frame update
     public void FlipUI(GameObject ui)
     {
