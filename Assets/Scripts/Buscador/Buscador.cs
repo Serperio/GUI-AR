@@ -11,6 +11,8 @@ public class Buscador : MonoBehaviour
     GameObject contenido;
     [SerializeField] 
     GameObject Text;
+    [SerializeField]
+    GameObject textoPunto;
 
     string inputText;
 
@@ -75,12 +77,60 @@ public class Buscador : MonoBehaviour
         }
     }
 
-    public void GetInput(string s){
-        inputText = s;
-        Debug.Log(inputText);
+    public void GetInput(TMP_InputField s){
+        inputText = s.text;
+        StartCoroutine(FindPointData(inputText));
+    }
+
+    IEnumerator FindPointData(string name)
+    {
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+        WWWForm form = new WWWForm();
+        form.AddField("name", name);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/find", form);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: " + www.error);
+        }
+        else
+        {
+            try
+            {
+                // Recuperar JSON
+                string response = www.downloadHandler.text;
+                // Transformar JSON a Point
+                Point point = JsonUtility.FromJson<Point>(response);
+                OpenDetalle();
+                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Latitud: " + point.x + "\nLongitud: " + point.y;
+            } catch
+            {
+                OpenDetalle();
+                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Destino no valido, por favor indicar otro destino";
+            }
+            
+        }
     }
 
     public void BuscarSitiosDisponibles(){
         StartCoroutine(DestinosDisponibles());
+    }
+
+    public void DetalleSitio(TextMeshProUGUI texto)
+    {
+        StartCoroutine(FindPointData(texto.text));
+    }
+
+    public void OpenDetalle()
+    {
+        textoPunto.SetActive(true);
+    }
+
+    public void CloseDetalle()
+    {
+        textoPunto.SetActive(false);
     }
 }
