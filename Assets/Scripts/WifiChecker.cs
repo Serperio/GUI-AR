@@ -55,6 +55,7 @@ public class WifiChecker : MonoBehaviour
         }*/
     }
 
+
     private bool IsWifiOff()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
