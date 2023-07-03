@@ -2701,6 +2701,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
 --- !u!1001 &8080542571183111827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2780,3 +2781,5 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60bd5e062f1806ff2a918b0d646a4822, type: 3}
+=======
+>>>>>>> 56e69adc996cef53d6aa73065037e408f0a76819
