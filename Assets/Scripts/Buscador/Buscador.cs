@@ -84,6 +84,7 @@ public class Buscador : MonoBehaviour
 
     IEnumerator FindPointData(string name)
     {
+        Debug.Log("Nombre punto: "+name);
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
