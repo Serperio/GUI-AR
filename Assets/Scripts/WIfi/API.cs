@@ -8,7 +8,6 @@ public class API : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI npiso;
-
     [SerializeField]
     List<WifiData> wifis;
 
@@ -35,8 +34,8 @@ public class API : MonoBehaviour
 
     IEnumerator SendPoints(int floor, string macs, string intensities)
     {
-        // const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        // const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
@@ -45,7 +44,7 @@ public class API : MonoBehaviour
         form.AddField("intensities", intensities);
         form.AddField("floor", floor);
         //Realizar request
-        UnityWebRequest www = UnityWebRequest.Post(baseURI+"wifi/add", form);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"beta/add", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
@@ -194,7 +193,6 @@ public class API : MonoBehaviour
         form.AddField("intensities", intesidadesString);
         www = UnityWebRequest.Post(baseURI+"predict",form);
         yield return www.SendWebRequest();
-
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log("Error post: "+ www.error);
@@ -205,6 +203,13 @@ public class API : MonoBehaviour
             Debug.Log(pred.prediction);
             npiso.text= pred.prediction.ToString();
         }
+    }
+
+    public void SubirDatos(int piso)
+    {
+        string _macs = string.Join(",", wifisMAC);
+        string _intensities = string.Join(",", wifisIntensidades);
+        StartCoroutine(SendPoints(piso, _macs, _intensities));
     }
 
     void crearDatos(){
