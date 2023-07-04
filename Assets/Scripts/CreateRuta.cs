@@ -31,11 +31,11 @@ public class Vecino
     public Puntito Vec { get; set; }
     public double Distancia { get; set; }
 
-    public Vecino(Puntito actual, Puntito vecino, double dist)
+    public Vecino(Puntito actual, Puntito vecino)
     {
         Actual = actual;
         Vec = vecino;
-        Distancia = dist;
+        Distancia = DistanciaLatLon.distance(actual.latitud,vecino.latitud,actual.longitud,vecino.longitud);
     }
 }
 
@@ -89,7 +89,11 @@ class Dijkstra
                         vecino.Anterior = actual;
                         //visitados.Add(vecino);
                         //Debug.Log("Punto: " + aux.ID);
-                        caminos.Add(actual);
+                        if(!caminos.Contains(actual))
+                        {
+                            caminos.Add(actual);
+                        }
+                        
                         aux = actual;
                     }
                 }
@@ -173,33 +177,34 @@ public class CreateRuta : MonoBehaviour
         ConectarPuntosAleatoriamente(E, F); */
 
         // A
-        A.Vecinos.Add(new Vecino(A,B,DistanciaLatLon.distance(A.latitud,B.latitud,A.longitud,B.longitud)));
-        A.Vecinos.Add(new Vecino(A,C,DistanciaLatLon.distance(A.latitud,C.latitud,A.longitud,C.longitud)));
+        A.Vecinos.Add(new Vecino(A,B));
+        A.Vecinos.Add(new Vecino(A,C));
         // B
-        B.Vecinos.Add(new Vecino(B,C,DistanciaLatLon.distance(B.latitud,C.latitud,B.longitud,C.longitud)));
-        B.Vecinos.Add(new Vecino(B,D,DistanciaLatLon.distance(B.latitud,D.latitud,B.longitud,D.longitud)));
-        B.Vecinos.Add(new Vecino(B,A,DistanciaLatLon.distance(B.latitud,A.latitud,B.longitud,A.longitud)));
+        B.Vecinos.Add(new Vecino(B,C));
+        B.Vecinos.Add(new Vecino(B,D));
+        B.Vecinos.Add(new Vecino(B,A));
         // C
-        C.Vecinos.Add(new Vecino(C,B,DistanciaLatLon.distance(C.latitud,B.latitud,C.longitud,B.longitud)));
-        C.Vecinos.Add(new Vecino(C,A,DistanciaLatLon.distance(C.latitud,A.latitud,C.longitud,A.longitud)));
-        C.Vecinos.Add(new Vecino(C,D,DistanciaLatLon.distance(C.latitud,D.latitud,C.longitud,D.longitud)));
+        C.Vecinos.Add(new Vecino(C,B));
+        C.Vecinos.Add(new Vecino(C,A));
+        C.Vecinos.Add(new Vecino(C,D));
         // D
-        D.Vecinos.Add(new Vecino(D,B,DistanciaLatLon.distance(D.latitud,B.latitud,D.longitud,B.longitud)));
-        D.Vecinos.Add(new Vecino(D,C,DistanciaLatLon.distance(D.latitud,C.latitud,D.longitud,C.longitud)));
-        D.Vecinos.Add(new Vecino(D,E,DistanciaLatLon.distance(D.latitud,E.latitud,D.longitud,E.longitud)));
+        D.Vecinos.Add(new Vecino(D,B));
+        D.Vecinos.Add(new Vecino(D,C));
+        D.Vecinos.Add(new Vecino(D,E));
         // E
-        E.Vecinos.Add(new Vecino(E,D,DistanciaLatLon.distance(E.latitud,D.latitud,E.longitud,D.longitud)));
-        E.Vecinos.Add(new Vecino(E,F,DistanciaLatLon.distance(E.latitud,F.latitud,E.longitud,F.longitud)));
+        E.Vecinos.Add(new Vecino(E,D));
+        E.Vecinos.Add(new Vecino(E,F));
         // F
-        F.Vecinos.Add(new Vecino(F,E,DistanciaLatLon.distance(F.latitud,E.latitud,F.longitud,E.longitud)));
+        F.Vecinos.Add(new Vecino(F,E));
 
-        List<Puntito> camino = Dijkstra.FindShortestPath(vertices,C,F);
+        List<Puntito> camino = Dijkstra.FindShortestPath(vertices,C,E);
         if(camino.Count > 0)
         {
+            texto_punto.text += "Ruta: - ";
             foreach(Puntito punto in camino)
             {   
                 Debug.Log("Punto: " + punto.ID +" Ahora iremos a:");
-                texto_punto.text += "Punto " + punto.ID + "---------> ";
+                texto_punto.text += punto.ID + " - ";
             }
         } 
         else 
