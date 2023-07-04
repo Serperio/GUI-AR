@@ -49,7 +49,7 @@ public class Wifi : MonoBehaviour
                 for(int i = 0; i < wifiCount; i++)
                 {
                     AndroidJavaObject scanResult = scanResults.Call<AndroidJavaObject>("get", i);
-                    int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 5);
+                    int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 10);
                     string SSID = scanResult.Get<string>("BSSID");
                     Network network = new Network();
                     network.SSID = SSID;
