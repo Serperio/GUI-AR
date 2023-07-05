@@ -49,7 +49,7 @@ public class Wifi : MonoBehaviour
                 for(int i = 0; i < wifiCount; i++)
                 {
                     AndroidJavaObject scanResult = scanResults.Call<AndroidJavaObject>("get", i);
-                    int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 10);
+                    int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 20);
                     string SSID = scanResult.Get<string>("BSSID");
                     Network network = new Network();
                     network.SSID = SSID;
@@ -82,8 +82,8 @@ public class Wifi : MonoBehaviour
         {
             form.AddField(net.SSID, net.signalLevel);
         }
-        form.AddField("end","true");
-        UnityWebRequest www = UnityWebRequest.Post("http://"+IP+":"+port+"/post", form);
+        //form.AddField("end","true");
+        UnityWebRequest www = UnityWebRequest.Post("http://"+IP+":"+port+"/api/beta/add", form);
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
