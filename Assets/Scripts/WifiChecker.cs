@@ -6,35 +6,44 @@ using TMPro;
 
 public class WifiChecker : MonoBehaviour
 {
-    [SerializeField]
-    TextMeshProUGUI texto;
-    private bool isWifiOff = false;
-    private bool isWifiConnected = false;
-    private bool isInternetConnected = false;
+    //Detecta si el Wifi de android esta activado o no , conectable con WifiDetection
 
-    void Start()
+    //Campo de error
+    [SerializeField]
+    TextMeshProUGUI wifiActivate;
+
+    private bool isWifiOff = false;
+    //private bool isWifiConnected = false;
+    //private bool isInternetConnected = false;
+
+    void FixedUpdate()
     {
         // Verificar si el Wi-Fi está desactivado
         isWifiOff = IsWifiOff();
 
         // Verificar si hay una conexión Wi-Fi activa
-        isWifiConnected = IsWifiConnected();
+        //isWifiConnected = IsWifiConnected();
 
         // Verificar si hay una conexión a Internet
-        isInternetConnected = IsInternetConnected();
+        //isInternetConnected = IsInternetConnected();
 
         // Imprimir el resultado
         if (isWifiOff)
         {
-            Debug.Log("Wi-Fi está desactivado.");
-            texto.text = "Wi-Fi está desactivado.";
+            //Debug.Log("Wi-Fi está desactivado.");
+            wifiActivate.text = "Wi-Fi está desactivado.";
         }
-        else if (isWifiConnected && isInternetConnected)
+        else
+        {
+            //Debug.Log("Wi-Fi está activado");
+            wifiActivate.text = "WiFi esta activado";
+        }
+        /*else if (isWifiConnected && isInternetConnected)
         {
             Debug.Log("Wi-Fi está activado y conectado a Internet.");
-            texto.text = "Wi-Fi está activado y conectado a Internet.";
-        }
-        else if (isWifiConnected && !isInternetConnected)
+            wifiActivate.text = "Wi-Fi está activado";
+        }*/
+        /*else if (isWifiConnected && !isInternetConnected)
         {
             Debug.Log("Wi-Fi está activado, pero no está conectado a Internet.");
             texto.text = "Wi-Fi está activado, pero no está conectado a Internet.";
@@ -43,8 +52,9 @@ public class WifiChecker : MonoBehaviour
         {
             Debug.Log("Wi-Fi está activado, pero no se ha detectado ninguna conexión.");
             texto.text = "Wi-Fi está activado, pero no se ha detectado ninguna conexión.";
-        }
+        }*/
     }
+
 
     private bool IsWifiOff()
     {
@@ -58,7 +68,7 @@ public class WifiChecker : MonoBehaviour
 #endif
     }
 
-    private bool IsWifiConnected()
+    /*private bool IsWifiConnected()
     {
         return NetworkInterface.GetIsNetworkAvailable() && Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork;
     }
@@ -66,5 +76,5 @@ public class WifiChecker : MonoBehaviour
     private bool IsInternetConnected()
     {
         return NetworkInterface.GetIsNetworkAvailable() && Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork;
-    }
+    }*/
 }

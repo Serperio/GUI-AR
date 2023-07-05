@@ -7,19 +7,11 @@ using TMPro;
 
 public class GetLocation : MonoBehaviour
 {
-    public GameObject locationPrefab; // The prefab you want to instantiate at the real world location
-    public float originLatitude = -33.0472f; // Origin latitude for Valparaiso
-    public float originLongitude = -71.6127f; // Origin longitude for Valparaiso
-    public float scale = 100000f; // Scale factor, 1 degree latitude is approximately 111km so scale factor should be around 100000 for AR use
-    int i = 1;
-    bool save = false;
-    List<Puntito> ruta = new List<Puntito>();
     float horizontalAccuracy;
     float verticalAccuracy;
     float relativeError;
     [SerializeField]
     TextMeshProUGUI Error;
-
     private ARSessionOrigin arOrigin;
 
     void Start()
@@ -38,9 +30,13 @@ public class GetLocation : MonoBehaviour
         }
 
         // Start service before querying location
-        Input.location.Start(5,10);
+        //Input.location.Start(5,10);
 
         // Wait until service initializes
+        // Starts the location service.
+        Input.location.Start();
+        // Waits until the location service initializes
+        
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
@@ -70,21 +66,6 @@ public class GetLocation : MonoBehaviour
 
             //Debug.Log("Relative Error: " + relativeError.ToString());
             Error.text = "Vert. Relative Error: " + verticalAccuracy.ToString() + " [m]\nHoriz. Relative Error: " + horizontalAccuracy.ToString() +  " [m]";
-
-            float latitude = Input.location.lastData.latitude;
-            float longitude = Input.location.lastData.longitude;
-            Puntito punto_actual = new Puntito(i.ToString(),(double)latitude,(double)longitude);
-            ruta.Add(punto_actual);
-
-            // Calculate position in Unity space
-            Vector3 position = new Vector3((longitude - originLongitude) * scale, 0, (latitude - originLatitude) * scale);
-    
-            // Instantiate object at calculated position relative to ARSessionOrigin
-            //arOrigin.MakeContentAppearAt(locationPrefab.transform, position,);
-            ARAnchor arAnchor = locationPrefab.AddComponent<ARAnchor>();
-            arOrigin = FindObjectOfType<ARSessionOrigin>();
-            locationPrefab.transform.SetParent(arOrigin.transform);
-            //Instantiate(locationPrefab, position, Quaternion.identity, arOrigin.transform);
         }
 
         // Stop service if there is no need to query location updates continuously
