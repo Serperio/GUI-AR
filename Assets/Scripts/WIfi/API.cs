@@ -27,8 +27,10 @@ public class API : MonoBehaviour
     [SerializeField]
     GameObject contenido;
 
-    private Button myButton;
-    private InputField myInputField;
+    [SerializeField]
+    Button myButton;
+    [SerializeField]
+    public TMP_InputField myInputField;
     private int inputValue;
 
     // --------------------------------------- //
@@ -210,8 +212,8 @@ public class API : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log("Error post: "+ www.error);
-            myInputField = CreateInputField();
-            myButton = CreateButton();
+            //myInputField = CreateInputField();
+            //myButton = CreateButton();
         }
         else
         {
@@ -281,7 +283,6 @@ public class API : MonoBehaviour
 
     InputField CreateInputField()
     {
-        
         GameObject canvas = GameObject.Find("Canvas");
 
         GameObject inputFieldGO = new GameObject("InputField");
