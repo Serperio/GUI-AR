@@ -64,8 +64,8 @@ public class GetLocation : MonoBehaviour
         else
         {
             // Sección calculo del error
-            horizontalAccuracy = Input.location.lastData.horizontalAccuracy;
-            verticalAccuracy = Input.location.lastData.verticalAccuracy;
+            horizontalAccuracy = Input.location.lastData.horizontalAccuracy*0.46f;
+            verticalAccuracy = Input.location.lastData.verticalAccuracy*0.46f;
             //relativeError = Mathf.Sqrt(Mathf.Pow(horizontalAccuracy, 2) + Mathf.Pow(verticalAccuracy, 2));
 
             //Debug.Log("Relative Error: " + relativeError.ToString());
