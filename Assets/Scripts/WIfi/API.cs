@@ -219,7 +219,7 @@ public class API : MonoBehaviour
         {
             Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
-            npiso.text= pred.prediction.ToString();
+            npiso.text= "Numero de piso: " + pred.prediction.ToString();
         }
     }
 
