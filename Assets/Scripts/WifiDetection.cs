@@ -5,22 +5,35 @@ using TMPro;
 
 public class WifiDetection : MonoBehaviour
 {
+
+    //Deteccion de conexion a internet, wifi y datos, conectable con WifiChecker
     [SerializeField]
-    TextMeshProUGUI csm;
+    TextMeshProUGUI gpsText;
     [SerializeField]
-    TextMeshProUGUI wifiOn;
+    TextMeshProUGUI wifiConected;
     [SerializeField]
     TextMeshProUGUI mobileData;
+    [SerializeField]
+    TextMeshProUGUI esperandoWifi;
 
-    // Start is called before the first frame update
-    void FixedUpdate()
+    private void Start()
     {
         LocationService service = new LocationService();
-        csm.text = service.isEnabledByUser ? "Si se ha activado el GPS" : "No ha sido activado el GPS";
-        print(Application.internetReachability);
-        wifiOn.text = Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork ? "Si se ha activado el Wifi" : "No se ha activado el Wifi";
-        mobileData.text = Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork ? "Si hay datos" : "No hay datos";
+        StartCoroutine(updateOff(service));
     }
 
-    // Update is called once per frame
+    IEnumerator updateOff(LocationService service)
+    {
+        if (!(Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork || Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork))
+        {
+            esperandoWifi.text = "Esperando Conexión";
+        }
+        yield return new WaitForSeconds(5.0f);
+        esperandoWifi.text = "";
+        gpsText.text = service.isEnabledByUser ? "Si se ha activado el GPS" : "No ha sido activado el GPS";
+        wifiConected.text = Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork ? "Hay internet por wifi" : "No hay internet por wifi";
+        mobileData.text = Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork ? "Si hay datos" : "No hay datos";
+        StartCoroutine(updateOff(service));
+
+    }
 }

@@ -10,12 +10,17 @@ public class API : MonoBehaviour
     // Variables
     [SerializeField]
     TextMeshProUGUI npiso;
-
     [SerializeField]
     List<WifiData> wifis;
 
     [SerializeField]
     FixedFormatoWifi fixedWifi;
+
+    [SerializeField]
+    public TextMeshProUGUI mostrarPiso;
+
+    [SerializeField]
+    Wifi wifiManager;
 
     List<string> wifisMAC= new List<string>();
     List<string> wifisMACRef = new List<string>();
@@ -44,8 +49,8 @@ public class API : MonoBehaviour
 
     IEnumerator SendPoints(int floor, string macs, string intensities)
     {
-        // const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        // const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
@@ -54,7 +59,7 @@ public class API : MonoBehaviour
         form.AddField("intensities", intensities);
         form.AddField("floor", floor);
         //Realizar request
-        UnityWebRequest www = UnityWebRequest.Post(baseURI+"wifi/add", form);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"beta/add", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
@@ -158,16 +163,19 @@ public class API : MonoBehaviour
         }
     }
 
-    IEnumerator WifiDisponibles(){
+    IEnumerator getPiso(){
+        //wifiManager.ScanWifi();
+        mostrarPiso.text = "Buscando redes";
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
-
+        mostrarPiso.text = "Tengo una URL";
         UnityWebRequest www =  UnityWebRequest.Get(baseURI+"wifi");
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
+            mostrarPiso.text = "Buscando redes error";
             Debug.Log("Error post: "+ www.error);
         }
         else
@@ -199,18 +207,88 @@ public class API : MonoBehaviour
         // wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
         // npiso.text = "we bac";
         // print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count);
-        string macString = "1A:6B:8C:3F:5D:9E,2A:6B:8C:3F:5D:9E,3A:6B:8C:3F:5D:9E,4A:6B:8C:3F:5D:9E";
-        string intesidadesString = "2,3,3,0";
+        // string macString = "1A:6B:8C:3F:5D:9E,2A:6B:8C:3F:5D:9E,3A:6B:8C:3F:5D:9E,4A:6B:8C:3F:5D:9E";
+        //string intesidadesString = "2,3,3,0";
         // string macString = string.Join(",",wifisMACRef);
         // string intesidadesString = string.Join(",", wifisIntensidadesfixed);
+        mostrarPiso.text = "Ajustando intensidades";
+        wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
+        print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count);
+        string macString = string.Join(",",wifisMACRef);
+        string intesidadesString = string.Join(",", wifisIntensidadesfixed);
+        WWWForm form = new WWWForm();
+        form.AddField("macs", macString);
+        form.AddField("intensities", intesidadesString);
+        mostrarPiso.text = "Enviando formulario";
+        www = UnityWebRequest.Post(baseURI+"predict",form);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+            mostrarPiso.text = "Error en envio";
+        }
+        else
+        {
+            Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
+            Debug.Log(pred.prediction);
+            mostrarPiso.text= "Piso Actual: " + pred.prediction.ToString();
+        }
+        yield return new WaitForSeconds(10);
+        StartCoroutine(getPiso());
+    }
+
+    IEnumerator WifiDisponibles(){
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://"+IP+":"+port+"/api/";
+        mostrarPiso.text = "Wifi disponible";
+        UnityWebRequest www =  UnityWebRequest.Get(baseURI + "wifi");
+        mostrarPiso.text = "Manda get " + baseURI + "wifi";
+        yield return www.SendWebRequest();
+        mostrarPiso.text = "Solicitud enviada";
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            mostrarPiso.text = "Error en wifi";
+            Debug.Log("Error post: "+ www.error);
+        }
+        else
+        {
+            // Recuperar JSON
+            string response = www.downloadHandler.text;
+            // Obtener listado de puntos
+            
+            List<string> data = listJson(response);
+            // Transformar JSON a Point
+            List<WifiJson> points = new List<WifiJson>();
+            foreach(string dato in data){
+                points.Add(JsonUtility.FromJson<WifiJson>(dato));
+            }
+            // Entregar resultados
+            foreach(string mac in points[0].macs)
+            {
+                wifisMACRef.Add(mac);
+                /*
+                GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                texto.transform.parent = contenido.transform;
+                texto.transform.localPosition = Vector3.zero;
+                texto.transform.localScale = Vector3.one;*/
+            }
+        }
+        mostrarPiso.text = "Ajustando intensidades";
+        wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
+        print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count);
+        string macString = string.Join(",",wifisMACRef);
+        string intesidadesString = string.Join(",", wifisIntensidadesfixed);
         WWWForm form = new WWWForm();
         form.AddField("macs", macString);
         form.AddField("intensities", intesidadesString);
         www = UnityWebRequest.Post(baseURI+"predict",form);
         yield return www.SendWebRequest();
-
         if (www.result != UnityWebRequest.Result.Success)
         {
+            mostrarPiso.text = "Error!!!!!!!!!!!!!!!!!";
             Debug.Log("Error post: "+ www.error);
             //myInputField = CreateInputField();
             //myButton = CreateButton();
@@ -219,8 +297,16 @@ public class API : MonoBehaviour
         {
             Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
-            npiso.text= pred.prediction.ToString();
+            mostrarPiso.text= pred.prediction.ToString();
         }
+        StartCoroutine(getPiso());
+    }
+
+    public void SubirDatos(int piso)
+    {
+        string _macs = string.Join(",", wifisMAC);
+        string _intensities = string.Join(",", wifisIntensidades);
+        StartCoroutine(SendPoints(piso, _macs, _intensities));
     }
 
     void crearDatos(){

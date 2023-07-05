@@ -69,7 +69,7 @@ public class GetLocation : MonoBehaviour
             //relativeError = Mathf.Sqrt(Mathf.Pow(horizontalAccuracy, 2) + Mathf.Pow(verticalAccuracy, 2));
 
             //Debug.Log("Relative Error: " + relativeError.ToString());
-            Error.text = "Vert. Relative Error: " + verticalAccuracy.ToString() + " [m]\nHoriz. Relative Error: " + horizontalAccuracy.ToString() +  " [m]";
+            Error.text = "Vert. Relative Error: " + verticalAccuracy.ToString() + " [m]\n-------\nHoriz. Relative Error: " + horizontalAccuracy.ToString() +  " [m]";
 
             float latitude = Input.location.lastData.latitude;
             float longitude = Input.location.lastData.longitude;
