@@ -23,6 +23,8 @@ public class GetLocation : MonoBehaviour
     TextMeshProUGUI coordenadasTransformadas;
     [SerializeField]
     GameObject monito;
+    [SerializeField]
+    Transform camara;
     Vector3 posicionActual;
     bool instanciado = false;
     bool guardarPunto = false;
@@ -98,6 +100,10 @@ public class GetLocation : MonoBehaviour
             foreach (Geo point in puntos)
             {
                 float dist = Mathf.Abs(point.latitud - actual.latitud) + Mathf.Abs(point.longitud - actual.longitud);
+                if (dist < 100)
+                {
+
+                }
                 if (dist < minDist)
                 {
                     minDistP.latitud = point.latitud;
@@ -112,7 +118,7 @@ public class GetLocation : MonoBehaviour
             float difLongitud = minDistP.longitud - actual.longitud;
             if (puntos.Count > 0)
             {
-                Vector3 xyz_vector = Quaternion.AngleAxis(puntos[0].longitud, -Vector3.up) * Quaternion.AngleAxis(puntos[0].latitud, -Vector3.right) * new Vector3(0, 0, 1);
+                Vector3 xyz_vector = Quaternion.AngleAxis(puntos[0].longitud, -Vector3.up) * Quaternion.AngleAxis(puntos[0].latitud, -Vector3.right) * new Vector3(1, 0, 1);
                 coordenadasTransformadas.text = "x:" + xyz_vector.x + "\ny:" + xyz_vector.y + "\nz:" + xyz_vector.z;
                 monito.transform.position = xyz_vector;
             }
