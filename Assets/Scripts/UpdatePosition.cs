@@ -14,6 +14,6 @@ public class UpdatePosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position = cambiador.GetComponent<GetLocation>().GetUserLocation();
+        //gameObject.transform.position = cambiador.GetComponent<GetLocation>().GetUserLocation();
     }
 }
