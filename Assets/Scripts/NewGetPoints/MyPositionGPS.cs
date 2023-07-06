@@ -14,6 +14,8 @@ public class MyPositionGPS : MonoBehaviour
     TextMeshProUGUI texto;
     [SerializeField]
     TextMeshProUGUI textoPuntos;
+    [SerializeField]
+    TextMeshProUGUI numeroPiso;
 
     public class Punto
     {
@@ -34,7 +36,7 @@ public class MyPositionGPS : MonoBehaviour
     {
         puntos.Add(new Punto(-33.03479f, -71.59643f, 2,1000f));
         puntos.Add(new Punto(-33.03481f, -71.59651f, 2, 1000f));
-        puntos.Add(new Punto(-33.03503f, -71.5967f, 2, 1000f));//CAMBIAR AL CANNON
+        puntos.Add(new Punto(-33.03503f, -71.5967f, 1, 1000f));//CAMBIAR AL CANNON
 
         puntos.Add(new Punto(0f, 0f, 1,1000f));
         printLista(puntos);
@@ -98,6 +100,12 @@ public class MyPositionGPS : MonoBehaviour
         {
             puntos[0].distanciaActual = Mathf.Sqrt(Mathf.Pow((lastLocation.latitude - puntos[0].latitud), 2) + Mathf.Pow((lastLocation.longitude - puntos[0].longitud), 2));
             texto.text +=  " con una distancia de: " + puntos[0].distanciaActual;
+        }
+        if(puntos.Count == 2 && numeroPiso.text == "Numero de piso: 2"){
+            textoPuntos.text = "Bajar escaleras";
+        }
+        else{
+            printLista(puntos);
         }
         if (puntos.Count == 0)
         {

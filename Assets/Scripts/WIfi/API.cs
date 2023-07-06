@@ -33,6 +33,17 @@ public class API : MonoBehaviour
     public TMP_InputField myInputField;
     private int inputValue;
 
+    [SerializeField]
+    public TMP_InputField tipoInput;
+    [SerializeField]
+    public TMP_InputField pisoInput;
+    [SerializeField]
+    public TMP_InputField xInput;
+    [SerializeField]
+    public TMP_InputField yInput;
+    [SerializeField]
+    public TMP_InputField nameInput;
+
     // --------------------------------------- //
     static int SortByMac(WifiData w1, WifiData w2){
         return w1.mac.CompareTo(w2.mac);
@@ -66,6 +77,43 @@ public class API : MonoBehaviour
             Debug.Log("Form upload complete!");
         }
     }
+
+    IEnumerator guardarPunto()
+    {
+        // const string IP = "144.22.42.236";
+        const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://"+IP+":"+port+"/api/";
+        // Crear formulario
+        WWWForm form = new WWWForm();
+        Debug.Log(xInput.text + yInput.text + pisoInput.text + tipoInput.text + nameInput.text);
+        
+        form.AddField("x", xInput.text);
+        form.AddField("y", yInput.text);
+        form.AddField("floor", pisoInput.text);
+        form.AddField("tipo", tipoInput.text);
+        form.AddField("name", nameInput.text);
+
+        //Realizar request
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/add", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+        
+        yield return new WaitForSeconds(0);
+    }
+
+    public void GuardarPuntoDB(){
+        StartCoroutine(guardarPunto());
+    }
+
     public void getWifis(List<Network> wifis){
         foreach(Network wifi in wifis){
             wifisMAC.Add(wifi.SSID);
@@ -196,13 +244,13 @@ public class API : MonoBehaviour
         }
         /* wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
         print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count); */
-        // wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
+        wifisIntensidadesfixed = fixedWifi.generarVector(wifisMACRef, wifisMAC,wifisIntensidades);
         // npiso.text = "we bac";
         // print("Se han guardado "+wifisMACRef.Count+ " Macs y identidades: "+wifisIntensidadesfixed.Count);
-        string macString = "1A:6B:8C:3F:5D:9E,2A:6B:8C:3F:5D:9E,3A:6B:8C:3F:5D:9E,4A:6B:8C:3F:5D:9E";
-        string intesidadesString = "2,3,3,0";
-        // string macString = string.Join(",",wifisMACRef);
-        // string intesidadesString = string.Join(",", wifisIntensidadesfixed);
+        //string macString = "1A:6B:8C:3F:5D:9E,2A:6B:8C:3F:5D:9E,3A:6B:8C:3F:5D:9E,4A:6B:8C:3F:5D:9E";
+        //string intesidadesString = "2,3,3,0";
+        string macString = string.Join(",",wifisMACRef);
+        string intesidadesString = string.Join(",", wifisIntensidadesfixed);
         WWWForm form = new WWWForm();
         form.AddField("macs", macString);
         form.AddField("intensities", intesidadesString);
@@ -376,7 +424,7 @@ public class API : MonoBehaviour
             ResetInputField();
 
             // Actualizamos el texto del displayText con el valor ingresado
-            npiso.text = "Último valor ingresado: " + inputValue.ToString();
+            npiso.text = "Numero de piso: " + inputValue.ToString();
         }
         else
         {
