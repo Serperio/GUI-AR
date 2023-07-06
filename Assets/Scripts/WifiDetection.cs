@@ -26,7 +26,7 @@ public class WifiDetection : MonoBehaviour
     {
         if (!(Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork || Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork))
         {
-            esperandoWifi.text = "Esperando Conexión";
+            esperandoWifi.text = "Esperando Conexion";
         }
         yield return new WaitForSeconds(5.0f);
         esperandoWifi.text = "";

@@ -266,7 +266,7 @@ public class API : MonoBehaviour
     }
 
     public void Start(){
-        //StartCoroutine(DestinosDisponibles());
+        StartCoroutine(DestinosDisponibles());
         StartCoroutine(WifiDisponibles());
     }
 
