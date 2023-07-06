@@ -67,12 +67,14 @@ public class Buscador : MonoBehaviour
             // Entregar resultados
             foreach(Point point in points)
             {
-                GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                texto.transform.parent = contenido.transform;
-                texto.transform.localPosition = Vector3.zero;
-                texto.transform.localScale = Vector3.one;
-                Debug.Log(point.name);
+                if(point.tipo != "especial"){
+                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                    texto.transform.parent = contenido.transform;
+                    texto.transform.localPosition = Vector3.zero;
+                    texto.transform.localScale = Vector3.one;
+                    Debug.Log(point.tipo);
+                }
             }
         }
     }
@@ -106,7 +108,8 @@ public class Buscador : MonoBehaviour
                 // Transformar JSON a Point
                 Point point = JsonUtility.FromJson<Point>(response);
                 OpenDetalle();
-                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Latitud: " + point.x + "\nLongitud: " + point.y;
+                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Latitud: " + point.x + "\nLongitud: " + point.y + "\nPiso: " + point.floor;
+
             } catch
             {
                 OpenDetalle();
@@ -133,9 +136,5 @@ public class Buscador : MonoBehaviour
     public void CloseDetalle()
     {
         textoPunto.SetActive(false);
-    }
-    public void Sitio()
-    {
-        StartCoroutine(FindPointData(gameObject.GetComponentInChildren<TextMeshProUGUI>().text));
     }
 }
