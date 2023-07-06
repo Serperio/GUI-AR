@@ -147,13 +147,13 @@ public class API : MonoBehaviour
             // Entregar resultados
             foreach(Point point in points)
             {
-
-                GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                texto.transform.parent = contenido.transform;
-                texto.transform.localPosition = Vector3.zero;
-                texto.transform.localScale = Vector3.one;
-                Debug.Log(point.name);
+                if(point.tipo != "especial"){
+                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                    texto.transform.parent = contenido.transform;
+                    texto.transform.localPosition = Vector3.zero;
+                    texto.transform.localScale = Vector3.one;
+                }
             }
         }
     }

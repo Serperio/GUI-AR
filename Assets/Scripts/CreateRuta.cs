@@ -159,14 +159,14 @@ public class CreateRuta : MonoBehaviour
         Puntito C = new Puntito("C", -33.04372, -71.63105);
         Puntito D = new Puntito("D", -33.04371, -71.63105); */ 
 
-        Puntito A = new Puntito("A", -33.04373, -71.63103);
+        /* Puntito A = new Puntito("A", -33.04373, -71.63103);
         Puntito B = new Puntito("B", -33.04372, -71.63104);
         Puntito C = new Puntito("C", -33.04372, -71.63105);
         Puntito D = new Puntito("D", -33.04371, -71.63105);
         Puntito E = new Puntito("E", -33.04373, -71.63105);
-        Puntito F = new Puntito("F", -33.04371, -71.63104);
+        Puntito F = new Puntito("F", -33.04371, -71.63104); */
 
-        List<Puntito> vertices = new List<Puntito> { A, B, C, D, E, F};
+
         //double[,] matrix = Matrix.Crear_Matrix(vertices);
 
         /* ConectarPuntosAleatoriamente(A, B);
@@ -175,7 +175,7 @@ public class CreateRuta : MonoBehaviour
         ConectarPuntosAleatoriamente(B, D);
         ConectarPuntosAleatoriamente(C, D);
         ConectarPuntosAleatoriamente(E, F); */
-
+/* 
         // A
         A.Vecinos.Add(new Vecino(A,B));
         A.Vecinos.Add(new Vecino(A,C));
@@ -195,24 +195,50 @@ public class CreateRuta : MonoBehaviour
         E.Vecinos.Add(new Vecino(E,D));
         E.Vecinos.Add(new Vecino(E,F));
         // F
-        F.Vecinos.Add(new Vecino(F,E));
+        F.Vecinos.Add(new Vecino(F,E)); */
+        
+        // A
 
-        List<Puntito> camino = Dijkstra.FindShortestPath(vertices,C,E);
+
+    }
+
+    public void BuscaRuta(int ruta){
+        Debug.Log("Ruta: "+ruta);
+        Puntito A = new Puntito("Labpro", -33.03479f, -71.59643f);
+        Puntito B = new Puntito("Escalera1", -33.03481f, -71.59651f);
+        Puntito C = new Puntito("Cañon", -33.04373, -71.63103);
+
+        A.Vecinos.Add(new Vecino(A,B));
+        B.Vecinos.Add(new Vecino(B,C));
+        B.Vecinos.Add(new Vecino(B,A));
+        C.Vecinos.Add(new Vecino(C,B));
+
+        List<Puntito> vertices = new List<Puntito> { A, B, C};
+        List<Puntito> camino;
+
+        if(ruta == 0){
+            camino = Dijkstra.FindShortestPath(vertices,A,C);
+        }
+        else {
+            camino = Dijkstra.FindShortestPath(vertices,C,A);
+        }
+        //List<Puntito> camino = Dijkstra.FindShortestPath(vertices,A,C);
         if(camino.Count > 0)
         {
-            texto_punto.text += "Ruta: - ";
+            
+            texto_punto.text = "Ruta: - ";
             foreach(Puntito punto in camino)
             {   
                 Debug.Log("Punto: " + punto.ID +" Ahora iremos a:");
-                texto_punto.text += punto.ID + " - ";
+                texto_punto.text += punto.ID + " -> ";
             }
         } 
         else 
         {
             texto_punto.text = "No se encontro camino factible";
         }
-        
     }
+
     void update()
     {
 
