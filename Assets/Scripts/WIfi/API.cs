@@ -80,8 +80,8 @@ public class API : MonoBehaviour
 
     IEnumerator guardarPunto()
     {
-        // const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
@@ -106,12 +106,38 @@ public class API : MonoBehaviour
         {
             Debug.Log("Form upload complete!");
         }
-        
-        yield return new WaitForSeconds(0);
+    }
+
+    IEnumerator borrarPunto()
+    {
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://"+IP+":"+port+"/api/";
+        // Crear formulario
+        WWWForm form = new WWWForm();
+        Debug.Log(nameInput.text);
+
+        //Realizar request
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/"+nameInput.text+"/delete", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
     }
 
     public void GuardarPuntoDB(){
         StartCoroutine(guardarPunto());
+    }
+
+    public void BorrarPuntoDB(){
+        StartCoroutine(borrarPunto());
     }
 
     public void getWifis(List<Network> wifis){
