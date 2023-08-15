@@ -5,6 +5,8 @@ using TMPro;
 
 public class DetalleBoton : MonoBehaviour
 {
+    //Harcodea la ruta del canon a la aplicacion
+
     Buscador buscador;    
     TextMeshProUGUI punto;
     CreateRuta ruta;
