@@ -6,17 +6,20 @@ using TMPro;
 
 public class Buscador : MonoBehaviour
 {
+    /*
+     Buscador para encontrar algun destino con nombre
+    */
 
     [SerializeField]
-    GameObject contenido;
+    GameObject contenido; //Donde se mostraran los datos
     [SerializeField] 
-    GameObject Text;
+    GameObject Text; //Campo del Input
     [SerializeField]
-    GameObject textoPunto;
+    GameObject textoPunto; //Texto donde se escribe la informacion
 
-    string inputText;
+    string inputText; //texto que hay en el Gameobject Text
 
-    static List<string> listJson(string jsonData){
+    static List<string> JsonToList(string jsonData){ //Convierte Json a Lista
         string json = jsonData.Substring(1,jsonData.Length-2);            
         bool startParentesis = false;
         bool endParentesis = false;
@@ -41,7 +44,7 @@ public class Buscador : MonoBehaviour
         return strings;
     }
 
-    IEnumerator DestinosDisponibles(){
+    IEnumerator DestinosDisponibles(){ //Obtiene todos los destinos desde la base de datos
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
@@ -58,7 +61,7 @@ public class Buscador : MonoBehaviour
             // Recuperar JSON
             string response = www.downloadHandler.text;
             // Obtener listado de puntos
-            List<string> data = listJson(response);
+            List<string> data = JsonToList(response);
             // Transformar JSON a Point
             List<Point> points = new List<Point>();
             foreach(string dato in data){
@@ -79,12 +82,12 @@ public class Buscador : MonoBehaviour
         }
     }
 
-    public void GetInput(TMP_InputField s){
+    public void GetInput(TMP_InputField s){ //Obtener valor input
         inputText = s.text;
         StartCoroutine(FindPointData(inputText));
     }
 
-    IEnumerator FindPointData(string name)
+    IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
     {
         Debug.Log("Nombre punto: "+name);
         const string IP = "144.22.42.236";
@@ -119,6 +122,7 @@ public class Buscador : MonoBehaviour
         }
     }
 
+    //Dsps Cambiar a UIbehaviour, (comportamiento de botones)
     public void BuscarSitiosDisponibles(){
         StartCoroutine(DestinosDisponibles());
     }
