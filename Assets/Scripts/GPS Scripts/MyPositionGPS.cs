@@ -76,7 +76,7 @@ public class MyPositionGPS : MonoBehaviour
         while (Application.platform == RuntimePlatform.Android && !Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             yield return new WaitForSeconds(0.5f);
-            StartCoroutine(StartGPS());
+            //StartCoroutine(StartGPS());
         }
 
         // Iniciar la obtencion de la ubicacion
@@ -86,7 +86,7 @@ public class MyPositionGPS : MonoBehaviour
         while (Input.location.status == LocationServiceStatus.Initializing)
         {
             yield return new WaitForSeconds(0.5f);
-            StartCoroutine(StartGPS());
+            //StartCoroutine(StartGPS());
         }
 
         // Verificar si se pudo obtener la ubicacion
@@ -94,7 +94,7 @@ public class MyPositionGPS : MonoBehaviour
         {
             Debug.LogError("No se pudo obtener la ubicaci�n del GPS.");
             yield return new WaitForSeconds(0.5f);
-            StartCoroutine(StartGPS());
+            //StartCoroutine(StartGPS());
         }
 
         //Calculo de error
