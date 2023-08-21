@@ -2616,7 +2616,7 @@ RectTransform:
   - {fileID: 417878131}
   - {fileID: 1713167663}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3212,18 +3212,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632795782}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -360.88235}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1095935863}
-  m_Father: {fileID: 1226665919}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 123.59662, y: 117.2276}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &632795784
@@ -5845,7 +5845,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095935862
 GameObject:
@@ -6232,7 +6232,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 815554212}
-  - {fileID: 632795783}
   m_Father: {fileID: 2038866802}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7376,7 +7375,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2027810460}
         m_TargetAssemblyTypeName: API, Assembly-CSharp
         m_MethodName: BorrarPuntoDB
         m_Mode: 1
@@ -9757,7 +9756,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2027810460}
         m_TargetAssemblyTypeName: API, Assembly-CSharp
         m_MethodName: GuardarPuntoDB
         m_Mode: 1
@@ -9939,11 +9938,11 @@ MonoBehaviour:
   contenido: {fileID: 1815716520}
   myButton: {fileID: 793357950}
   myInputField: {fileID: 158640687}
-  tipoInput: {fileID: 0}
-  pisoInput: {fileID: 0}
-  xInput: {fileID: 0}
-  yInput: {fileID: 0}
-  nameInput: {fileID: 0}
+  tipoInput: {fileID: 944389439}
+  pisoInput: {fileID: 1633254516}
+  xInput: {fileID: 1276133418}
+  yInput: {fileID: 459610899}
+  nameInput: {fileID: 1589539283}
 --- !u!114 &2027810461
 MonoBehaviour:
   m_ObjectHideFlags: 0
