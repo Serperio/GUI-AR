@@ -43,6 +43,9 @@ public class API : MonoBehaviour
     public TMP_InputField yInput;
     [SerializeField]
     public TMP_InputField nameInput;
+    [SerializeField]
+    public TMP_InputField pisoDatasetInput;
+
 
     // --------------------------------------- //
     static int SortByMac(WifiData w1, WifiData w2){
@@ -55,8 +58,8 @@ public class API : MonoBehaviour
 
     IEnumerator SendPoints(int floor, string macs, string intensities)
     {
-        // const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
@@ -65,17 +68,29 @@ public class API : MonoBehaviour
         form.AddField("intensities", intensities);
         form.AddField("floor", floor);
         //Realizar request
-        UnityWebRequest www = UnityWebRequest.Post(baseURI+"wifi/add", form);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"beta/add", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
+            
             Debug.Log("Error post: "+ www.error);
+            _ShowAndroidToastMessage("Error al enviar los datos");
         }
         else
         {
             Debug.Log("Form upload complete!");
+            _ShowAndroidToastMessage("Datos guardados");
         }
+    }
+
+    // Guardar datos para generar dataset de puntos wifi asociados a un piso
+    public void GenerarDataset()
+    {
+        int piso = int.Parse(pisoDatasetInput.text);
+        string macs = string.Join(",", wifisMAC);
+        string intensidades = string.Join(",", wifisIntensidades);
+        StartCoroutine(SendPoints(piso, macs, intensidades));
     }
 
     IEnumerator guardarPunto()
@@ -344,6 +359,8 @@ public class API : MonoBehaviour
         StartCoroutine(WifiDisponibles());
     }
 
+
+
     public class WifiJson {
         public List<string> macs;
         public List<int> intensities;
@@ -466,6 +483,22 @@ public class API : MonoBehaviour
         if (myButton != null && myInputField != null)
         {
             myButton.onClick.AddListener(OnButtonClick);
+        }
+    }
+
+    private void _ShowAndroidToastMessage(string message)
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        if (unityActivity != null)
+        {
+            AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+            unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+            {
+                AndroidJavaObject toastObject = toastClass.CallStatic<AndroidJavaObject>("makeText", unityActivity, message, 0);
+                toastObject.Call("show");
+            }));
         }
     }
 }
