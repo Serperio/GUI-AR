@@ -45,7 +45,15 @@ public class API : MonoBehaviour
     public TMP_InputField nameInput;
     [SerializeField]
     public TMP_InputField pisoDatasetInput;
+    [SerializeField]
+    public TextMeshProUGUI posicionTexto;
 
+    [SerializeField]
+    public MyPositionGPS GPS_handler;
+    [SerializeField]
+    GameObject prefabNearby;
+    [SerializeField]
+    GameObject NearbyScroll;
 
     // --------------------------------------- //
     static int SortByMac(WifiData w1, WifiData w2){
@@ -98,29 +106,92 @@ public class API : MonoBehaviour
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
-        const string baseURI = "http://"+IP+":"+port+"/api/";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
         // Crear formulario
         WWWForm form = new WWWForm();
-        Debug.Log(xInput.text + yInput.text + pisoInput.text + tipoInput.text + nameInput.text);
-        
-        form.AddField("x", xInput.text);
-        form.AddField("y", yInput.text);
+
+
+        //Debug.Log(xInput.text + yInput.text + pisoInput.text + tipoInput.text + nameInput.text);
+
+        _ShowAndroidToastMessage("Guardando punto...");
+
+        string xPos = GPS_handler.GetLastPosition()[0].ToString();
+        string yPos = GPS_handler.GetLastPosition()[1].ToString();
+
+        posicionTexto.text = xPos + ',' + yPos;
+
+        form.AddField("x", xPos);
+        form.AddField("y", yPos);
         form.AddField("floor", pisoInput.text);
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
 
+        GameObject[] toggles = GameObject.FindGameObjectsWithTag("NearbyPoint");
+        foreach(GameObject toggle in toggles)
+        {
+            _ShowAndroidToastMessage(toggle.GetComponent<Toggle>().isOn.ToString());
+        }
+        yield return true;
+        /*
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/add", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
+            _ShowAndroidToastMessage("Error");
             Debug.Log("Error post: "+ www.error);
         }
         else
         {
+            _ShowAndroidToastMessage("Punto guardado");
             Debug.Log("Form upload complete!");
+        }*/
+    }
+
+    IEnumerator nearbyPoints()
+    {
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+
+        // Obtner ubicacion actual
+        string xPos = GPS_handler.GetLastPosition()[0].ToString();
+        string yPos = GPS_handler.GetLastPosition()[1].ToString();
+
+        // Crear formulario
+        WWWForm form = new WWWForm();
+        // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
+        form.AddField("x", "-33.03481");
+        form.AddField("y", "-71.59651");
+
+
+        // Pedir listado de puntos cercanos
+        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/nearby", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: " + www.error);
         }
+        else
+        {
+            List<string> points = listJson(www.downloadHandler.text);
+
+            for(int i = 0; i < points.Count; i++)
+            {
+                Point point = JsonUtility.FromJson<Point>(points[i]);
+                GameObject instancia = Instantiate(prefabNearby, Vector3.zero, Quaternion.identity);
+                instancia.transform.SetParent(NearbyScroll.transform);
+                instancia.GetComponentInChildren<Text>().text = point.name;
+            }
+        }
+    }
+
+    public void NearbyPointsAPI()
+    {
+        StartCoroutine(nearbyPoints());
     }
 
     IEnumerator borrarPunto()
@@ -322,7 +393,7 @@ public class API : MonoBehaviour
         wifis.Add(new WifiData("2A:3C",1,2));
         wifis.Add(new WifiData("1C:3C",1,2));
         wifis.Add(new WifiData("1A:3C",1,2));
-
+        
         wifis.Sort(SortByFloor);
         // Crear dataset
         Dictionary<int, List<WifiData>> dataset = new Dictionary<int, List<WifiData>>();
@@ -500,5 +571,14 @@ public class API : MonoBehaviour
                 toastObject.Call("show");
             }));
         }
+    }
+
+    public class Point
+    {
+        public string name;
+        public string tipo;
+        public float x;
+        public float y;
+        public int floor;
     }
 }
