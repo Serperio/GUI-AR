@@ -27,8 +27,8 @@ public class Sugerencia : MonoBehaviour
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
         WWWForm form = new WWWForm();
-        form.AddField("edificio", edificio);
         form.AddField("piso", piso);
+        form.AddField("edificio", edificio);
         form.AddField("nombretentativo", nombretentativo);
         form.AddField("motivo", texto);
         //Realizar request
