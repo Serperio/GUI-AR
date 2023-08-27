@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Point
   - Arrow
+  - NearbyPoint
   layers:
   - Default
   - TransparentFX
