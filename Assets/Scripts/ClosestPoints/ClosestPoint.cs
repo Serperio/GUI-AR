@@ -65,14 +65,14 @@ public class ClosestPoints : MonoBehaviour
             //------------------------------------------------- 
             List<string> data = listJson(response);
             
-            List<Point> points = new List<Point>();
+            List<Point> pointsList = new List<Point>();
             foreach(string dato in data){
 
                 Point point = JsonUtility.FromJson<Point>(dato)
        
                 if (point.floor == api.pred.prediction.ToString())
                 {
-                    points.Add(point);
+                    pointsList.Add(point);
                 } 
                 
             }
@@ -80,7 +80,7 @@ public class ClosestPoints : MonoBehaviour
         }
         foreach (Point point in pointsList)
         {
-            double distance = CalculateDistance(lat, lon, point.Latitude, point.Longitude);
+            double distance = CalculateDistance(lat, lon, point.x, point.y);
 
             if (distance < minDistance)
             {
