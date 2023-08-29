@@ -16,7 +16,7 @@ public class API : MonoBehaviour
 
     [SerializeField]
     FixedFormatoWifi fixedWifi;
-
+    public Prediccion pred
     List<string> wifisMAC= new List<string>();
     List<string> wifisMACRef = new List<string>();
     List<int> wifisIntensidades = new List<int>();
@@ -306,7 +306,7 @@ public class API : MonoBehaviour
         }
         else
         {
-            Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
+            pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
             npiso.text= "Numero de piso: " + pred.prediction.ToString();
         }
