@@ -114,17 +114,8 @@ public class MyPositionGPS : MonoBehaviour
     {
         //Revisa constantemente que tal alejado se esta del punto
 
-        posicionActual.text = "Mi Posicion de GPS es (" + lastLocation.latitude + "," + lastLocation.longitude + ") ";
-        if (puntos.Count != 0)
-        {
-            puntos[0].distanciaActual = Mathf.Sqrt(Mathf.Pow((lastLocation.latitude - puntos[0].latitud), 2) + Mathf.Pow((lastLocation.longitude - puntos[0].longitud), 2));
-            posicionActual.text +=  " con una distancia de: " + puntos[0].distanciaActual;
-        }
-        if (puntos.Count == 0)
-        {
-            puntosFaltantes.text = "No quedan puntos";
-        }
-        else if (puntos[0].distanciaActual <6e-5f)
+        posicionActual.text = "Mi Posicion de GPS es:\n"+"x: " +lastLocation.latitude + "\ny: " + lastLocation.longitude;
+        if (puntos[0].distanciaActual <6e-5f)
         {
             puntos.RemoveAt(0);
             printLista(puntos);
