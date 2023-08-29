@@ -15,6 +15,9 @@ public class MyPositionGPS : MonoBehaviour
     private bool hasLocationPermission;
     private LocationInfo lastLocation;
 
+    private float _lastLatitude;
+    private float _lastLongitude;
+
     //Lista con los puntos que quedan por recorrer
     List<Punto> puntos = new List<Punto>();
 
@@ -113,13 +116,21 @@ public class MyPositionGPS : MonoBehaviour
     void Update()
     {
         //Revisa constantemente que tal alejado se esta del punto
-
-        posicionActual.text = "Mi Posicion de GPS es:\n"+"x: " +lastLocation.latitude + "\ny: " + lastLocation.longitude;
+        _lastLatitude = lastLocation.latitude;
+        _lastLongitude = lastLocation.longitude;
+        posicionActual.text = "Mi Posicion de GPS es (" + lastLocation.latitude + "," + lastLocation.longitude + ") ";
         if (puntos[0].distanciaActual <6e-5f)
         {
             puntos.RemoveAt(0);
             printLista(puntos);
         }
+    }
+
+
+    public float[] GetLastPosition()
+    {
+        float[] position = { _lastLatitude, _lastLongitude };
+        return position;
     }
 
     void OnApplicationQuit()
