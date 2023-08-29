@@ -57,6 +57,9 @@ public class API : MonoBehaviour
     [SerializeField]
     GameObject NearbyScroll;
 
+    public List<Point> _pointlist = new List<Point>();
+    public Prediccion pred;
+
     // --------------------------------------- //
     static int SortByMac(WifiData w1, WifiData w2){
         return w1.mac.CompareTo(w2.mac);
@@ -302,6 +305,7 @@ public class API : MonoBehaviour
             for(int i = 0; i < points.Count; i++)
             {
                 Point point = JsonUtility.FromJson<Point>(points[i]);
+                _pointlist.Add(point);
                 GameObject instancia = Instantiate(prefabNearby, Vector3.zero, Quaternion.identity);
                 instancia.transform.SetParent(NearbyScroll.transform);
                 instancia.GetComponentInChildren<Text>().text = point.name;
@@ -499,7 +503,7 @@ public class API : MonoBehaviour
         }
         else
         {
-            Prediccion pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
+            pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
             npiso.text= "Numero de piso: " + pred.prediction.ToString();
         }
@@ -695,6 +699,7 @@ public class API : MonoBehaviour
         }
     }
 
+    /*
     public class Point
     {
         public string name;
@@ -703,4 +708,5 @@ public class API : MonoBehaviour
         public float y;
         public int floor;
     }
+    */
 }
