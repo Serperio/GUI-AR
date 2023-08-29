@@ -137,7 +137,7 @@ public class API : MonoBehaviour
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
-            _ShowAndroidToastMessage("Error");
+            _ShowAndroidToastMessage("Error: "+ www.error);
             Debug.Log("Error post: "+ www.error);
         }
         else
@@ -185,6 +185,90 @@ public class API : MonoBehaviour
 
     }
 
+    IEnumerator actualizarPunto(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)
+    {
+        // ============== Codigo para borrar punto ===============
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+        // Crear formulario
+        WWWForm form = new WWWForm();
+        _ShowAndroidToastMessage("Actualizando punto...");
+        //Realizar request
+        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/" + nombreAntiguo + "/delete", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            _ShowAndroidToastMessage("Error" + www.error);
+            Debug.Log("Error post: " + www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+        // ============== Codigo para agregar punto ===============
+        // Crear formulario
+        WWWForm form2 = new WWWForm();
+
+        //Debug.Log(xInput.text + yInput.text + pisoInput.text + tipoInput.text + nameInput.text);
+        _ShowAndroidToastMessage("Guardando nuevos datos...");
+        //_ShowAndroidToastMessage("Guardando punto...");
+        Debug.Log("Creando punto");
+
+        //posicionTexto.text = x.ToString() + ',' + y.ToString();
+        Debug.Log(x);
+        // ============= Request para guardar el punto ==============
+        form2.AddField("x", x.ToString().Replace(",","."));
+        form2.AddField("y", y.ToString().Replace(",", "."));
+        form2.AddField("floor", piso.ToString());
+        form2.AddField("tipo", tipo);
+        form2.AddField("name", name);
+        form2.AddField("description", description);
+
+        //Realizar request
+        UnityWebRequest www2 = UnityWebRequest.Post(baseURI + "points/add", form2);
+        yield return www2.SendWebRequest();
+        // Resolucion de la request
+        if (www2.result != UnityWebRequest.Result.Success)
+        {
+            _ShowAndroidToastMessage("Error" + www2.error);
+            Debug.Log("Error post: " + www2.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+        Debug.Log("Vecinos: "+vecinos);
+        //_ShowAndroidToastMessage(vecinos);
+        WWWForm form3 = new WWWForm();
+        form3.AddField("origen", name);
+        form3.AddField("vecinos", vecinos);
+        //_ShowAndroidToastMessage("Guardando vecino");
+        //Realizar request
+        Debug.Log("colocando arcos");
+        _ShowAndroidToastMessage("Actualizando vecinos...");
+        UnityWebRequest www3 = UnityWebRequest.Post(baseURI + "points/addArc", form3);
+        yield return www3.SendWebRequest();
+        // Resolucion de la request
+        if (www2.result != UnityWebRequest.Result.Success)
+        {
+            _ShowAndroidToastMessage("Error" + www3.error);
+            Debug.Log("Error post: " + www3.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+            _ShowAndroidToastMessage("Actualizacion completa...");
+        }
+    }
+
+    public void ActualizarPuntoDB(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)
+    {
+        StartCoroutine(actualizarPunto(name, nombreAntiguo, description, tipo, vecinos, x, y, piso));
+    }
+
     IEnumerator nearbyPoints()
     {
         const string IP = "144.22.42.236";
@@ -199,8 +283,8 @@ public class API : MonoBehaviour
         // Crear formulario
         WWWForm form = new WWWForm();
         // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
-        form.AddField("x", "-33.03481");
-        form.AddField("y", "-71.59651");
+        form.AddField("x", xPos);
+        form.AddField("y", yPos);
 
 
         // Pedir listado de puntos cercanos
@@ -239,18 +323,20 @@ public class API : MonoBehaviour
         // Crear formulario
         WWWForm form = new WWWForm();
         Debug.Log(nameInput.text);
-
+        _ShowAndroidToastMessage("Borrando punto...");
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/"+nameInput.text+"/delete", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
+            _ShowAndroidToastMessage("Error: " + www.error);
             Debug.Log("Error post: "+ www.error);
         }
         else
         {
             Debug.Log("Form upload complete!");
+            _ShowAndroidToastMessage("Punto borrado");
         }
     }
 
@@ -269,8 +355,8 @@ public class API : MonoBehaviour
         }
     }
     IEnumerator FindPointData(string name){
-        // const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
         WWWForm form = new WWWForm();
