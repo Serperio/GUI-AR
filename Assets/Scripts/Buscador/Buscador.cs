@@ -21,6 +21,16 @@ public class Buscador : MonoBehaviour
     GameObject listado; // Scroll view para seleccionar los vecinos
     [SerializeField]
     GameObject prefabToggle; // Objeto que permite seleccionar vecinos
+    [SerializeField]
+    TMP_InputField inputNombre;
+    [SerializeField]
+    TMP_InputField inputDescripcion;
+    [SerializeField]
+    TMP_InputField inputTipo;
+    private float lastX;
+    private float lastY;
+    private int lastFloor;
+    private string nombreAntiguo;
 
     string inputText; //texto que hay en el Gameobject Text
 
@@ -50,8 +60,8 @@ public class Buscador : MonoBehaviour
     }
 
     IEnumerator DestinosDisponibles(){ //Obtiene todos los destinos desde la base de datos
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
 
@@ -95,8 +105,8 @@ public class Buscador : MonoBehaviour
     IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
     {
         Debug.Log("Nombre punto: "+name);
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         WWWForm form = new WWWForm();
@@ -117,6 +127,13 @@ public class Buscador : MonoBehaviour
                 string response = www.downloadHandler.text;
                 // Transformar JSON a Point
                 point = JsonUtility.FromJson<Point>(response);
+                inputNombre.text = point.name;
+                inputDescripcion.text = point.description;
+                inputTipo.text = point.tipo;
+                lastX = point.x;
+                lastY = point.y;
+                lastFloor = point.floor;
+                nombreAntiguo = point.name;
                 output = "Latitud: " + point.x + "\nLongitud: " + point.y + "\nPiso: " + point.floor;
                 Debug.Log("info");
             } catch
@@ -141,7 +158,6 @@ public class Buscador : MonoBehaviour
                         instancia.GetComponent<RectTransform>().transform.SetParent(listado.transform);
                         instancia.transform.localScale = Vector3.one;
                         instancia.GetComponentInChildren<Text>().text = p.name;
-                        output += "\n"+p.name;
                     }
                 }
             }
@@ -155,6 +171,24 @@ public class Buscador : MonoBehaviour
     //Dsps Cambiar a UIbehaviour, (comportamiento de botones)
     public void BuscarSitiosDisponibles(){
         StartCoroutine(DestinosDisponibles());
+    }
+
+    public void ActualizarPunto()
+    {
+        API api = GameObject.Find("AppManager").GetComponent<API>(); // Recuperar API
+        GameObject[] toggles = GameObject.FindGameObjectsWithTag("Vecino");
+        List<string> vecinos = new List<string>();
+        foreach(GameObject toggle in toggles)
+        {
+            if (toggle.GetComponent<Toggle>().isOn)
+            {
+                string vecino = toggle.GetComponentInChildren<Text>().text;
+                vecinos.Add(vecino);
+            }
+        }
+        string _vecinos = string.Join(",", vecinos);
+
+        api.ActualizarPuntoDB(inputNombre.text, nombreAntiguo ,inputDescripcion.text, inputTipo.text, _vecinos, lastX, lastY, lastFloor);
     }
 
     public void DetalleSitio(TextMeshProUGUI texto)
