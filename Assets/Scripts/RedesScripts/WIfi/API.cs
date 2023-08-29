@@ -274,6 +274,7 @@ public class API : MonoBehaviour
 
     IEnumerator nearbyPoints()
     {
+        List<Point> auxList = new List<Point>();
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
@@ -301,15 +302,15 @@ public class API : MonoBehaviour
         else
         {
             List<string> points = listJson(www.downloadHandler.text);
-
-            for(int i = 0; i < points.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 Point point = JsonUtility.FromJson<Point>(points[i]);
-                _pointlist.Add(point);
+                auxList.Add(point);
                 GameObject instancia = Instantiate(prefabNearby, Vector3.zero, Quaternion.identity);
                 instancia.transform.SetParent(NearbyScroll.transform);
                 instancia.GetComponentInChildren<Text>().text = point.name;
             }
+            _pointlist = auxList;
         }
     }
 
