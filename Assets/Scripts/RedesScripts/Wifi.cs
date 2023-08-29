@@ -7,21 +7,32 @@ using TMPro;
 
 public class Wifi : MonoBehaviour
 {
+
+    /*
+     * Obtiene redes WIFI disponibles (cercanas)
+     * Actualizar los valores de WIFI en script API
+     * 
+     */
+
+    int buttonTries = 0;
+
     [SerializeField]
     API api;
-
+    //Obtener WIFI Manager
     private static AndroidJavaObject unityActivity;
     private static AndroidJavaObject _wifiManager;
     private const string WIFI_ACCESS = "android.permission.ACCESS_WIFI_STATE";
     private const string FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION";
-    [SerializeField]
-    string IP = "146.235.246.2";
-    [SerializeField]
+
+    //Colocar ip puerto del servidor
+    string IP = "144.22.42.236";
     string port = "3000";
 
+    //Listado redes WIFI
     [SerializeField]
     TextMeshProUGUI redes;
 
+    //Lista de redes WIFI
     private List<Network> networks;
 
     private void Start()
@@ -43,10 +54,12 @@ public class Wifi : MonoBehaviour
             {
                 redes.text = "Pidiendo permisos fine location";
                 _wifiManager = unityActivity.Call<AndroidJavaObject>("getSystemService", "wifi");
+                //Obtienes WIFI disponibles (cercanas)
                 AndroidJavaObject scanResults = _wifiManager.Call<AndroidJavaObject>("getScanResults");
                 int wifiCount = scanResults.Call<int>("size");
                 redes.text = "Obteniendo resultados";
-                for(int i = 0; i < wifiCount; i++)
+                //Parsea los datos importantes de la lista obtenida en scanResults
+                for (int i = 0; i < wifiCount; i++)
                 {
                     AndroidJavaObject scanResult = scanResults.Call<AndroidJavaObject>("get", i);
                     int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 20);
@@ -57,13 +70,17 @@ public class Wifi : MonoBehaviour
                     salida += "SSID: " + SSID + "| Level: " + signalStrength + "\n";
                     networks.Add(network);
                 }
+                //Agrega los datos en GetWiFis
                 api.getWifis(networks);
-                //StartCoroutine(Upload());
-                redes.text = salida;
-                
-            } else {
+                redes.text = "" + wifiCount + "already";
+                StartCoroutine(UpdatorWifis());
+                //redes.text = salida+"Finished";
+            }
+            else
+            {
                 Permission.RequestUserPermission(FINE_LOCATION);
                 Debug.Log("Pedir permisos Location");
+                ScanWifi();
             }
 
         }
@@ -71,28 +88,39 @@ public class Wifi : MonoBehaviour
         {
             Permission.RequestUserPermission(WIFI_ACCESS);
             Debug.Log("Pedir permisos wifi");
+            ScanWifi();
         }
     }
-
-
-    IEnumerator Upload()
+    public IEnumerator UpdatorWifis()
     {
-        WWWForm form = new WWWForm();
-        foreach(Network net in networks)
-        {
-            form.AddField(net.SSID, net.signalLevel);
-        }
-        form.AddField("end","true");
-        UnityWebRequest www = UnityWebRequest.Post("http://"+IP+":"+port+"/post", form);
-        yield return www.SendWebRequest();
+        string salida = "";
+        _wifiManager.Call<bool>("setWifiEnabled", false);
+        yield return new WaitForSeconds(10f);
+        _wifiManager.Call<bool>("setWifiEnabled", true);
+        _wifiManager.Call<bool>("startScan");
 
-        if (www.result != UnityWebRequest.Result.Success)
+        redes.text = "Pidiendo permisos fine location";
+
+        //Obtienes WIFI disponibles (cercanas)
+       _wifiManager.Call<AndroidJavaObject>("getScanResults");
+        AndroidJavaObject scanResults = _wifiManager.Call<AndroidJavaObject>("getScanResults");
+        int wifiCount = scanResults.Call<int>("size");
+        redes.text = "Obteniendo resultados";
+        //Parsea los datos importantes de la lista obtenida en scanResults
+        for (int i = 0; i < wifiCount; i++)
         {
-            Debug.Log("Error post: "+ www.error);
+            AndroidJavaObject scanResult = scanResults.Call<AndroidJavaObject>("get", i);
+            int signalStrength = _wifiManager.CallStatic<int>("calculateSignalLevel", scanResult.Get<int>("level"), 20);
+            string SSID = scanResult.Get<string>("BSSID");
+            Network network = new Network();
+            network.SSID = SSID;
+            network.signalLevel = signalStrength;
+            salida += "SSID: " + SSID + "| Level: " + signalStrength + "\n";
+            networks.Add(network);
         }
-        else
-        {
-            Debug.Log("Form upload complete!");
-        }
+        //Agrega los datos en GetWiFis
+        api.getWifis(networks);
+        yield return new WaitForSeconds(20f);
+        StartCoroutine(UpdatorWifis());
     }
 }
