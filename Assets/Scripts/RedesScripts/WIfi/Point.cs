@@ -6,4 +6,5 @@ public class Point{
     public string description;
     public int floor;
     public string tipo;
+    public string[] vecinos;
 }
