@@ -10,11 +10,11 @@ public class AnimacionesUI : MonoBehaviour
     // Start is called before the first frame update
 
 
-    private void BajarAlpha()
+/*     private void BajarAlpha()
     {
         LeanTween.alpha(inicioGrupo.GetComponent<RectTransform>(), 0f, 1f).setDelay(0.5f);
         inicioGrupo.GetComponent<CanvasGroup>().blocksRaycasts = false;
-    }
+    } */
 
     public void ActivarMenuExtra()
     {
