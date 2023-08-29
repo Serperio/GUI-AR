@@ -47,6 +47,8 @@ public class API : MonoBehaviour
     public TMP_InputField pisoDatasetInput;
     [SerializeField]
     public TextMeshProUGUI posicionTexto;
+    [SerializeField]
+    TMP_InputField descripcionInput;
 
     [SerializeField]
     public MyPositionGPS GPS_handler;
@@ -120,19 +122,15 @@ public class API : MonoBehaviour
 
         posicionTexto.text = xPos + ',' + yPos;
 
+        // ============= Request para guardar el punto ==============
         form.AddField("x", xPos);
         form.AddField("y", yPos);
         form.AddField("floor", pisoInput.text);
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
-
-        GameObject[] toggles = GameObject.FindGameObjectsWithTag("NearbyPoint");
-        foreach(GameObject toggle in toggles)
-        {
-            _ShowAndroidToastMessage(toggle.GetComponent<Toggle>().isOn.ToString());
-        }
-        yield return true;
-        /*
+        form.AddField("description", descripcionInput.text);
+        
+        
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/add", form);
         yield return www.SendWebRequest();
@@ -146,7 +144,45 @@ public class API : MonoBehaviour
         {
             _ShowAndroidToastMessage("Punto guardado");
             Debug.Log("Form upload complete!");
-        }*/
+        }
+        // ============= Request para agregar los vecinos ==============
+        GameObject[] toggles = GameObject.FindGameObjectsWithTag("NearbyPoint");
+
+        List<string> vecinos = new List<string>();
+
+        Debug.Log(toggles.Length);
+        foreach (GameObject toggle in toggles)
+        {
+            if (toggle.GetComponent<Toggle>().isOn)
+            {
+                string vecino = toggle.GetComponentInChildren<Text>().text;
+                vecinos.Add(vecino);
+                _ShowAndroidToastMessage(vecino);
+            }
+        }
+
+
+        string _vecinos = string.Join(",", vecinos);
+        _ShowAndroidToastMessage(_vecinos);
+        WWWForm form2 = new WWWForm();
+        form2.AddField("origen", nameInput.text);
+        form2.AddField("vecinos", _vecinos);
+        _ShowAndroidToastMessage("Guardando vecino");
+        //Realizar request
+        UnityWebRequest www2 = UnityWebRequest.Post(baseURI + "points/addArc", form2);
+        yield return www2.SendWebRequest();
+        // Resolucion de la request
+        if (www2.result != UnityWebRequest.Result.Success)
+        {
+            _ShowAndroidToastMessage("Error" + www2.error);
+            Debug.Log("Error post: " + www2.error);
+        }
+        else
+        {
+            _ShowAndroidToastMessage("Vecinos guardados");
+            Debug.Log("Form upload complete!");
+        }
+
     }
 
     IEnumerator nearbyPoints()
