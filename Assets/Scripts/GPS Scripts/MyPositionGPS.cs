@@ -118,7 +118,7 @@ public class MyPositionGPS : MonoBehaviour
         //Revisa constantemente que tal alejado se esta del punto
         _lastLatitude = lastLocation.latitude;
         _lastLongitude = lastLocation.longitude;
-        posicionActual.text = "Mi Posicion de GPS es (" + lastLocation.latitude + "," + lastLocation.longitude + ") ";
+        posicionActual.text = "Mi Posicion de GPS:\n" +"x: "+ lastLocation.latitude +"\ny: "+lastLocation.longitude;
         if (puntos[0].distanciaActual <6e-5f)
         {
             puntos.RemoveAt(0);
