@@ -135,8 +135,7 @@ public class API : MonoBehaviour
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
         form.AddField("description", descripcionInput.text);
-        
-        
+
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/add", form);
         yield return www.SendWebRequest();
@@ -287,8 +286,12 @@ public class API : MonoBehaviour
         const string baseURI = "http://" + IP + ":" + port + "/api/";
 
         // Obtner ubicacion actual
-        string xPos = GPS_handler.GetLastPosition()[0].ToString();
-        string yPos = GPS_handler.GetLastPosition()[1].ToString();
+
+        //string xPos = GPS_handler.GetLastPosition()[0].ToString();
+        //string yPos = GPS_handler.GetLastPosition()[1].ToString();
+
+        string xPos = "-33.03479";
+        string yPos = "-71.59643";
 
         // Crear formulario
         WWWForm form = new WWWForm();
@@ -296,7 +299,8 @@ public class API : MonoBehaviour
         form.AddField("x", xPos);
         form.AddField("y", yPos);
 
-
+        //_ShowAndroidToastMessage("Buscando cercanos");
+        Debug.Log("Buscando cercanos");
         // Pedir listado de puntos cercanos
         UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/nearby", form);
         yield return www.SendWebRequest();
@@ -307,19 +311,79 @@ public class API : MonoBehaviour
         }
         else
         {
+            Debug.Log("Llenando lista");
             List<string> points = listJson(www.downloadHandler.text);
             for (int i = 0; i < points.Count; i++)
             {
                 Point point = JsonUtility.FromJson<Point>(points[i]);
                 auxList.Add(point);
+                /*
                 GameObject instancia = Instantiate(prefabNearby, Vector3.zero, Quaternion.identity);
                 instancia.transform.SetParent(NearbyScroll.transform);
+                instancia.transform.localScale = Vector3.one;
+                instancia.transform.position = Vector3.zero;
                 instancia.GetComponentInChildren<Text>().text = point.name;
+                */
             }
             _pointlist = auxList;
         }
     }
 
+    IEnumerator nearbyPointsList()
+    {
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+
+        // Obtner ubicacion actual
+
+        //string xPos = GPS_handler.GetLastPosition()[0].ToString();
+        //string yPos = GPS_handler.GetLastPosition()[1].ToString();
+
+        string xPos = "-33.03479";
+        string yPos = "-71.59643";
+
+        // Crear formulario
+        WWWForm form = new WWWForm();
+        // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
+        form.AddField("x", xPos);
+        form.AddField("y", yPos);
+
+        //_ShowAndroidToastMessage("Buscando cercanos");
+        Debug.Log("Buscando cercanos");
+        // Pedir listado de puntos cercanos
+        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/nearby", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: " + www.error);
+        }
+        else
+        {
+            Debug.Log("Llenando lista");
+            List<string> points = listJson(www.downloadHandler.text);
+            foreach (Transform child in NearbyScroll.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            for (int i = 0; i < points.Count; i++)
+            {
+                Point point = JsonUtility.FromJson<Point>(points[i]);
+                GameObject instancia = Instantiate(prefabNearby, Vector3.zero, Quaternion.identity);
+                instancia.transform.SetParent(NearbyScroll.transform);
+                instancia.transform.localScale = Vector3.one;
+                instancia.transform.position = Vector3.zero;
+                instancia.GetComponentInChildren<Text>().text = point.name;
+            }
+        }
+    }
+
+    public void NearbyPointsListAPI()
+    {
+        StartCoroutine(nearbyPointsList());
+    }
     public void NearbyPointsAPI()
     {
         StartCoroutine(nearbyPoints());
@@ -368,7 +432,7 @@ public class API : MonoBehaviour
         }
         wifisMAC = wifiMacAux;
         wifisIntensidades = wifisIntensidadesAux;
-
+        StartCoroutine(WifiDisponibles());
     }
     IEnumerator FindPointData(string name){
         const string IP = "144.22.42.236";
