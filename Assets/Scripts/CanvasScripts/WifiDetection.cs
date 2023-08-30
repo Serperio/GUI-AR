@@ -19,7 +19,7 @@ public class WifiDetection : MonoBehaviour
     public bool enabledWiFiInternet; //Si hay internet por medio de WiFi
 
     //Textos reescritos en el menu de errores
-    [SerializeField]
+    /*[SerializeField]
     TextMeshProUGUI gpsText; //Error de GPS
     [SerializeField]
     TextMeshProUGUI wifiActivate; //Error de wifi
@@ -27,6 +27,9 @@ public class WifiDetection : MonoBehaviour
     TextMeshProUGUI wifiConected; //Error de conexion a internet
     [SerializeField]
     TextMeshProUGUI mobileData; //Error Datos moviles a internet
+    */
+    [SerializeField]
+    TextMeshProUGUI error; //Lo de arriba combinado
 
     //Canvas Bueno = canvas con la interfaz ; Canvas Malo = Canvas con errores
     [SerializeField]
@@ -43,23 +46,27 @@ public class WifiDetection : MonoBehaviour
 
     IEnumerator updateOff(LocationService service)
     {
-
+        string aux="";
         //Revisa Buscador de Wifis
         enabledWiFiSearch = !IsWifiOff();
-        wifiActivate.text = enabledWiFiSearch ? "WiFi esta activado" : "Wi-Fi está desactivado.";
+
+        aux += enabledWiFiSearch ? "" : "Wi-Fi está desactivado, por favor activar \n";
 
         //Revisa GPS
         enabledGPS = service.isEnabledByUser;
-        gpsText.text = enabledGPS ? "Si se ha activado el GPS" : "No ha sido activado el GPS";
+        aux += enabledGPS ? "" : "No ha sido activado el GPS, por favor activar \n";
 
         //Revisa Internet por WIFI
         enabledWiFiInternet = Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork;
-        wifiConected.text = enabledWiFiInternet ? "Hay internet por wifi" : "No hay internet por wifi";
+        aux += enabledWiFiInternet ? "" : "No hay internet, revisa tu conexion";
 
         //Revisa internet por Datos
         enabledMobileInternet = Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork;
-        mobileData.text = enabledMobileInternet ? "Si hay datos" : "No hay datos";
-
+        if (enabledWiFiInternet)
+        {
+        aux += enabledMobileInternet ? "" : "No hay internet, revisa tu conexion";
+        }
+        error.text = aux;
         //Si encuentra algun error en la iteracion, cambiara el canvas, si se ha arreglado, mostrara el otro
         if (enabledGPS && (enabledMobileInternet || enabledWiFiInternet) && enabledWiFiSearch)
         {
