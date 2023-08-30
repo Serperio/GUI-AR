@@ -34,7 +34,7 @@ public class API : MonoBehaviour
     private int inputValue;
 
     [SerializeField]
-    public TMP_InputField tipoInput;
+    public TextMeshProUGUI tipoInput;
     [SerializeField]
     public TMP_InputField pisoInput;
     /*
@@ -167,26 +167,29 @@ public class API : MonoBehaviour
             }
         }
 
-
-        string _vecinos = string.Join(",", vecinos);
-        _ShowAndroidToastMessage(_vecinos);
-        WWWForm form2 = new WWWForm();
-        form2.AddField("origen", nameInput.text);
-        form2.AddField("vecinos", _vecinos);
-        _ShowAndroidToastMessage("Guardando vecino");
-        //Realizar request
-        UnityWebRequest www2 = UnityWebRequest.Post(baseURI + "points/addArc", form2);
-        yield return www2.SendWebRequest();
-        // Resolucion de la request
-        if (www2.result != UnityWebRequest.Result.Success)
+        // Solo guardar vecinos si realmente hay vecinos
+        if(vecinos.Count > 0)
         {
-            _ShowAndroidToastMessage("Error" + www2.error);
-            Debug.Log("Error post: " + www2.error);
-        }
-        else
-        {
-            _ShowAndroidToastMessage("Vecinos guardados");
-            Debug.Log("Form upload complete!");
+            string _vecinos = string.Join(",", vecinos);
+            _ShowAndroidToastMessage(_vecinos);
+            WWWForm form2 = new WWWForm();
+            form2.AddField("origen", nameInput.text);
+            form2.AddField("vecinos", _vecinos);
+            _ShowAndroidToastMessage("Guardando vecino");
+            //Realizar request
+            UnityWebRequest www2 = UnityWebRequest.Post(baseURI + "points/addArc", form2);
+            yield return www2.SendWebRequest();
+            // Resolucion de la request
+            if (www2.result != UnityWebRequest.Result.Success)
+            {
+                _ShowAndroidToastMessage("Error" + www2.error);
+                Debug.Log("Error post: " + www2.error);
+            }
+            else
+            {
+                _ShowAndroidToastMessage("Vecinos guardados");
+                Debug.Log("Form upload complete!");
+            }
         }
 
     }
@@ -503,9 +506,9 @@ public class API : MonoBehaviour
         form.AddField("intensities", intesidadesString);
         www = UnityWebRequest.Post(baseURI+"predict",form);
         yield return www.SendWebRequest();
-
         if (www.result != UnityWebRequest.Result.Success)
         {
+            _ShowAndroidToastMessage("Error: " + www.error);
             Debug.Log("Error post: "+ www.error);
             //myInputField = CreateInputField();
             //myButton = CreateButton();
