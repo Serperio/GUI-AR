@@ -354,10 +354,15 @@ public class API : MonoBehaviour
     }
 
     public void getWifis(List<Network> wifis){
-        foreach(Network wifi in wifis){
-            wifisMAC.Add(wifi.SSID);
-            wifisIntensidades.Add(wifi.signalLevel);
+        List<string> wifiMacAux = new List<string>();
+        List<int> wifisIntensidadesAux = new List<int>();
+        foreach (Network wifi in wifis){
+            wifiMacAux.Add(wifi.SSID);
+            wifisIntensidadesAux.Add(wifi.signalLevel);
         }
+        wifisMAC = wifiMacAux;
+        wifisIntensidades = wifisIntensidadesAux;
+
     }
     IEnumerator FindPointData(string name){
         const string IP = "144.22.42.236";
