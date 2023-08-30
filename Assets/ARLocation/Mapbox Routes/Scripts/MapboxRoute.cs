@@ -3,7 +3,6 @@ using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 
-
 namespace ARLocation.MapboxRoutes
 {
     public class MapboxRoute : MonoBehaviour
