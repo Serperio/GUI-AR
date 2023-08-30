@@ -13,10 +13,12 @@ public class UIBehaviour : MonoBehaviour
     {
         if (ui.activeSelf)
         {
+            Debug.Log("Botón clicado");
             ui.SetActive(false);
         }
         else
         {
+            Debug.Log("Botón desclicado");
             ui.SetActive(true);
         }
     }
