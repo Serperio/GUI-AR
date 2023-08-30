@@ -26,7 +26,7 @@ public class Buscador : MonoBehaviour
     [SerializeField]
     TMP_InputField inputDescripcion;
     [SerializeField]
-    TMP_InputField inputTipo;
+    TextMeshProUGUI inputTipo;
     private float lastX;
     private float lastY;
     private int lastFloor;
@@ -125,8 +125,10 @@ public class Buscador : MonoBehaviour
             {
                 // Recuperar JSON
                 string response = www.downloadHandler.text;
+                Debug.Log("Log response:"+www.downloadHandler.text);
                 // Transformar JSON a Point
                 point = JsonUtility.FromJson<Point>(response);
+                Debug.Log("Log point");
                 inputNombre.text = point.name;
                 inputDescripcion.text = point.description;
                 inputTipo.text = point.tipo;
@@ -138,6 +140,7 @@ public class Buscador : MonoBehaviour
                 Debug.Log("info");
             } catch
             {
+                Debug.Log("error try");
                 output = "Destino no valido, por favor indicar otro destino";
             }
             // Obtener nombres de todos los vecinos
@@ -163,7 +166,7 @@ public class Buscador : MonoBehaviour
             }
             // Mostrar informacion
             OpenDetalle();
-            textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = output;
+            //textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = output;
 
         }
     }

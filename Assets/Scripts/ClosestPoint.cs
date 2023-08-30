@@ -30,7 +30,9 @@ public class ClosestPoint : MonoBehaviour
         Point nearestPoint = null;
         double shortestDistance = Mathf.Infinity;
         pointList1 = api._pointlist; 
-        closestPointGUI.text= api._pointlist.Count.ToString();
+        //closestPointGUI.text= api._pointlist.Count.ToString();
+        closestPointGUI.text = "Cargando...";
+
         pointList = new List<Point>();
 
 

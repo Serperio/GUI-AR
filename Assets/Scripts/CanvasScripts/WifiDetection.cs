@@ -58,13 +58,12 @@ public class WifiDetection : MonoBehaviour
 
         //Revisa Internet por WIFI
         enabledWiFiInternet = Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork;
-        aux += enabledWiFiInternet ? "" : "No hay internet, revisa tu conexion";
 
         //Revisa internet por Datos
         enabledMobileInternet = Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork;
-        if (enabledWiFiInternet)
+        if (!enabledWiFiInternet && !enabledMobileInternet)
         {
-        aux += enabledMobileInternet ? "" : "No hay internet, revisa tu conexion";
+            aux += "No hay internet, revisa tu conexion";
         }
         error.text = aux;
         //Si encuentra algun error en la iteracion, cambiara el canvas, si se ha arreglado, mostrara el otro
