@@ -26,7 +26,7 @@ public class MyPositionGPS : MonoBehaviour
     TextMeshProUGUI posicionActual;
 
     [SerializeField]
-    TextMeshProUGUI puntosFaltantes;
+    //TextMeshProUGUI puntosFaltantes;
 
     //Variables donde se guarda el error que muestra el programa
     float horizontalAccuracy;
@@ -59,7 +59,7 @@ public class MyPositionGPS : MonoBehaviour
         puntos.Add(new Punto(-33.03481f, -71.59651f, 2, 1000f));
         puntos.Add(new Punto(-33.03503f, -71.5967f, 2, 1000f));
 
-        printLista(puntos);
+        //printLista(puntos);
 
         // Verificar y solicitar permiso de ubicaci�n (solo necesario para Android)
         if (Application.platform == RuntimePlatform.Android)
@@ -122,7 +122,7 @@ public class MyPositionGPS : MonoBehaviour
         if (puntos[0].distanciaActual <6e-5f)
         {
             puntos.RemoveAt(0);
-            printLista(puntos);
+            //printLista(puntos);
         }
     }
 
@@ -138,6 +138,7 @@ public class MyPositionGPS : MonoBehaviour
         // Detener el servicio de ubicaci�n al salir de la aplicacion
         Input.location.Stop();
     }
+    /*
     void printLista(List<Punto> puntos) //Imprime la lista de puntos en pantalla
     {
         puntosFaltantes.text = "";
@@ -145,5 +146,5 @@ public class MyPositionGPS : MonoBehaviour
         {
             puntosFaltantes.text += "latitud: " + punto.latitud + ", longitud: " + punto.longitud + ", piso: " + punto.piso + "\n";
         }
-    }
+    }*/
 }

@@ -37,16 +37,19 @@ public class API : MonoBehaviour
     public TMP_InputField tipoInput;
     [SerializeField]
     public TMP_InputField pisoInput;
+    /*
     [SerializeField]
     public TMP_InputField xInput;
     [SerializeField]
     public TMP_InputField yInput;
+    */
     [SerializeField]
     public TMP_InputField nameInput;
     [SerializeField]
-    public TMP_InputField pisoDatasetInput;
+    public TMP_InputField pisoDatasetInput; //Input de piso para guardar las redes wifi en la DB
+    /*
     [SerializeField]
-    public TextMeshProUGUI posicionTexto;
+    public TextMeshProUGUI posicionTexto;*/
     [SerializeField]
     TMP_InputField descripcionInput;
 
@@ -123,7 +126,7 @@ public class API : MonoBehaviour
         string xPos = GPS_handler.GetLastPosition()[0].ToString();
         string yPos = GPS_handler.GetLastPosition()[1].ToString();
 
-        posicionTexto.text = xPos + ',' + yPos;
+        //posicionTexto.text = xPos + ',' + yPos;
 
         // ============= Request para guardar el punto ==============
         form.AddField("x", xPos);
@@ -683,6 +686,7 @@ public class API : MonoBehaviour
         myInputField.text = "";
     }
     public void Update(){
+        
         if (myButton != null && myInputField != null)
         {
             myButton.onClick.AddListener(OnButtonClick);
