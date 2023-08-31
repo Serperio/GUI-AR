@@ -15,21 +15,21 @@ MonoBehaviour:
   Name: 
   Points:
   - Location:
-      Latitude: 0
-      Longitude: 0
+      Latitude: -33.0367236
+      Longitude: -71.5944539
       Altitude: 0
-      AltitudeMode: 0
+      AltitudeMode: 1
       Label: 
     IsStep: 1
-    Name: 
-    Instruction: 
+    Name: Labux
+    Instruction: Labux
   - Location:
-      Latitude: 0
-      Longitude: 0
+      Latitude: -33.0369324
+      Longitude: -71.5943219
       Altitude: 0
-      AltitudeMode: 0
+      AltitudeMode: 1
       Label: 
     IsStep: 1
-    Name: 
-    Instruction: 
+    Name: Escaleras
+    Instruction: Subir escaleras
   SceneViewScale: 1

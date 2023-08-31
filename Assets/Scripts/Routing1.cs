@@ -5,19 +5,18 @@ using ARLocation.MapboxRoutes;
 
 public class Routing1 : MonoBehaviour
 {
-    GameObject rutaEscalera;
-    GameObject Labux;
     [SerializeField]
     MapboxRoute mapRoute;
     [SerializeField]
-    CustomRoute cus;
+    CustomRoute labUXToStairs;
+    [SerializeField]
+    CustomRoute stairsToP218;
     public void toLab()
     {
-        mapRoute.LoadCustomRoute(cus);
+        mapRoute.LoadCustomRoute(stairsToP218);
     }
-    // Update is called once per frame
-    void Update()
+    public void toP218()
     {
-        
+        mapRoute.LoadCustomRoute(stairsToP218);
     }
 }
