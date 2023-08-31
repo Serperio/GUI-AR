@@ -490,8 +490,8 @@ public class API : MonoBehaviour
     }
 
     IEnumerator DestinosDisponibles(){
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
 

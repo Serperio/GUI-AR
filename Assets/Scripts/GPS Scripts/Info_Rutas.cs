@@ -103,13 +103,13 @@ public class Info_Rutas : MonoBehaviour
     IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
     {
         Debug.Log("Nombre punto: " + name);
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         WWWForm form = new WWWForm();
         form.AddField("name", name);
-        UnityWebRequest www = UnityWebRequest.Post(baseURI + "kobita/find", form);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/find", form);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
