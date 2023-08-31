@@ -210,7 +210,7 @@ MonoBehaviour:
           AltitudeMode: 0
           Label: 
         Query: 
-      CustomRoute: {fileID: 11400000, guid: 0456e8793ccfdb5408d182b07b80a4de, type: 2}
+      CustomRoute: {fileID: 11400000, guid: c7645f0c589fe094bba7b8c18cff8ec2, type: 2}
     LoadRouteAtStartup: 1
     GroundHeight: 1.4
     OnMapboxRouteLoadError:
@@ -456,7 +456,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapRoute: {fileID: 131413652}
-  cus: {fileID: 11400000, guid: 06ece3cd44a676340aa0842b41bf669d, type: 2}
+  labUXToStairs: {fileID: 11400000, guid: c7645f0c589fe094bba7b8c18cff8ec2, type: 2}
+  stairsToP218: {fileID: 11400000, guid: 06ece3cd44a676340aa0842b41bf669d, type: 2}
 --- !u!1 &471246945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1362,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 299512631}
         m_TargetAssemblyTypeName: Routing1, Assembly-CSharp
-        m_MethodName: toLab
+        m_MethodName: toP218
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

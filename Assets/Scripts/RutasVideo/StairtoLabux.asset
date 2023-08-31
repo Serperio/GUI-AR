@@ -15,21 +15,30 @@ MonoBehaviour:
   Name: 
   Points:
   - Location:
-      Latitude: -33.034154
-      Longitude: -71.597818
+      Latitude: -33.0369643
+      Longitude: 71.5943077
       Altitude: 0
       AltitudeMode: 1
       Label: 
     IsStep: 1
     Name: mar
-    Instruction: 123
+    Instruction: Subir escaleras
   - Location:
-      Latitude: -33.034154
-      Longitude: -71.597818
+      Latitude: -33.0369523
+      Longitude: -71.5942469
       Altitude: 0
       AltitudeMode: 1
       Label: 
     IsStep: 1
     Name: mar
-    Instruction: 123
+    Instruction: Ir por el pasillo
+  - Location:
+      Latitude: -33.0371574
+      Longitude: -71.5941352
+      Altitude: 0
+      AltitudeMode: 1
+      Label: 
+    IsStep: 1
+    Name: mar
+    Instruction: Tu destino
   SceneViewScale: 1
