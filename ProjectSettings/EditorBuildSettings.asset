@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PMV1.1.unity
     guid: 2ae446ae8c144e845abb115a4c946c43
+  - enabled: 0
+    path: Assets/Scenes/EscenaPrincipal0.1V.unity
+    guid: 60921f7fd8d93b64694d1b90ee57876d
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

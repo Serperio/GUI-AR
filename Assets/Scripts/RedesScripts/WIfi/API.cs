@@ -111,6 +111,7 @@ public class API : MonoBehaviour
 
     IEnumerator guardarPunto()
     {
+        Debug.Log("Guardando punto...");
         const string IP = "144.22.42.236";
         //const string IP = "localhost";
         const string port = "3000";
@@ -135,14 +136,14 @@ public class API : MonoBehaviour
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
         form.AddField("description", descripcionInput.text);
-
+        Debug.Log("Enviando solicitud");
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/add", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
-            _ShowAndroidToastMessage("Error: "+ www.error);
+            //_ShowAndroidToastMessage("Error: "+ www.error);
             Debug.Log("Error post: "+ www.error);
         }
         else
@@ -155,14 +156,15 @@ public class API : MonoBehaviour
 
         List<string> vecinos = new List<string>();
 
-        Debug.Log(toggles.Length);
+        Debug.Log("Toggles: "+toggles.Length);
         foreach (GameObject toggle in toggles)
         {
             if (toggle.GetComponent<Toggle>().isOn)
             {
                 string vecino = toggle.GetComponentInChildren<Text>().text;
                 vecinos.Add(vecino);
-                _ShowAndroidToastMessage(vecino);
+                Debug.Log("Vecinos: " + vecino);
+                //_ShowAndroidToastMessage(vecino);
             }
         }
 
@@ -170,11 +172,11 @@ public class API : MonoBehaviour
         if(vecinos.Count > 0)
         {
             string _vecinos = string.Join(",", vecinos);
-            _ShowAndroidToastMessage(_vecinos);
+            //_ShowAndroidToastMessage(_vecinos);
             WWWForm form2 = new WWWForm();
             form2.AddField("origen", nameInput.text);
             form2.AddField("vecinos", _vecinos);
-            _ShowAndroidToastMessage("Guardando vecino");
+            _ShowAndroidToastMessage("Guardando vecinos");
             //Realizar request
             UnityWebRequest www2 = UnityWebRequest.Post(baseURI + "points/addArc", form2);
             yield return www2.SendWebRequest();
