@@ -46,6 +46,8 @@ public class API : MonoBehaviour
     [SerializeField]
     public TMP_InputField nameInput;
     [SerializeField]
+    TMP_InputField borrarInput;
+    [SerializeField]
     public TMP_InputField pisoDatasetInput; //Input de piso para guardar las redes wifi en la DB
     /*
     [SerializeField]
@@ -289,11 +291,13 @@ public class API : MonoBehaviour
 
         // Obtner ubicacion actual
 
-        //string xPos = GPS_handler.GetLastPosition()[0].ToString();
-        //string yPos = GPS_handler.GetLastPosition()[1].ToString();
+        string xPos = GPS_handler.GetLastPosition()[0].ToString();
+        string yPos = GPS_handler.GetLastPosition()[1].ToString();
 
+        /*
         string xPos = "-33.03479";
         string yPos = "-71.59643";
+        */
 
         // Crear formulario
         WWWForm form = new WWWForm();
@@ -399,10 +403,10 @@ public class API : MonoBehaviour
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
         WWWForm form = new WWWForm();
-        Debug.Log(nameInput.text);
+        Debug.Log(borrarInput.text);
         _ShowAndroidToastMessage("Borrando punto...");
         //Realizar request
-        UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/"+nameInput.text+"/delete", form);
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"points/"+borrarInput.text+"/delete", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
