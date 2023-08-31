@@ -61,7 +61,7 @@ public class ClosestPoint : MonoBehaviour
         }
         else
         {
-            //closestPointGUI.text = "No se conoce la ubicación";
+            closestPointGUI.text = "No se conoce la ubicación";
         }
         StartCoroutine(NearestPoint());
     }
