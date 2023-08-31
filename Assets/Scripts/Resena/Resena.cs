@@ -19,27 +19,10 @@ public class Resena : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI MensajeResena;
 
-    public void GeneraResena()
-    {
-        MensajeResena.text = "El reporte no ha podido ser enviado, intente nuevamente.";
-        string inicio = InputPuntoInicial.text;
-        string final = InputPuntoFinal.text;
-        string puntoFallo = InputPuntoFallo.text;
-        string motivo = InputMotivo.text;
-        SendResena(inicio, final, puntoFallo, motivo);
-    }
-
-    public void ResetAllInputsFieldResena()
-    {
-        InputPuntoInicial.text = "";
-        InputPuntoFinal.text = "";
-        InputPuntoFallo.text = "";
-        InputMotivo.text = "";
-    }
     IEnumerator SendResena(string inicio, string final, string puntoFallo, string motivo)
     {
-        Debug.Log("ENTRAMOS A MANDAR A BD");
-
+        //const string IP = "144.22.42.236";
+        Debug.Log("Inicio: "+inicio+"\nfinal: "+final+"\nmotivo: "+motivo);
         const string IP = "144.22.42.236";
         const string port = "3000";
         const string baseURI = "http://"+IP+":"+port+"/api/";
@@ -55,8 +38,8 @@ public class Resena : MonoBehaviour
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
-            
             Debug.Log("Error post: "+ www.error);
+            MensajeResena.text = "El reporte no ha podido ser enviado, intente nuevamente.";
             //_ShowAndroidToastMessage("Error al enviar los datos");
 
         }
@@ -68,5 +51,22 @@ public class Resena : MonoBehaviour
             //_ShowAndroidToastMessage("Datos guardados");
         }
         yield break;
+    }
+
+    public void GeneraResena()
+    {
+        string inicio = InputPuntoInicial.text;
+        string final = InputPuntoFinal.text;
+        string puntoFallo = InputPuntoFallo.text;
+        string motivo = InputMotivo.text;
+        StartCoroutine(SendResena(inicio, final, puntoFallo, motivo));
+    }
+
+    public void ResetAllInputsFieldResena()
+    {
+        InputPuntoInicial.text = "";
+        InputPuntoFinal.text = "";
+        InputPuntoFallo.text = "";
+        InputMotivo.text = "";
     }
 }
