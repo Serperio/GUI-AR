@@ -4623,7 +4623,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.25, y: 382.00003}
+  m_AnchoredPosition: {x: -1.25, y: 382}
   m_SizeDelta: {x: -227.5, y: -2250.057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328497740
@@ -8490,9 +8490,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: -17}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &644475677
 MonoBehaviour:
@@ -11388,11 +11388,9 @@ MonoBehaviour:
   myInputField: {fileID: 0}
   tipoInput: {fileID: 0}
   pisoInput: {fileID: 0}
-  xInput: {fileID: 0}
-  yInput: {fileID: 0}
   nameInput: {fileID: 0}
+  borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
-  posicionTexto: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -14205,9 +14203,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 20, y: -17}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &928209572
 MonoBehaviour:
@@ -21656,7 +21654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &1499538455
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23977,9 +23975,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: -17, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1685100182
 MonoBehaviour:
@@ -24237,7 +24235,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25622,7 +25620,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -30371,10 +30369,7 @@ MonoBehaviour:
   enabledWiFiSearch: 0
   enabledMobileInternet: 0
   enabledWiFiInternet: 0
-  gpsText: {fileID: 1041171587}
-  wifiActivate: {fileID: 417878132}
-  wifiConected: {fileID: 263918330}
-  mobileData: {fileID: 1713167664}
+  error: {fileID: 0}
   canvasBueno: {fileID: 2038866798}
   canvasMalo: {fileID: 489825041}
 --- !u!114 &2027810456
@@ -30422,11 +30417,9 @@ MonoBehaviour:
   myInputField: {fileID: 158640687}
   tipoInput: {fileID: 0}
   pisoInput: {fileID: 0}
-  xInput: {fileID: 0}
-  yInput: {fileID: 0}
   nameInput: {fileID: 0}
+  borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
-  posicionTexto: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -30444,7 +30437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   posicionActual: {fileID: 1474387477}
-  puntosFaltantes: {fileID: 1614328659}
+  horizontalAccuracy: 0
   Error: {fileID: 721270229}
 --- !u!114 &2027810462
 MonoBehaviour:
@@ -30463,6 +30456,9 @@ MonoBehaviour:
   textoPunto: {fileID: 1017054261}
   listado: {fileID: 0}
   prefabToggle: {fileID: 0}
+  inputNombre: {fileID: 0}
+  inputDescripcion: {fileID: 0}
+  inputTipo: {fileID: 0}
 --- !u!114 &2027810463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31877,7 +31873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2126307547
 MonoBehaviour:
   m_ObjectHideFlags: 0
