@@ -10,6 +10,10 @@ public class API : MonoBehaviour
     // Variables
     [SerializeField]
     TextMeshProUGUI npiso;
+    [SerializeField]
+    TextMeshProUGUI npiso2;
+    [SerializeField]
+    TMP_InputField inputCambiarPiso;
 
     [SerializeField]
     List<WifiData> wifis;
@@ -588,6 +592,7 @@ public class API : MonoBehaviour
             pred = JsonUtility.FromJson<Prediccion>(www.downloadHandler.text);
             Debug.Log(pred.prediction);
             npiso.text= "Numero de piso: " + pred.prediction.ToString();
+            npiso2.text = "Numero de piso: " + pred.prediction.ToString();
         }
     }
 
@@ -752,6 +757,13 @@ public class API : MonoBehaviour
         {
             Debug.LogError("El valor ingresado no es un número entero.");
         }
+    }
+
+    public void CambiarPiso()
+    {
+        string piso = inputCambiarPiso.text;
+        npiso.text = "Numero de piso: " + piso;
+        npiso2.text = "Numero de piso: " + piso;
     }
 
     public void ResetInputField()
