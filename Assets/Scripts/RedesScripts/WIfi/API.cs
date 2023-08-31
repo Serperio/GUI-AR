@@ -204,14 +204,14 @@ public class API : MonoBehaviour
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         // Crear formulario
         WWWForm form = new WWWForm();
-        _ShowAndroidToastMessage("Actualizando punto...");
+        //_ShowAndroidToastMessage("Actualizando punto...");
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/" + nombreAntiguo + "/delete", form);
         yield return www.SendWebRequest();
         // Resolucion de la request
         if (www.result != UnityWebRequest.Result.Success)
         {
-            _ShowAndroidToastMessage("Error" + www.error);
+            //_ShowAndroidToastMessage("Error" + www.error);
             Debug.Log("Error post: " + www.error);
         }
         else
@@ -223,7 +223,7 @@ public class API : MonoBehaviour
         WWWForm form2 = new WWWForm();
 
         //Debug.Log(xInput.text + yInput.text + pisoInput.text + tipoInput.text + nameInput.text);
-        _ShowAndroidToastMessage("Guardando nuevos datos...");
+        //_ShowAndroidToastMessage("Guardando nuevos datos...");
         //_ShowAndroidToastMessage("Guardando punto...");
         Debug.Log("Creando punto");
 
@@ -251,11 +251,11 @@ public class API : MonoBehaviour
             Debug.Log("Form upload complete!");
         }
         Debug.Log("Vecinos: "+vecinos);
-        //_ShowAndroidToastMessage(vecinos);
+        _ShowAndroidToastMessage(vecinos);
         WWWForm form3 = new WWWForm();
         form3.AddField("origen", name);
         form3.AddField("vecinos", vecinos);
-        //_ShowAndroidToastMessage("Guardando vecino");
+        _ShowAndroidToastMessage("Guardando vecino");
         //Realizar request
         Debug.Log("colocando arcos");
         _ShowAndroidToastMessage("Actualizando vecinos...");

@@ -146,6 +146,7 @@ public class Buscador : MonoBehaviour
             // Obtener nombres de todos los vecinos
             if(point != null)
             {
+                Debug.Log("vecinos punto:" + point.vecinos.Length);
                 foreach(string id in point.vecinos)
                 {
                     UnityWebRequest info = UnityWebRequest.Get(baseURI + "points/" + id);
@@ -178,10 +179,12 @@ public class Buscador : MonoBehaviour
 
     public void ActualizarPunto()
     {
+        Debug.Log("Actualizando punto...");
         API api = GameObject.Find("AppManager").GetComponent<API>(); // Recuperar API
         GameObject[] toggles = GameObject.FindGameObjectsWithTag("Vecino");
         List<string> vecinos = new List<string>();
-        foreach(GameObject toggle in toggles)
+        Debug.Log("Toggles: "+toggles.Length);
+        foreach (GameObject toggle in toggles)
         {
             if (toggle.GetComponent<Toggle>().isOn)
             {
@@ -190,7 +193,7 @@ public class Buscador : MonoBehaviour
             }
         }
         string _vecinos = string.Join(",", vecinos);
-
+        Debug.Log("Llamando a actualizar");
         api.ActualizarPuntoDB(inputNombre.text, nombreAntiguo ,inputDescripcion.text, inputTipo.text, _vecinos, lastX, lastY, lastFloor);
     }
 
