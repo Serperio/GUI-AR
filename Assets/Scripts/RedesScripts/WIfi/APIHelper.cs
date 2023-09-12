@@ -23,6 +23,19 @@ public static class APIHelper
             onComplete(www.downloadHandler.text);
         }
     }
+    public static IEnumerator POST(string recurso, WWWForm form, System.Action<string> onComplete, System.Action<string> onError)
+    {
+        UnityWebRequest www = UnityWebRequest.Post(base_uri + recurso, form);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            onError(www.error);
+        }
+        else
+        {
+            onComplete(www.downloadHandler.text);
+        }
+    }
 
     public static IEnumerator POST(string recurso, WWWForm form)
     {
