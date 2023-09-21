@@ -11,6 +11,9 @@ public class Routing1 : MonoBehaviour
     CustomRoute labUXToStairs;
     [SerializeField]
     CustomRoute stairsToP218;
+    private void Start()
+    {
+    }
     public void toLab()
     {
         mapRoute.LoadCustomRoute(stairsToP218);
