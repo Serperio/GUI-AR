@@ -16,18 +16,6 @@ public class VerEvento : MonoBehaviour
     [SerializeField]
     public GameObject contenido;
 
-    public void VerDetalle()
-    {
-        panel_descripcion_evento.SetActive(true);
-    }
-    
-    public void CerrarDetalle()
-    {
-        panel_descripcion_evento.SetActive(false);
-    }
-
-    ScriptBotonMas script1;
-
     // Start is called before the first frame update
 
     private void Start()
