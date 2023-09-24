@@ -8,12 +8,25 @@ using UnityEngine.UI;
 public class VerEvento : MonoBehaviour
 {
 
-    public Evento events;
     [SerializeField]
-    public GameObject Text;
+    public GameObject panel_descripcion_evento;
+    [SerializeField]
+    public GameObject preFab;
 
     [SerializeField]
     public GameObject contenido;
+
+    public void VerDetalle()
+    {
+        panel_descripcion_evento.SetActive(true);
+    }
+    
+    public void CerrarDetalle()
+    {
+        panel_descripcion_evento.SetActive(false);
+    }
+
+    ScriptBotonMas script1;
 
     // Start is called before the first frame update
 
@@ -75,8 +88,10 @@ public class VerEvento : MonoBehaviour
             // Recuperar JSON
             string response = www.downloadHandler.text;
             // Obtener listado de Eventos
+
             List<string> data = listJson(response);
             List<Evento> eventos = new List<Evento>();
+
             foreach(string i in data)
             {
                 eventos.Add(JsonUtility.FromJson<Evento>(i));
@@ -86,19 +101,25 @@ public class VerEvento : MonoBehaviour
 
             foreach(Evento evento in eventos)
             {
-                GameObject cada_evento = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                GameObject cada_evento = Instantiate(preFab, Vector3.zero, Quaternion.identity);
+
+                //GameObject gameObject1 = GameObject.Find("AppManager"); //Realizar los correspondientes flips con el boton aceptar.
+/*                 UIBehaviour script1 = gameObject1.GetComponent<UIBehaviour>();
+                script1.FlipUI(canva_filtros); */
 
                 TextMeshProUGUI tituloText = cada_evento.GetComponentInChildren<TextMeshProUGUI>();
+                Button botoncito = cada_evento.GetComponentInChildren<Button>();
 
                 Image miImagen = cada_evento.AddComponent<Image>();
                 tituloText.text = evento.nombre;
+                botoncito.onClick.AddListener(delegate{MostrarDescripcion(evento.nombre, evento.descripcion, evento.img, evento.fecha);});
 
                 StartCoroutine(CargarImagen(evento.img, cada_evento));
                 cada_evento.transform.parent = contenido.transform;
                 cada_evento.transform.localPosition = Vector3.zero;
                 cada_evento.transform.localScale = Vector3.one;
                 //Debug.Log("Parte 2 \n");
-                Debug.Log("Nombre:"+evento.nombre+"\ndescripcion: "+evento.descripcion+"\nURL_img: "+evento.img);
+                Debug.Log("Nombre:"+evento.nombre+"\ndescripcion: "+evento.descripcion+"\nURL_img: "+evento.img+"\nFecha: +"+evento.fecha);
             }
         }
     }
@@ -107,11 +128,6 @@ public class VerEvento : MonoBehaviour
     IEnumerator CargarImagen(string url, GameObject objeto)
 
     {
-
-        if (objeto != null)
-        {
-            Debug.Log("VACIOOOOOOOOOO CONCHETUMARE");
-        } 
         using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
         {
             yield return www.SendWebRequest();
@@ -150,5 +166,21 @@ public class VerEvento : MonoBehaviour
 
     public void BuscarEventosExistentes(){
         StartCoroutine(EventosExistentes());
+    }
+
+    public void MostrarDescripcion(string nombre, string descripcion, string img_url, System.DateTime fecha)
+    {
+        GameObject gameObject1 = GameObject.Find("AppManager");
+        UIBehaviour scriptUI = gameObject1.GetComponent<UIBehaviour>();
+        scriptUI.FlipUI(panel_descripcion_evento);
+
+        TextMeshProUGUI Titulo = GameObject.Find("NombreEvento").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI Descripcion = GameObject.Find("DescripcionEvento").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI Fecha = GameObject.Find("FechaEvento").GetComponent<TextMeshProUGUI>();
+
+        StartCoroutine(CargarImagen(img_url, GameObject.Find("ImgEvento")));
+        Titulo.text = nombre;
+        Descripcion.text = descripcion;
+        Fecha.text = fecha.ToString("yyyy/MM/dd");
     }
 }
