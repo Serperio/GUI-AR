@@ -1,5 +1,7 @@
 //Objeto con los datos de un punto de GPS
-public class Point{
+using System.Collections.Generic;
+
+public class Point {
     public string _id;
     public float x;
     public float y;
@@ -8,4 +10,5 @@ public class Point{
     public int floor;
     public string tipo;
     public string[] vecinos;
+    public string edificio;
 }

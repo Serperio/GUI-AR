@@ -7,8 +7,10 @@ using UnityEngine.UI;
 public class ClosestPoint : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI closestPointGUI;   
-    [SerializeField] 
+    TextMeshProUGUI closestPointGUI;
+    [SerializeField]
+    TextMeshProUGUI closestPointInfo;
+    [SerializeField]
     API api;
     [SerializeField]
     MyPositionGPS gpsloc;
@@ -16,11 +18,12 @@ public class ClosestPoint : MonoBehaviour
     List<Point> pointList;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         StartCoroutine(NearestPoint());
     }
-      
-    private IEnumerator NearestPoint()
+
+    public IEnumerator NearestPoint()
     {
         yield return new WaitForSeconds(10f);
         GameObject.Find("AppManager").GetComponent<API>().NearbyPointsAPI();
@@ -29,19 +32,21 @@ public class ClosestPoint : MonoBehaviour
         float longitude = positions[1]; //Pasar de gps
         Point nearestPoint = null;
         double shortestDistance = Mathf.Infinity;
-        pointList1 = api._pointlist; 
+        pointList1 = api._pointlist;
         //closestPointGUI.text= api._pointlist.Count.ToString();
         closestPointGUI.text = "Cargando...";
+        closestPointInfo.text = "Cargando...";
 
         pointList = new List<Point>();
 
 
-        foreach (Point point in pointList1){      
+        foreach (Point point in pointList1)
+        {
             if (point.floor.ToString() == api.pred.prediction.ToString())
             {
                 pointList.Add(point);
-            } 
-                
+            }
+
         }
 
         foreach (Point point in pointList)
@@ -58,10 +63,12 @@ public class ClosestPoint : MonoBehaviour
         if (nearestPoint != null)
         {
             closestPointGUI.text = "En: " + nearestPoint.name;
+            closestPointInfo.text = "En: " + nearestPoint.name;
         }
         else
         {
             closestPointGUI.text = "No se conoce la ubicación";
+            closestPointInfo.text = "No se conoce la ubicación";
         }
         StartCoroutine(NearestPoint());
     }
@@ -88,5 +95,3 @@ public class ClosestPoint : MonoBehaviour
         }
     }
 }
-
-
