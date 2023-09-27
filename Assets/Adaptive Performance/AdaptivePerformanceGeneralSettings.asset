@@ -1,5 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD
 --- !u!114 &-7778248825030773379
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -15,6 +16,9 @@ MonoBehaviour:
   m_LoaderManagerInstance: {fileID: -39783899272004418}
   m_InitManagerOnStart: 1
 --- !u!114 &-39783899272004418
+=======
+--- !u!114 &-4291972397115019087
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,9 +32,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AutomaticLoading: 0
   m_AutomaticRunning: 0
+<<<<<<< HEAD
   m_Loaders:
   - {fileID: 11400000, guid: 61eb6ebc6a3cd0648b246e578752270a, type: 2}
   - {fileID: 11400000, guid: e3b9222f0da2f664d93abef67f455949, type: 2}
+=======
+  m_Loaders: []
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -45,4 +53,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Keys: 07000000
   Values:
+<<<<<<< HEAD
   - {fileID: -7778248825030773379}
+=======
+  - {fileID: 4120954921334236343}
+--- !u!114 &4120954921334236343
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179fc3111e144bc4688dca4038b3265d, type: 3}
+  m_Name: Android Settings
+  m_EditorClassIdentifier: 
+  m_LoaderManagerInstance: {fileID: -4291972397115019087}
+  m_InitManagerOnStart: 1
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3

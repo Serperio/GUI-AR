@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIBehaviour : MonoBehaviour
 {
@@ -21,5 +22,9 @@ public class UIBehaviour : MonoBehaviour
             Debug.Log("Botón desclicado");
             ui.SetActive(true);
         }
+    }
+    public void LoaderScenes(int number)
+    {
+        SceneManager.LoadScene(number);
     }
 }
