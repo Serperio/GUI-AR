@@ -15,6 +15,9 @@ public class MyPositionGPS : MonoBehaviour
     private bool hasLocationPermission;
     private LocationInfo lastLocation;
 
+    private float _lastLatitude;
+    private float _lastLongitude;
+
     //Lista con los puntos que quedan por recorrer
     List<Punto> puntos = new List<Punto>();
 
@@ -23,7 +26,7 @@ public class MyPositionGPS : MonoBehaviour
     TextMeshProUGUI posicionActual;
 
     [SerializeField]
-    TextMeshProUGUI puntosFaltantes;
+    //TextMeshProUGUI puntosFaltantes;
 
     //Variables donde se guarda el error que muestra el programa
     float horizontalAccuracy;
@@ -56,7 +59,7 @@ public class MyPositionGPS : MonoBehaviour
         puntos.Add(new Punto(-33.03481f, -71.59651f, 2, 1000f));
         puntos.Add(new Punto(-33.03503f, -71.5967f, 2, 1000f));
 
-        printLista(puntos);
+        //printLista(puntos);
 
         // Verificar y solicitar permiso de ubicaci�n (solo necesario para Android)
         if (Application.platform == RuntimePlatform.Android)
@@ -113,22 +116,21 @@ public class MyPositionGPS : MonoBehaviour
     void Update()
     {
         //Revisa constantemente que tal alejado se esta del punto
-
-        posicionActual.text = "Mi Posicion de GPS es (" + lastLocation.latitude + "," + lastLocation.longitude + ") ";
-        if (puntos.Count != 0)
-        {
-            puntos[0].distanciaActual = Mathf.Sqrt(Mathf.Pow((lastLocation.latitude - puntos[0].latitud), 2) + Mathf.Pow((lastLocation.longitude - puntos[0].longitud), 2));
-            posicionActual.text +=  " con una distancia de: " + puntos[0].distanciaActual;
-        }
-        if (puntos.Count == 0)
-        {
-            puntosFaltantes.text = "No quedan puntos";
-        }
-        else if (puntos[0].distanciaActual <6e-5f)
+        _lastLatitude = lastLocation.latitude;
+        _lastLongitude = lastLocation.longitude;
+        posicionActual.text = "Mi Posicion de GPS:\n" +"x: "+ lastLocation.latitude +"\ny: "+lastLocation.longitude;
+        if (puntos[0].distanciaActual <6e-5f)
         {
             puntos.RemoveAt(0);
-            printLista(puntos);
+            //printLista(puntos);
         }
+    }
+
+
+    public float[] GetLastPosition()
+    {
+        float[] position = { _lastLatitude, _lastLongitude };
+        return position;
     }
 
     void OnApplicationQuit()
@@ -136,6 +138,7 @@ public class MyPositionGPS : MonoBehaviour
         // Detener el servicio de ubicaci�n al salir de la aplicacion
         Input.location.Stop();
     }
+    /*
     void printLista(List<Punto> puntos) //Imprime la lista de puntos en pantalla
     {
         puntosFaltantes.text = "";
@@ -143,5 +146,5 @@ public class MyPositionGPS : MonoBehaviour
         {
             puntosFaltantes.text += "latitud: " + punto.latitud + ", longitud: " + punto.longitud + ", piso: " + punto.piso + "\n";
         }
-    }
+    }*/
 }

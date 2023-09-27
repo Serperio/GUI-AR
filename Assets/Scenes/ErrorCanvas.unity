@@ -6389,10 +6389,19 @@ MonoBehaviour:
   myInputField: {fileID: 0}
   tipoInput: {fileID: 0}
   pisoInput: {fileID: 0}
+<<<<<<< HEAD
   xInput: {fileID: 0}
   yInput: {fileID: 0}
   nameInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+=======
+  nameInput: {fileID: 0}
+  pisoDatasetInput: {fileID: 0}
+  descripcionInput: {fileID: 0}
+  GPS_handler: {fileID: 0}
+  prefabNearby: {fileID: 0}
+  NearbyScroll: {fileID: 0}
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 --- !u!114 &782110957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18362,10 +18371,14 @@ MonoBehaviour:
   enabledWiFiSearch: 0
   enabledMobileInternet: 0
   enabledWiFiInternet: 0
+<<<<<<< HEAD
   gpsText: {fileID: 0}
   wifiActivate: {fileID: 0}
   wifiConected: {fileID: 0}
   mobileData: {fileID: 0}
+=======
+  error: {fileID: 1224854924}
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
   canvasBueno: {fileID: 2038866798}
   canvasMalo: {fileID: 2102204184}
 --- !u!114 &2027810456
@@ -18426,10 +18439,19 @@ MonoBehaviour:
   myInputField: {fileID: 158640687}
   tipoInput: {fileID: 989730364}
   pisoInput: {fileID: 419293206}
+<<<<<<< HEAD
   xInput: {fileID: 0}
   yInput: {fileID: 0}
   nameInput: {fileID: 1695040792}
   pisoDatasetInput: {fileID: 0}
+=======
+  nameInput: {fileID: 1695040792}
+  pisoDatasetInput: {fileID: 0}
+  descripcionInput: {fileID: 0}
+  GPS_handler: {fileID: 0}
+  prefabNearby: {fileID: 0}
+  NearbyScroll: {fileID: 0}
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 --- !u!114 &2027810461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18443,7 +18465,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   posicionActual: {fileID: 1634547334}
+<<<<<<< HEAD
   puntosFaltantes: {fileID: 0}
+=======
+  horizontalAccuracy: 0
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
   Error: {fileID: 1634547334}
 --- !u!114 &2027810462
 MonoBehaviour:
@@ -18460,6 +18486,14 @@ MonoBehaviour:
   contenido: {fileID: 1584701730}
   Text: {fileID: 296607684671626289, guid: b41f99c0b82dcf94a99cb986dc95b783, type: 3}
   textoPunto: {fileID: 1017054261}
+<<<<<<< HEAD
+=======
+  listado: {fileID: 0}
+  prefabToggle: {fileID: 0}
+  inputNombre: {fileID: 0}
+  inputDescripcion: {fileID: 0}
+  inputTipo: {fileID: 0}
+>>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 --- !u!114 &2027810463
 MonoBehaviour:
   m_ObjectHideFlags: 0
