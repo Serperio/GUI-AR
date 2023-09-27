@@ -61,12 +61,6 @@ namespace ARLocation.MapboxRoutes
                 Points[Points.Count - 1].IsStep = true;
             }
         }
-        [SerializeField]
-        TextMeshProUGUI texto;
-        private void Start()
-        {
-            texto.text =  Points.Count.ToString();
-        }
         public List<Waypoint> GetWaypoints()
         {
             var result = new List<Waypoint>();

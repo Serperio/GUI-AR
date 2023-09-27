@@ -123,163 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &110309594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 110309595}
-  - component: {fileID: 110309596}
-  m_Layer: 0
-  m_Name: GM
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &110309595
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110309594}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 631.74036, y: 973.40265, z: 91.659836}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 411081754}
-  - {fileID: 131413653}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &110309596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110309594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4842ce889a157240b89bb34b14ad564, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  route: {fileID: 411081752}
-  MapBox: {fileID: 131413649}
---- !u!1 &131413649
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 131413653}
-  - component: {fileID: 131413652}
-  - component: {fileID: 131413651}
-  - component: {fileID: 131413650}
-  m_Layer: 0
-  m_Name: MapboxRoute
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &131413650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131413649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c04fa4e0641a427587f656c768c3002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ArrowSprite: {fileID: 21300000, guid: 19a300465515241c2bb5670f7b18e69b, type: 3}
-  NeutralArrowDirection: 1
-  Margin: 20
---- !u!114 &131413651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131413649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3d4565e2fba5454e885ee85e49be2dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Settings:
-    LineMaterial: {fileID: 2100000, guid: 697c3d00ed75e4c388f1112e6817fa65, type: 2}
-    TextureOffsetFactor: -4
---- !u!114 &131413652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131413649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 910fdb132362f4081b8e8bc85022fa64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Settings:
-    SignpostPrefabs:
-    - {fileID: 2406714923471210871, guid: 154e5264001534d7999c9720b114562d, type: 3}
-    PathRenderer: {fileID: 131413651}
-    OnScreenIndicator: {fileID: 131413650}
-    MapboxToken: 
-    RouteSettings:
-      RouteType: 1
-      From:
-        Type: 0
-        Location:
-          Latitude: 0
-          Longitude: 0
-          Altitude: 0
-          AltitudeMode: 0
-          Label: 
-        Query: 
-      To:
-        Type: 2
-        Location:
-          Latitude: 0
-          Longitude: 0
-          Altitude: 0
-          AltitudeMode: 0
-          Label: 
-        Query: 
-      CustomRoute: {fileID: 411081753}
-    LoadRouteAtStartup: 1
-    GroundHeight: 1.4
-    OnMapboxRouteLoadError:
-      m_PersistentCalls:
-        m_Calls: []
-    DebugMode: 1
---- !u!4 &131413653
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131413649}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -631.74036, y: -973.40265, z: -91.659836}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 110309595}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &299512616
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,75 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51693fad26e17164ca06d6bcb76daec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapRoute: {fileID: 131413652}
+  mapRoute: {fileID: 0}
   labUXToStairs: {fileID: 11400000, guid: c7645f0c589fe094bba7b8c18cff8ec2, type: 2}
   stairsToP218: {fileID: 11400000, guid: 06ece3cd44a676340aa0842b41bf669d, type: 2}
---- !u!1 &411081752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 411081754}
-  - component: {fileID: 411081753}
-  m_Layer: 0
-  m_Name: Ruta
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &411081753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 411081752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3ef57f122164deba0f4502244ca1ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: 
-  Points:
-  - Location:
-      Latitude: 0
-      Longitude: 0
-      Altitude: 0
-      AltitudeMode: 1
-      Label: 
-    IsStep: 1
-    Name: 
-    Instruction: 
-  - Location:
-      Latitude: 0
-      Longitude: 0
-      Altitude: 0
-      AltitudeMode: 1
-      Label: 
-    IsStep: 1
-    Name: 
-    Instruction: 
-  SceneViewScale: 1
-  texto: {fileID: 1818200303}
---- !u!4 &411081754
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 411081752}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -350.0836, y: 55.871643, z: 14.206673}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 110309595}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &471246945
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +548,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762a94ed3ea45f345b39e931d8060bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customRoute: {fileID: 411081753}
+  newRoute: {fileID: 6600051540714864137, guid: b802760e38ffd0a4aa38866948b614df,
+    type: 3}
+  tmprougui: {fileID: 1818200303}
 --- !u!4 &624423874
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,8 +1471,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 97.076355, y: -550.2691}
-  m_SizeDelta: {x: 930.1527, y: 232.5382}
+  m_AnchoredPosition: {x: 97.076355, y: -469.3299}
+  m_SizeDelta: {x: 930.1527, y: 70.6598}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1818200303
 MonoBehaviour:
