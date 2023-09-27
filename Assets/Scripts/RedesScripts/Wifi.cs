@@ -55,9 +55,10 @@ public class Wifi : MonoBehaviour
                 redes.text = "Pidiendo permisos fine location";
                 _wifiManager = unityActivity.Call<AndroidJavaObject>("getSystemService", "wifi");
                 //Obtienes WIFI disponibles (cercanas)
+                redes.text = "Obteniendo resultados";
                 AndroidJavaObject scanResults = _wifiManager.Call<AndroidJavaObject>("getScanResults");
                 int wifiCount = scanResults.Call<int>("size");
-                redes.text = "Obteniendo resultados";
+                redes.text = "Wifis: "+wifiCount.ToString();
                 //Parsea los datos importantes de la lista obtenida en scanResults
                 for (int i = 0; i < wifiCount; i++)
                 {
@@ -105,8 +106,9 @@ public class Wifi : MonoBehaviour
        _wifiManager.Call<AndroidJavaObject>("getScanResults");
         AndroidJavaObject scanResults = _wifiManager.Call<AndroidJavaObject>("getScanResults");
         int wifiCount = scanResults.Call<int>("size");
-        redes.text = "Obteniendo resultados";
+        redes.text = "Obteniendo resultados enumerator";
         //Parsea los datos importantes de la lista obtenida en scanResults
+        redes.text = "Contadas: "+wifiCount.ToString();
         for (int i = 0; i < wifiCount; i++)
         {
             AndroidJavaObject scanResult = scanResults.Call<AndroidJavaObject>("get", i);

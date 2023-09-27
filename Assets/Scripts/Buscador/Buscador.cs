@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
+using UnityEngine.UI;
 
 public class Buscador : MonoBehaviour
 {
@@ -16,6 +17,20 @@ public class Buscador : MonoBehaviour
     GameObject Text; //Campo del Input
     [SerializeField]
     GameObject textoPunto; //Texto donde se escribe la informacion
+    [SerializeField]
+    GameObject listado; // Scroll view para seleccionar los vecinos
+    [SerializeField]
+    GameObject prefabToggle; // Objeto que permite seleccionar vecinos
+    [SerializeField]
+    TMP_InputField inputNombre;
+    [SerializeField]
+    TMP_InputField inputDescripcion;
+    [SerializeField]
+    TextMeshProUGUI inputTipo;
+    private float lastX;
+    private float lastY;
+    private int lastFloor;
+    private string nombreAntiguo;
 
     string inputText; //texto que hay en el Gameobject Text
 
@@ -104,27 +119,82 @@ public class Buscador : MonoBehaviour
         }
         else
         {
+            string output = ""; // texto a mostrar en el "textoPunto"
+            Point point = null;
             try
             {
                 // Recuperar JSON
                 string response = www.downloadHandler.text;
+                Debug.Log("Log response:"+www.downloadHandler.text);
                 // Transformar JSON a Point
-                Point point = JsonUtility.FromJson<Point>(response);
-                OpenDetalle();
-                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Latitud: " + point.x + "\nLongitud: " + point.y + "\nPiso: " + point.floor;
-
+                point = JsonUtility.FromJson<Point>(response);
+                Debug.Log("Log point");
+                inputNombre.text = point.name;
+                inputDescripcion.text = point.description;
+                inputTipo.text = point.tipo;
+                lastX = point.x;
+                lastY = point.y;
+                lastFloor = point.floor;
+                nombreAntiguo = point.name;
+                output = "Latitud: " + point.x + "\nLongitud: " + point.y + "\nPiso: " + point.floor;
+                Debug.Log("info");
             } catch
             {
-                OpenDetalle();
-                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Destino no valido, por favor indicar otro destino";
+                Debug.Log("error try");
+                output = "Destino no valido, por favor indicar otro destino";
             }
-            
+            // Obtener nombres de todos los vecinos
+            if(point != null)
+            {
+                Debug.Log("vecinos punto:" + point.vecinos.Length);
+                foreach(string id in point.vecinos)
+                {
+                    UnityWebRequest info = UnityWebRequest.Get(baseURI + "points/" + id);
+                    yield return info.SendWebRequest();
+                    if(info.result != UnityWebRequest.Result.Success)
+                    {
+                        Debug.LogError("Error Get: " + info.error);
+                    }
+                    else
+                    {
+                        Point p = JsonUtility.FromJson<Point>(info.downloadHandler.text);
+                        GameObject instancia = Instantiate(prefabToggle, Vector3.zero, Quaternion.identity);
+                        instancia.GetComponent<RectTransform>().transform.SetParent(listado.transform);
+                        instancia.transform.localScale = Vector3.one;
+                        instancia.GetComponentInChildren<Text>().text = p.name;
+                    }
+                }
+            }
+            // Mostrar informacion
+            OpenDetalle();
+            //textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = output;
+
         }
     }
 
     //Dsps Cambiar a UIbehaviour, (comportamiento de botones)
     public void BuscarSitiosDisponibles(){
         StartCoroutine(DestinosDisponibles());
+    }
+
+    public void ActualizarPunto()
+    {
+        Debug.Log("Actualizando punto...");
+        API api = GameObject.Find("AppManager").GetComponent<API>(); // Recuperar API
+        GameObject[] toggles = GameObject.FindGameObjectsWithTag("Vecino");
+        List<string> vecinos = new List<string>();
+        Debug.Log("Toggles: "+toggles.Length);
+        foreach (GameObject toggle in toggles)
+        {
+            if (toggle.GetComponent<Toggle>().isOn)
+            {
+                string vecino = toggle.GetComponentInChildren<Text>().text;
+                vecinos.Add(vecino);
+            }
+        }
+        string _vecinos = string.Join(",", vecinos);
+        Debug.Log("Llamando a actualizar");
+        api.ActualizarPuntoDB(inputNombre.text, nombreAntiguo ,inputDescripcion.text, inputTipo.text, _vecinos, lastX, lastY, lastFloor);
     }
 
     public void DetalleSitio(TextMeshProUGUI texto)
