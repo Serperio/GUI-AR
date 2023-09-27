@@ -16,6 +16,7 @@ public class FilterDropdown : MonoBehaviour
     public Button SinFiltro_Seccion;
     public Button ConFiltro_Seccion;
     public TMP_Text nohaydestinos;
+    public GameObject ScrollDestinos;
     [SerializeField]
     GameObject contenido_filter;
     [SerializeField]
@@ -231,14 +232,24 @@ public class FilterDropdown : MonoBehaviour
                 }
             }
             // Entregar resultados
-            foreach (Point point in points)
+            if (points.Count > 0)
             {
-                GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                texto.transform.parent = contenido_filter.transform;
-                texto.transform.localPosition = Vector3.zero;
-                texto.transform.localScale = Vector3.one;
-                Debug.Log(point.tipo);
+                ScrollDestinos.SetActive(true);
+                nohaydestinos.gameObject.SetActive(false);
+                foreach (Point point in points)
+                {
+                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                    texto.transform.parent = contenido_filter.transform;
+                    texto.transform.localPosition = Vector3.zero;
+                    texto.transform.localScale = Vector3.one;
+                    Debug.Log(point.tipo);
+                }
+            }
+            else
+            {
+                ScrollDestinos.SetActive(false);
+                nohaydestinos.gameObject.SetActive(true);
             }
         
         }
