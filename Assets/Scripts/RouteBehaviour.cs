@@ -12,7 +12,6 @@ namespace ARLocation.MapboxRoutes
         // Start is called before the first frame update
         public void routeOn()
         {
-            route.SetActive(true);
             MapBox.SetActive(true);
             //MapBox.GetComponent<MapboxRoute>().LoadCustomRoute(route.GetComponent<CustomRoute>());
         }
