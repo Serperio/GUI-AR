@@ -51,7 +51,7 @@ PlayerSettings:
   m_MTRendering: 1
   mipStripping: 0
   numberOfMipsStripped: 0
-  m_StackTraceTypes: 010000000100000001000000010000000100000001000000
+  m_StackTraceTypes: 020000000200000002000000020000000200000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   iosUseCustomAppBackgroundBehavior: 0
@@ -138,6 +138,13 @@ PlayerSettings:
   preloadedAssets:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
+  - {fileID: 11400000, guid: 68bae7ad067a6324dbf4dc67be596353, type: 2}
+  - {fileID: -7778248825030773379, guid: 4f36f66e9cca14249a91fc533b49956b, type: 2}
+  - {fileID: 781648037401808039, guid: fc3ec5c8b3ba6dc48b06089dbd407309, type: 2}
+  - {fileID: 11400000, guid: 1eb95d77acb39444e8cf44313496a874, type: 2}
+  - {fileID: -4044609090384093617, guid: f2c64e2c1961321438dee4610aff647e, type: 2}
+  - {fileID: 11400000, guid: f84168800c2ca2f4bb613b8bfd54e672, type: 2}
   - {fileID: 11400000, guid: 68272fa86eab0494d8754d33dddc0277, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
