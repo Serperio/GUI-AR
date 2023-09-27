@@ -13947,6 +13947,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1610084579}
+        m_TargetAssemblyTypeName: UIBehaviour, Assembly-CSharp
+        m_MethodName: FlipUI
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2038866798}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &600895542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29684,6 +29696,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1610084579}
+        m_TargetAssemblyTypeName: UIBehaviour, Assembly-CSharp
+        m_MethodName: FlipUI
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2038866798}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1181624719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38623,7 +38647,7 @@ MonoBehaviour:
   npiso2: {fileID: 972965928}
   inputCambiarPiso: {fileID: 1245431253}
   fixedWifi: {fileID: 1610084576}
-  Text: {fileID: 296607684671626289, guid: 164cccd46154c57468bd016dc4b7446b, type: 3}
+  Text: {fileID: 296607684671626289, guid: 531aa78ba359b6b4d89f4679b58d635d, type: 3}
   contenido: {fileID: 880763570}
   myButton: {fileID: 0}
   myInputField: {fileID: 0}
@@ -38822,8 +38846,9 @@ MonoBehaviour:
   SinFiltro_Seccion: {fileID: 266745456}
   ConFiltro_Seccion: {fileID: 1277948178}
   nohaydestinos: {fileID: 613316031}
+  ScrollDestinos: {fileID: 0}
   contenido_filter: {fileID: 880763570}
-  Text: {fileID: 296607684671626289, guid: 164cccd46154c57468bd016dc4b7446b, type: 3}
+  Text: {fileID: 296607684671626289, guid: 531aa78ba359b6b4d89f4679b58d635d, type: 3}
 --- !u!1 &1612102783
 GameObject:
   m_ObjectHideFlags: 0
@@ -51051,7 +51076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2038866799
 MonoBehaviour:
   m_ObjectHideFlags: 0
