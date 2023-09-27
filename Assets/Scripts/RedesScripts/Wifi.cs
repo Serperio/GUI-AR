@@ -101,7 +101,8 @@ public class Wifi : MonoBehaviour
         _wifiManager.Call<bool>("startScan");
 
         redes.text = "Pidiendo permisos fine location";
-
+        // Vaciar lista de redes wifi para poder empezar escaneo desde cero
+        networks = new List<Network>();
         //Obtienes WIFI disponibles (cercanas)
        _wifiManager.Call<AndroidJavaObject>("getScanResults");
         AndroidJavaObject scanResults = _wifiManager.Call<AndroidJavaObject>("getScanResults");
@@ -120,6 +121,7 @@ public class Wifi : MonoBehaviour
             salida += "SSID: " + SSID + "| Level: " + signalStrength + "\n";
             networks.Add(network);
         }
+        redes.text = salida;
         //Agrega los datos en GetWiFis
         api.getWifis(networks);
         yield return new WaitForSeconds(20f);
