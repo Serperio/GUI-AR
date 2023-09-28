@@ -6,23 +6,25 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine.Android;
 using UnityEngine.UI;
+using TMPro;
 
 public class Login : MonoBehaviour
 {
-
+    [SerializeField]
+    TMP_InputField emailGet;
+    [SerializeField]
+    TMP_InputField passGet;
     [SerializeField]
     string email; //Campo Email
-
     [SerializeField]
     string password; //Campo Contrasena
-
     [SerializeField]
     string Text;
 
     [System.Serializable]
     public class ApiResponse
     {
-        public string response;
+        public string message;
         public Userlog user;
     }
 
@@ -35,19 +37,22 @@ public class Login : MonoBehaviour
         public bool IsLoggedIn;
     }
 
-
-    const string IP = "localhost";
+    const string IP = "144.22.42.236";
     const string PORT = "3000";
     const string api_url = "http://" + IP + ":" + PORT + "/api/";
 
     public bool status = false;
 
     // Update is called once per frame
-    void Start()
+    public void logInApp()
     {
         StartCoroutine(LoginSendData());
     }
-
+    private void Update()
+    {
+        email = emailGet.text;
+        password = passGet.text;
+    }
     IEnumerator LoginSendData()
     {
         WWWForm json = new WWWForm();
@@ -55,13 +60,13 @@ public class Login : MonoBehaviour
         json.AddField("password", password);
         ApiResponse response = null;
 
-        UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json.ToString());
- 
-        request.SetRequestHeader("Content-Type", "application/json");
+        UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json);
+
+        //request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
+        //if (request.result == UnityWebRequest.Result.Success)
+        //{
             string response1 = request.downloadHandler.text;
             Debug.Log("Log response:" + request.downloadHandler.text);
 
@@ -69,33 +74,33 @@ public class Login : MonoBehaviour
 
             Debug.Log("Log response:"+ request.downloadHandler.text);
 
-            if (response.response == "User not found")
+            if (response.message == "User not found")
             {
                 status = false;
                 Text = "Correo o contraseña inválidos";
             }
             else
             {
-                if (response.response == "User Logged In")
+                if (response.message == "User Logged In")
                 {
                     status = true;
-                    Text = "Correo o contraseña inválidos";
+                    Text = "";
                 }
                 else
                 {
                     status = false;
-                    Text = "Correo o contraseña inválidos";
+                    Text = "Correo o contraseña inválido";
                 }
             }
 
-        }
-        else
-        {
+        //}
+        //else
+        //{
             // Hubo un error en la solicitud
-            Debug.LogError("Error en la solicitud: " + request.error);
-            status = false;
-            Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
-        }
+        //    Debug.LogError("Error en la solicitud: " + request.error);
+        //    status = false;
+        //    Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
+        //}
     }
 
 }
