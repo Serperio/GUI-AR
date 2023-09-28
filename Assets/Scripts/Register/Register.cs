@@ -1,15 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Threading.Tasks;
-using MongoDB.Driver;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class Login : MonoBehaviour
+public class Register : MonoBehaviour
 {
-
     [SerializeField]
     GameObject email; //Campo Email
 
@@ -22,7 +16,7 @@ public class Login : MonoBehaviour
 
     const string IP = ;
     const string PORT = ;
-    const string base_uri = "http://" + IP + ":" + PORT + "/api/login";
+    const string api_url = "http://" + IP + ":" + PORT + "/api/";
 
     public bool status = false;
 
@@ -37,53 +31,52 @@ public class Login : MonoBehaviour
         JSONObject json = new JSONObject();
         json.AddField("mail", email);
         json.AddField("password", password);
-             
-        UnityWebRequest request = UnityWebRequest.Post(apiUrl, json.ToString());
- 
+
+        UnityWebRequest request = UnityWebRequest.Post(apiUrl + "login", json.ToString());
+
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            
+
             string responseText = request.downloadHandler.text;
             Debug.Log("Respuesta de la API: " + responseText);
 
-            if (responseText == "User not found")
+            if (responseText != "User not found")
             {
-                status = false;
-                Text = "Correo o contraseña inválidos";
-            }
-            else
-            {
-                if (responseText == "User Logged In")
-                {
-                    status = true;
-                }
-                else (responseText == "Wrong Password")
-                {
-                    status = false;
-                    Text = "Correo o contraseña inválidos";
-                }
-            }
+                UnityWebRequest request = UnityWebRequest.Post(apiUrl + "users", json.ToString());
 
+                request.SetRequestHeader("Content-Type", "application/json");
+                yield return request.SendWebRequest();
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+
+                    string responseText = request.downloadHandler.text;
+                    Debug.Log("Respuesta de la API: " + responseText);
+
+                    if (responseText != "User not found")
+                    {
+                        Text = "Registro exitoso";
+                    }
+
+                }
+                else
+                {
+                    //error solicitud
+                    Debug.LogError("Error " + request.error);
+                    Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
+                }
+            }
+            
         }
         else
         {
-            // Hubo un error en la solicitud
+            //error solicitud
             Debug.LogError("Error en la solicitud: " + request.error);
             status = false;
-            Text = "Ha\r\nocurrido un error de conexión. Inténtelo más tarde";
+            Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
         }
     }
-
-}
-
-public class User
-{
-    public ObjectId Id { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public bool isAdmin { get; set; }
-    public bool IsLoggedIn { get; set; }
 }
