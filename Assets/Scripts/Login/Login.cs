@@ -20,8 +20,8 @@ public class Login : MonoBehaviour
     GameObject Text;
 
 
-    const string IP = ;
-    const string PORT = ;
+    const string IP = "localhost";
+    const string PORT = "3000";
     const string base_uri = "http://" + IP + ":" + PORT + "/api/login";
 
     public bool status = false;
@@ -59,6 +59,7 @@ public class Login : MonoBehaviour
                 if (responseText == "User Logged In")
                 {
                     status = true;
+                    Text = "Correo o contraseña inválidos";
                 }
                 else (responseText == "Wrong Password")
                 {

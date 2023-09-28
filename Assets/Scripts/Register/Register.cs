@@ -14,8 +14,8 @@ public class Register : MonoBehaviour
     GameObject Text;
 
 
-    const string IP = ;
-    const string PORT = ;
+    const string IP = "localhost";
+    const string PORT = "3000";
     const string api_url = "http://" + IP + ":" + PORT + "/api/";
 
     public bool status = false;
