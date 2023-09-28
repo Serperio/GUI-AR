@@ -19,6 +19,22 @@ public class Login : MonoBehaviour
     [SerializeField]
     string Text;
 
+    [System.Serializable]
+    public class ApiResponse
+    {
+        public string response;
+        public Userlog user;
+    }
+
+    public class Userlog
+    {
+        public int Id;
+        public string Email;
+        public string Password;
+        public bool isAdmin;
+        public bool IsLoggedIn;
+    }
+
 
     const string IP = "localhost";
     const string PORT = "3000";
@@ -37,7 +53,8 @@ public class Login : MonoBehaviour
         WWWForm json = new WWWForm();
         json.AddField("mail", email);
         json.AddField("password", password);
-             
+        ApiResponse response = null;
+
         UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json.ToString());
  
         request.SetRequestHeader("Content-Type", "application/json");
@@ -45,18 +62,21 @@ public class Login : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            
-            string responseText = request.downloadHandler.text;
-            Debug.Log("Respuesta de la API: " + responseText);
+            string response1 = request.downloadHandler.text;
+            Debug.Log("Log response:" + request.downloadHandler.text);
 
-            if (responseText == "User not found")
+            response = JsonUtility.FromJson<ApiResponse>(response1);
+
+            Debug.Log("Log response:"+ request.downloadHandler.text);
+
+            if (response.response == "User not found")
             {
                 status = false;
                 Text = "Correo o contraseña inválidos";
             }
             else
             {
-                if (responseText == "User Logged In")
+                if (response.response == "User Logged In")
                 {
                     status = true;
                     Text = "Correo o contraseña inválidos";
@@ -79,4 +99,3 @@ public class Login : MonoBehaviour
     }
 
 }
-
