@@ -18,12 +18,13 @@ public class Register : MonoBehaviour
     [SerializeField]
     string Text;
 
-    string responseText = "";
+    
 
 
     const string IP = "localhost";
     const string PORT = "3000";
-    const string api_url = "http://" + IP + ":" + PORT + "/api/";
+    const string api_url1 = "http://" + IP + ":" + PORT + "/api/users";
+    const string api_url2 = "http://" + IP + ":" + PORT + "/api/login";
 
     public bool status = false;
 
@@ -39,7 +40,7 @@ public class Register : MonoBehaviour
         json.AddField("mail", email);
         json.AddField("password", password);
 
-        UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json.ToString());
+        UnityWebRequest request = UnityWebRequest.Post(api_url2, json.ToString());
 
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
@@ -52,18 +53,18 @@ public class Register : MonoBehaviour
 
             if (responseText != "User not found")
             {
-                UnityWebRequest request = UnityWebRequest.Post(api_url + "users", json.ToString());
+                UnityWebRequest request2 = UnityWebRequest.Post(api_url1, json.ToString());
 
-                request.SetRequestHeader("Content-Type", "application/json");
-                yield return request.SendWebRequest();
+                request2.SetRequestHeader("Content-Type", "application/json");
+                yield return request2.SendWebRequest();
 
-                if (request.result == UnityWebRequest.Result.Success)
+                if (request2.result == UnityWebRequest.Result.Success)
                 {
 
-                    string responseText = request.downloadHandler.text;
-                    Debug.Log("Respuesta de la API: " + responseText);
+                    string responseText2 = request2.downloadHandler.text;
+                    Debug.Log("Respuesta de la API: " + responseText2);
 
-                    if (responseText != "User not found")
+                    if (responseText2 != "User not found")
                     {
                         Text = "Registro exitoso";
                     }
