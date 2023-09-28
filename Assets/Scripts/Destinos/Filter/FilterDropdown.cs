@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 
 public class FilterDropdown : MonoBehaviour
-{   
+{
 
     public TMP_Dropdown dropdownPiso;
     public TMP_Dropdown dropdownEdificio;
@@ -41,7 +41,7 @@ public class FilterDropdown : MonoBehaviour
             ((dropdownPiso.captionText.text == "Seleccione una opción") && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
             ((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && (dropdownEdificio.captionText.text == "Seleccione una opción")))
         {
-            
+
             Debug.Log("Entre al Null");
             Aviso_FilterVacio.SetActive(true);
         }
@@ -114,11 +114,11 @@ public class FilterDropdown : MonoBehaviour
 
     */
 
-   /* private void SetPlaceholderText(TMP_Text textComponent, string text)
-    {
-        // Función para establecer el mensaje o placeholder de un objeto TextMeshPro.
-        textComponent.text = text;
-    }*/
+    /* private void SetPlaceholderText(TMP_Text textComponent, string text)
+     {
+         // Función para establecer el mensaje o placeholder de un objeto TextMeshPro.
+         textComponent.text = text;
+     }*/
 
     static List<string> listJson(string jsonData)
     {
@@ -222,13 +222,13 @@ public class FilterDropdown : MonoBehaviour
                     {
                         points.Add(point);
                     }
-                  /*  Debug.Log("filtro piso: " + point.floor + " " + filtroPiso);
-                    Debug.Log("filtro edificio: " + point.edificio + " " + filtroEdificio);
-                    Debug.Log("Entré al if :D"+ point.name);  
-                    Debug.Log("piso: " + point.floor);
-                    Debug.Log("edif: " + point.edificio);
-                    Debug.Log("esp: " + point.tipo);
-                    points.Add(point);*/
+                    /*  Debug.Log("filtro piso: " + point.floor + " " + filtroPiso);
+                      Debug.Log("filtro edificio: " + point.edificio + " " + filtroEdificio);
+                      Debug.Log("Entré al if :D"+ point.name);  
+                      Debug.Log("piso: " + point.floor);
+                      Debug.Log("edif: " + point.edificio);
+                      Debug.Log("esp: " + point.tipo);
+                      points.Add(point);*/
                 }
             }
             // Entregar resultados
@@ -251,7 +251,7 @@ public class FilterDropdown : MonoBehaviour
                 ScrollDestinos.SetActive(false);
                 nohaydestinos.gameObject.SetActive(true);
             }
-        
+
         }
         ConFiltro_Seccion.gameObject.SetActive(true);
         SinFiltro_Seccion.gameObject.SetActive(false);
@@ -296,6 +296,8 @@ public class FilterDropdown : MonoBehaviour
                     Debug.Log(point.tipo);
                 }
             }
+            ScrollDestinos.SetActive(true);
+            nohaydestinos.gameObject.SetActive(false);
         }
     }
     public void LimpiarFiltros()

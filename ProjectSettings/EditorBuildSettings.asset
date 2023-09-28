@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PMV2.0J.unity
-    guid: 70f2fcd8825172848a5a223722780342
+    path: Assets/Scenes/PMV2.1J.unity
+    guid: 245a72bc083481645a42a8d156889c93
   - enabled: 1
     path: Assets/Scenes/Tutlorial/InterfazTutorial.unity
     guid: 1d9c3902ce087994bb501876db848d12

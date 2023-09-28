@@ -101,7 +101,7 @@ public class VerEvento : MonoBehaviour
                 Image miImagen = cada_evento.AddComponent<Image>();
                 tituloText.text = evento.nombre;
                 System.DateTime parseDate = System.DateTime.Parse(evento.fecha_inicio);
-                botoncito.onClick.AddListener(delegate{MostrarDescripcion(evento.nombre, evento.descripcion, evento.img, parseDate.ToString("dd-MM-yyyy"), System.DateTime.Parse(evento.fecha_termino).ToString("dd-MM-yyyyy"));});
+                botoncito.onClick.AddListener(delegate{MostrarDescripcion(evento.nombre, evento.descripcion, evento.img, parseDate.ToString("dd-MM-yyyy"), System.DateTime.Parse(evento.fecha_termino).ToString("dd-MM-yyyy"));});
 
                 StartCoroutine(CargarImagen(evento.img, cada_evento));
                 cada_evento.transform.parent = contenido.transform;
