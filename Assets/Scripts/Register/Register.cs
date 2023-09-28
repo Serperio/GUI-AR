@@ -57,7 +57,7 @@ public class Register : MonoBehaviour
         if (status)
         {
             //Cargar escena tutorial
-            Instantiate(n);
+            //Instantiate(n);
             ui.LoaderScenes(2);
         }
     }
