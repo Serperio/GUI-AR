@@ -35,7 +35,7 @@ public class Register : MonoBehaviour
 
     IEnumerator LoginSendData()
     {
-        JSONObject json = new JSONObject();
+        WWWForm json = new WWWForm();
         json.AddField("mail", email);
         json.AddField("password", password);
 
