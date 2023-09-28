@@ -120,10 +120,11 @@ public class Info_Rutas : MonoBehaviour
 
     private void UpdatePointData()
     {
-        StartCoroutine(FindPointData(Ubi_actual.text));
+        StartCoroutine(FindPointInfo(Ubi_actual.text));
     }
 
-    IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
+
+   /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
     {
         //const string IP = "144.22.42.236";
         const string IP = "localhost";
@@ -138,7 +139,7 @@ public class Info_Rutas : MonoBehaviour
             Debug.Log("Error post: " + www.error);
         }
         else
-        { 
+        {
             try
             {
                 // Recuperar JSON
@@ -160,28 +161,15 @@ public class Info_Rutas : MonoBehaviour
 
         }
         //StartCoroutine(FindPointData(name));
-    }
-
-    //Dsps Cambiar a UIbehaviour, (comportamiento de botones)
-
-    /*
-    public void BuscarSitiosDisponibles()
+    } */
+    IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        StartCoroutine(DestinosDisponibles());
-    }
-    */
-
-
-    IEnumerator FindPointInfo(string point_id) //Buscar los datos de un punto por nombre
-    {
-        Debug.Log("ID punto: " + point_id);
         //const string IP = "144.22.42.236";
         const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
-        WWWForm form = new WWWForm();
-        form.AddField("ID_Point", point_id);
-        UnityWebRequest www = UnityWebRequest.Post(baseURI + "info_points/find", form);
+
+        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/"+name+"/infopoints");
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -208,17 +196,11 @@ public class Info_Rutas : MonoBehaviour
                 foreach (string info in pointlist_total)
                 {
                     Info_Point point = JsonUtility.FromJson<Info_Point>(info);
-                    if (point.ID_Point == point_id)
-                    {
-                        Debug.Log("point: " + point.imagen);
-                        infopoint_especifica.Add(point);
-                    }
+                    Debug.Log("point: " + point.imagen);
+                    infopoint_especifica.Add(point);
                 }
                 foreach (Info_Point point in infopoint_especifica)
                 {
-                    if((point.imagen == "") || (point.imagen == null)){
-
-                    }
                     Debug.Log("url:" + point.imagen + "\ndescripcion: " + point.descripcion + "\nidPOINT: " + point.ID_Point);
                     Debug.Log("entre al segundo for");
                     GameObject cada_point = Instantiate(Text, Vector3.zero, Quaternion.identity);
