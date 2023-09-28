@@ -18,7 +18,7 @@ public class Register : MonoBehaviour
     [SerializeField]
     string Text;
 
-    public string responseText = "";
+    string responseText = "";
 
 
     const string IP = "localhost";

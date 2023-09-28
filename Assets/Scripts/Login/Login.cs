@@ -32,7 +32,7 @@ public class Login : MonoBehaviour
         StartCoroutine(LoginSendData());
     }
 
-    public async void LoginSendData()
+    IEnumerator LoginSendData()
     {
         JSONObject json = new JSONObject();
         json.AddField("mail", email);
