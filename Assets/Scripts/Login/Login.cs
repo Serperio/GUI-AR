@@ -33,15 +33,16 @@ public class Login : MonoBehaviour
     {
         public string message;
         public Userlog user;
+        public bool admin;
     }
 
     public class Userlog
     {
-        public int Id;
-        public string Email;
-        public string Password;
+        public int _id;
+        public string mail;
+        public string password;
         public bool isAdmin;
-        public bool IsLoggedIn;
+        public bool isLoggedIn;
     }
 
     const string IP = "144.22.42.236";
@@ -62,10 +63,13 @@ public class Login : MonoBehaviour
         password = passGet.text;
         if (status)
         {
+            GameObject data = GameObject.Find("Data");
+            Destroy(data);
+            Debug.Log("ADMIN: " + isAdmin);
             //Cargar escena tutorial
             if (isAdmin)
             {
-            ui.LoaderScenes(1);
+            ui.LoaderScenes(3);
             }
             else
             {
@@ -103,9 +107,10 @@ public class Login : MonoBehaviour
             {
                 if (response.message == "User Logged In")
                 {
-                    status = true;
                     Text = "";
-                    isAdmin=response.user.isAdmin;
+                    Debug.Log(response.admin);
+                    isAdmin=response.admin;
+                    status = true;
                 }
                 else
                 {

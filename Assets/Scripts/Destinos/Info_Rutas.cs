@@ -120,7 +120,8 @@ public class Info_Rutas : MonoBehaviour
 
     private void UpdatePointData()
     {
-        StartCoroutine(FindPointData(Ubi_actual.text));
+        //StartCoroutine(FindPointData(Ubi_actual.text));
+        StartCoroutine(FindPointData("Cañon"));
     }
 
     IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
@@ -146,10 +147,9 @@ public class Info_Rutas : MonoBehaviour
                 // Transformar JSON a Point
                 Point point = JsonUtility.FromJson<Point>(response);
                 //textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Descripción: \n" +"\n"+ point.description;
+                Debug.Log("ID: "+ point._id);
                 string idpunto = point._id;
-                StartCoroutine(FindPointInfo(idpunto));
-
-
+                StartCoroutine(FindPointInfo(name));
 
             }
             catch
@@ -172,16 +172,21 @@ public class Info_Rutas : MonoBehaviour
     */
 
 
-    IEnumerator FindPointInfo(string point_id) //Buscar los datos de un punto por nombre
+    IEnumerator FindPointInfo(string point) //Buscar los datos de un punto por nombre
     {
-        Debug.Log("ID punto: " + point_id);
-        const string IP = "144.22.42.236";
+        //Debug.Log("ID punto: " + point_id);
+        //const string IP = "144.22.42.236";
         //const string IP = "localhost";
-        const string port = "3000";
-        const string baseURI = "http://" + IP + ":" + port + "/api/";
-        WWWForm form = new WWWForm();
-        form.AddField("ID_Point", point_id);
-        UnityWebRequest www = UnityWebRequest.Post(baseURI + "info_points/find", form);
+        //const string port = "3000";
+        //const string baseURI = "http://" + IP + ":" + port + "/api/";
+        //WWWForm form = new WWWForm();
+        //form.AddField("ID_Point", point_id);
+        Debug.Log("Buscando info:" + point);
+        //UnityWebRequest www = UnityWebRequest.Post(baseURI + "info_points/find", form);
+        return APIHelper.GET("points/"+point+"/infopoints", (response) => {
+            Debug.Log("Respuesta: "+ response);
+        });
+        /*
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -242,6 +247,7 @@ public class Info_Rutas : MonoBehaviour
             }
 
         }
+        */
         //StartCoroutine(FindPointData(name));
     }
 
