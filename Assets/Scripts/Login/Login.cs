@@ -21,6 +21,9 @@ public class Login : MonoBehaviour
     [SerializeField]
     string Text;
 
+    [SerializeField]
+    TextMeshProUGUI mensajeee;
+
     bool isAdmin=false;
     [SerializeField]
     UIBehaviour ui;
@@ -54,6 +57,7 @@ public class Login : MonoBehaviour
     }
     private void Update()
     {
+        mensajeee.text = Text;
         email = emailGet.text;
         password = passGet.text;
         if (status)
@@ -65,7 +69,7 @@ public class Login : MonoBehaviour
             }
             else
             {
-            ui.LoaderScenes(1); //Cambiar a modo usuario
+            ui.LoaderScenes(1); //Cambiar a modo usuarioé 
             }
         }
     }

@@ -31,6 +31,9 @@ public class Register : MonoBehaviour
     [SerializeField]
     string Text;
 
+    [SerializeField]
+    TextMeshProUGUI mensajeee;
+
     [System.Serializable]
     public class ApiResponse
     {
@@ -48,6 +51,7 @@ public class Register : MonoBehaviour
     }
     private void Update()
     {
+        mensajeee.text = Text;
         email = emailGet.text;
         password = passGet.text;
         if (status)
