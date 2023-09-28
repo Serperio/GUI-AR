@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour
@@ -61,7 +60,7 @@ public class Login : MonoBehaviour
                     status = true;
                     Text = "Correo o contraseña inválidos";
                 }
-                else (responseText == "Wrong Password")
+                else
                 {
                     status = false;
                     Text = "Correo o contraseña inválidos";
