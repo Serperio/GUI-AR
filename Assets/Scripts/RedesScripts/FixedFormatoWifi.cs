@@ -16,6 +16,10 @@ public class FixedFormatoWifi : MonoBehaviour
          intensidadAndroid => valores de las intensidades de android
          */
         List<int> intensidadesFixed = new List<int>();
+        for (int i = 0; i < macBD.Count; i++)
+        {
+            intensidadesFixed.Add(0);
+        }
 
         for (int i = 0; i < macBD.Count; i++) //Se iteran las macDB
         {
@@ -24,11 +28,7 @@ public class FixedFormatoWifi : MonoBehaviour
             if (macAndroid.Contains(macBD[i]))
             {
                 int a = macAndroid.IndexOf(macBD[i]);
-                intensidadesFixed.Add(intesidadAndroid[a]);
-            }
-            else
-            {
-                intensidadesFixed.Add(0);
+                intensidadesFixed[i] = intesidadAndroid[a];
             }
         }
         
