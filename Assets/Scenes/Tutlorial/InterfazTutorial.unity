@@ -376,7 +376,7 @@ MonoBehaviour:
     un destino."
   dial1:
   - "Aqui tendr\xE1s una lista con todos los destinos que ofrece GUI-AR"
-  - "Por favor selecciona el destino \"Ca\xF1on\""
+  - Por favor selecciona el destino "P223"
   dial2:
   - Perfecto
   - Una vez seleccionado observa como aparece el camino en AR
@@ -963,7 +963,7 @@ RectTransform:
   m_Father: {fileID: 1985079377}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.000005066395}
+  m_AnchorMin: {x: 0, y: 0.000005185604}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -2302,8 +2302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0017619, y: -311.49997}
-  m_SizeDelta: {x: 1010.4, y: 623}
+  m_AnchoredPosition: {x: 0.00020599, y: -357.4}
+  m_SizeDelta: {x: 966.3, y: 714.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &73585949
 MonoBehaviour:
@@ -6699,7 +6699,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SkipAll
+  m_text: Salir Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8233,7 +8233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Labux -> Escalera1 -> P223
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e81e24c8cdad0b54ab495dcdecdb9362, type: 2}
   m_sharedMaterial: {fileID: -2038495102092076915, guid: e81e24c8cdad0b54ab495dcdecdb9362,
@@ -8741,8 +8741,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 23160680}
   m_HandleRect: {fileID: 23160679}
   m_Direction: 2
-  m_Value: 1.0142857
-  m_Size: 0.99999493
+  m_Value: 1
+  m_Size: 0.9999948
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12429,7 +12429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 298.1435, y: -301.40125}
+  m_AnchoredPosition: {x: 236, y: -354}
   m_SizeDelta: {x: 483.7209, y: 90.6974}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &333148695
@@ -15551,7 +15551,7 @@ RectTransform:
   m_Father: {fileID: 294337089}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.000000059604645, y: 0}
+  m_AnchorMin: {x: 0.00000023841858, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -15660,6 +15660,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -26375,6 +26377,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -35230,7 +35234,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: P223
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -35257,10 +35261,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -43844,6 +43848,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -51399,6 +51405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closestPointGUI: {fileID: 2036420390}
+  closestPointInfo: {fileID: 0}
   api: {fileID: 1610084574}
   gpsloc: {fileID: 1610084573}
 --- !u!114 &1610084572
@@ -51462,6 +51469,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 1610084573}
   prefabNearby: {fileID: 1347903987953523585, guid: a2bd0e7d5c8e37b4794af1cd4177d67d,
@@ -51607,14 +51616,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610084570}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9167ad0d8cf1e84397fe611ab8f0ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   contenido: {fileID: 2136220941}
   Text: {fileID: 969141570}
+  Ubi_actual: {fileID: 0}
   textoPunto: {fileID: 894748337}
+  infopoint_especifica: []
 --- !u!114 &1610084585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51622,7 +51633,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610084570}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f666d4a41f6e89243aaef2bce82887f6, type: 3}
   m_Name: 
@@ -56770,7 +56781,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 458961947}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.99999976
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -66271,6 +66282,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
