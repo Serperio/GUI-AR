@@ -1,27 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Threading.Tasks;
-using MongoDB.Driver;
+using UnityEngine.Android;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject email; //Campo Email
+    string email; //Campo Email
 
     [SerializeField]
-    GameObject password; //Campo Contrasena
+    string password; //Campo Contrasena
 
     [SerializeField]
-    GameObject Text;
+    string Text;
 
 
     const string IP = "localhost";
     const string PORT = "3000";
-    const string base_uri = "http://" + IP + ":" + PORT + "/api/login";
+    const string api_url = "http://" + IP + ":" + PORT + "/api/";
 
     public bool status = false;
 
@@ -37,7 +38,7 @@ public class Login : MonoBehaviour
         json.AddField("mail", email);
         json.AddField("password", password);
              
-        UnityWebRequest request = UnityWebRequest.Post(apiUrl, json.ToString());
+        UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json.ToString());
  
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
@@ -73,17 +74,9 @@ public class Login : MonoBehaviour
             // Hubo un error en la solicitud
             Debug.LogError("Error en la solicitud: " + request.error);
             status = false;
-            Text = "Ha\r\nocurrido un error de conexión. Inténtelo más tarde";
+            Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
         }
     }
 
 }
 
-public class User
-{
-    public ObjectId Id { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public bool isAdmin { get; set; }
-    public bool IsLoggedIn { get; set; }
-}

@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using System;
+using System.Threading.Tasks;
+using UnityEngine.Android;
+using UnityEngine.UI;
 
 public class Register : MonoBehaviour
 {
     [SerializeField]
-    GameObject email; //Campo Email
+    string email; //Campo Email
 
     [SerializeField]
-    GameObject password; //Campo Contrasena
+    string password; //Campo Contrasena
 
     [SerializeField]
-    GameObject Text;
+    string Text;
+
+    public string responseText = "";
 
 
     const string IP = "localhost";
@@ -26,13 +33,13 @@ public class Register : MonoBehaviour
         StartCoroutine(LoginSendData());
     }
 
-    public async void LoginSendData()
+    IEnumerator LoginSendData()
     {
         JSONObject json = new JSONObject();
         json.AddField("mail", email);
         json.AddField("password", password);
 
-        UnityWebRequest request = UnityWebRequest.Post(apiUrl + "login", json.ToString());
+        UnityWebRequest request = UnityWebRequest.Post(api_url + "login", json.ToString());
 
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
@@ -45,7 +52,7 @@ public class Register : MonoBehaviour
 
             if (responseText != "User not found")
             {
-                UnityWebRequest request = UnityWebRequest.Post(apiUrl + "users", json.ToString());
+                UnityWebRequest request = UnityWebRequest.Post(api_url + "users", json.ToString());
 
                 request.SetRequestHeader("Content-Type", "application/json");
                 yield return request.SendWebRequest();
