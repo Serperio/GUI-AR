@@ -15,6 +15,8 @@ public class Register : MonoBehaviour
     TMP_InputField emailGet;
     [SerializeField]
     TMP_InputField passGet;
+    [SerializeField]
+    GameObject n;
 
 
     [SerializeField]
@@ -51,7 +53,8 @@ public class Register : MonoBehaviour
         if (status)
         {
             //Cargar escena tutorial
-            ui.LoaderScenes(1);
+            Instantiate(n);
+            ui.LoaderScenes(2);
         }
     }
 

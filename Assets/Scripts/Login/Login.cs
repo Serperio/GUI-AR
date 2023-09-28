@@ -21,6 +21,7 @@ public class Login : MonoBehaviour
     [SerializeField]
     string Text;
 
+    bool isAdmin=false;
     [SerializeField]
     UIBehaviour ui;
 
@@ -58,7 +59,14 @@ public class Login : MonoBehaviour
         if (status)
         {
             //Cargar escena tutorial
+            if (isAdmin)
+            {
             ui.LoaderScenes(1);
+            }
+            else
+            {
+            ui.LoaderScenes(1); //Cambiar a modo usuario
+            }
         }
     }
     IEnumerator LoginSendData()
@@ -93,6 +101,7 @@ public class Login : MonoBehaviour
                 {
                     status = true;
                     Text = "";
+                    isAdmin=response.user.isAdmin;
                 }
                 else
                 {
