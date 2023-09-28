@@ -18,13 +18,28 @@ public class Register : MonoBehaviour
     [SerializeField]
     string Text;
 
-    
+    [System.Serializable]
+    public class ApiResponse
+    {
+        public string response;
+        public Userreg user;
+    }
+
+    public class Userreg
+    {
+        public int Id;
+        public string Email;
+        public string Password;
+        public bool isAdmin;
+        public bool IsLoggedIn;
+    }
 
 
     const string IP = "localhost";
     const string PORT = "3000";
-    const string api_url1 = "http://" + IP + ":" + PORT + "/api/users";
-    const string api_url2 = "http://" + IP + ":" + PORT + "/api/login";
+    
+    const string api_url1 = "http://" + IP + ":" + PORT + "/api/login";
+    const string api_url2 = "http://" + IP + ":" + PORT + "/api/users";
 
     public bool status = false;
 
@@ -39,35 +54,32 @@ public class Register : MonoBehaviour
         WWWForm json = new WWWForm();
         json.AddField("mail", email);
         json.AddField("password", password);
+        ApiResponse response = null;
 
-        UnityWebRequest request = UnityWebRequest.Post(api_url2, json.ToString());
+        UnityWebRequest request = UnityWebRequest.Post(api_url1, json.ToString());
 
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            string response1 = request.downloadHandler.text;
+            Debug.Log("Log response:" + request.downloadHandler.text);
 
-            string responseText = request.downloadHandler.text;
-            Debug.Log("Respuesta de la API: " + responseText);
+            response = JsonUtility.FromJson<ApiResponse>(response1);
 
-            if (responseText != "User not found")
+            Debug.Log("Log response:" + request.downloadHandler.text);
+
+            if (response.response == "User not found")
             {
-                UnityWebRequest request2 = UnityWebRequest.Post(api_url1, json.ToString());
+                UnityWebRequest request2 = UnityWebRequest.Post(api_url2, json.ToString());
 
                 request2.SetRequestHeader("Content-Type", "application/json");
                 yield return request2.SendWebRequest();
 
                 if (request2.result == UnityWebRequest.Result.Success)
                 {
-
-                    string responseText2 = request2.downloadHandler.text;
-                    Debug.Log("Respuesta de la API: " + responseText2);
-
-                    if (responseText2 != "User not found")
-                    {
-                        Text = "Registro exitoso";
-                    }
+                    Text = "Registro exitoso";
 
                 }
                 else
@@ -76,6 +88,10 @@ public class Register : MonoBehaviour
                     Debug.LogError("Error " + request.error);
                     Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
                 }
+            }
+            else
+            {
+                Text = "Usuario ya registrado";
             }
             
         }
@@ -88,3 +104,4 @@ public class Register : MonoBehaviour
         }
     }
 }
+
