@@ -20298,6 +20298,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0eacf184d215e248b3f5b4ffb43e982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npiso: {fileID: 0}
+  npiso2: {fileID: 0}
+  inputCambiarPiso: {fileID: 0}
+  fixedWifi: {fileID: 0}
+  Text: {fileID: 0}
+  contenido: {fileID: 0}
+  myButton: {fileID: 0}
+  myInputField: {fileID: 0}
+  tipoInput: {fileID: 0}
+  pisoInput: {fileID: 0}
+  nameInput: {fileID: 0}
+  borrarInput: {fileID: 0}
+  pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
+  descripcionInput: {fileID: 0}
+  GPS_handler: {fileID: 0}
+  prefabNearby: {fileID: 0}
+  NearbyScroll: {fileID: 0}
 --- !u!114 &782110957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38911,6 +38930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5398db460fa1f4481178188d9c6551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closestPointGUI: {fileID: 0}
+  api: {fileID: 0}
+  gpsloc: {fileID: 0}
 --- !u!114 &1610084572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38923,6 +38945,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7430caf9ad45ee82b645cf3f0607458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contenido: {fileID: 0}
+  Text: {fileID: 0}
+  textoPunto: {fileID: 0}
+  listado: {fileID: 0}
+  prefabToggle: {fileID: 0}
+  inputNombre: {fileID: 0}
+  inputDescripcion: {fileID: 0}
+  inputTipo: {fileID: 0}
 --- !u!114 &1610084573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38935,6 +38965,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ab20fcb8e59c04291eafe783e14c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  posicionActual: {fileID: 0}
+  horizontalAccuracy: 0
+  Error: {fileID: 0}
 --- !u!114 &1610084574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38947,6 +38980,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0eacf184d215e248b3f5b4ffb43e982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npiso: {fileID: 0}
+  npiso2: {fileID: 0}
+  inputCambiarPiso: {fileID: 0}
+  fixedWifi: {fileID: 0}
+  Text: {fileID: 0}
+  contenido: {fileID: 0}
+  myButton: {fileID: 0}
+  myInputField: {fileID: 0}
+  tipoInput: {fileID: 0}
+  pisoInput: {fileID: 0}
+  nameInput: {fileID: 0}
+  borrarInput: {fileID: 0}
+  pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
+  descripcionInput: {fileID: 0}
+  GPS_handler: {fileID: 0}
+  prefabNearby: {fileID: 0}
+  NearbyScroll: {fileID: 0}
 --- !u!114 &1610084575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38959,6 +39011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6588efc569377d4492959edfb75cdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  texto_punto: {fileID: 0}
 --- !u!114 &1610084576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38983,6 +39036,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07057d122b42a5f49848c4b34a3d6337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabledGPS: 0
+  enabledWiFiSearch: 0
+  enabledMobileInternet: 0
+  enabledWiFiInternet: 0
+  error: {fileID: 0}
+  canvasBueno: {fileID: 0}
+  canvasMalo: {fileID: 0}
 --- !u!114 &1610084578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38995,6 +39055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111a792d840496645b356dbb3b18a310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  api: {fileID: 0}
+  redes: {fileID: 0}
 --- !u!114 &1610084579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39034,6 +39096,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: badf445772b163d4386f0d1a6f3c6dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Piso: {fileID: 0}
+  Edificio: {fileID: 0}
+  NombreTentativo: {fileID: 0}
+  Text: {fileID: 0}
+  MensajeSugerencia: {fileID: 0}
 --- !u!114 &1610084582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39046,6 +39113,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe593e7aff1134ab15fafb0872e289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputPuntoInicial: {fileID: 0}
+  InputPuntoFinal: {fileID: 0}
+  InputPuntoFallo: {fileID: 0}
+  InputMotivo: {fileID: 0}
+  MensajeResena: {fileID: 0}
 --- !u!114 &1610084583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39058,6 +39130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2cb736ae13439541a490f71817b43b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuExtra: {fileID: 0}
+  menuActivado: 0
 --- !u!114 &1610084584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39070,6 +39144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9167ad0d8cf1e84397fe611ab8f0ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contenido: {fileID: 0}
+  Text: {fileID: 0}
+  textoPunto: {fileID: 0}
 --- !u!114 &1610084585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39082,6 +39159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f666d4a41f6e89243aaef2bce82887f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textoEnInterfazRutas: {fileID: 0}
 --- !u!1 &1612102783
 GameObject:
   m_ObjectHideFlags: 0
@@ -51148,7 +51226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2038866799
 MonoBehaviour:
   m_ObjectHideFlags: 0
