@@ -14,7 +14,7 @@ public class Wifi : MonoBehaviour
      * 
      */
 
-    int buttonTries = 0;
+    //int buttonTries = 0;
 
     [SerializeField]
     API api;
@@ -25,8 +25,8 @@ public class Wifi : MonoBehaviour
     private const string FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION";
 
     //Colocar ip puerto del servidor
-    string IP = "144.22.42.236";
-    string port = "3000";
+    //string IP = "144.22.42.236";
+    //string port = "3000";
 
     //Listado redes WIFI
     [SerializeField]
