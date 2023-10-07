@@ -10,6 +10,8 @@ A partir de una matriz de puntos, genera la ruta mas corta de A, hasta B
 public class Puntito
 {
     public string ID { get; set; }
+
+    public string nombre { get; set;  }
     public double latitud { get; set; }
     public double longitud { get; set; }
     public List<Vecino> Vecinos { get; set; }
@@ -22,6 +24,16 @@ public class Puntito
         latitud = latitud2;
         longitud = longitud2;
         Vecinos = new List<Vecino>();
+        //Distancia = double.MaxValue;
+        Anterior = null;
+    }
+    public Puntito(string id, double latitud2, double longitud2, string nombreAux)
+    {
+        ID = id;
+        latitud = latitud2;
+        longitud = longitud2;
+        Vecinos = new List<Vecino>();
+        nombre = nombreAux;
         //Distancia = double.MaxValue;
         Anterior = null;
     }

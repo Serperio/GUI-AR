@@ -40,19 +40,60 @@ namespace ARLocation.MapboxRoutes
                     //Los demas puntos :)
                     if (point.name == name)
                     {
-                        last_point = new Puntito(name, point.x, point.y);
+                        last_point = new Puntito(point._id, point.x, point.y,point.name);
                         vertices.Add(last_point);
+                        string[] auxVecinos = point.vecinos;
+                        foreach (string a in auxVecinos)
+                        {
+                            foreach (Puntito b in vertices)
+                            {
+                                if (b.ID == a)
+                                {
+                                    last_point.Vecinos.Add(new Vecino(b, last_point));
+                                    b.Vecinos.Add(new Vecino(b, last_point));
+                                }
+                            }
+                        }                        
                     }
                     else
                     {
-                        vertices.Add(new Puntito(name, point.x, point.y));
+                        Puntito puntitoAux = new Puntito(point._id, point.x, point.y, point.name);
+                        vertices.Add(puntitoAux);
+                        string[] auxVecinos = point.vecinos;
+                        foreach (string a in auxVecinos)
+                        {
+                            foreach (Puntito b in vertices)
+                            {
+                                if (b.ID == a)
+                                {
+                                    puntitoAux.Vecinos.Add(new Vecino(b, puntitoAux));
+                                    b.Vecinos.Add(new Vecino(b, puntitoAux));
+                                }
+                            }
+                        }
                     }
                 }
-                init_point.Vecinos.Add(new Vecino(init_point, last_point));
+                foreach(Puntito auxPuntito in vertices)
+                {
+                    if (auxPuntito.nombre == "@Labux")
+                    {
+                        init_point.Vecinos.Add(new Vecino(init_point, auxPuntito));
+                    }
+                }
+                foreach(Puntito auxprint in vertices)
+                {
+                    string aux = "";
+                    foreach(Vecino vecino in auxprint.Vecinos)
+                    {
+                        aux+=vecino.Actual.nombre;
+                    }
+                    print(auxprint.nombre+":"+aux);
+                }
+                //init_point.Vecinos.Add(new Vecino(init_point, last_point)); //->Jarcodear init point a un punto existente
                 List<Puntito> camino = Dijkstra.FindShortestPath(vertices, init_point, last_point);
                 foreach (Puntito puntito in camino)
                 {
-                    caminoEnPuntos.Add(new Point((float)puntito.latitud, (float)puntito.longitud, puntito.ID));
+                    caminoEnPuntos.Add(new Point((float)puntito.latitud, (float)puntito.longitud, puntito.nombre));
                 }
                 print(printPath(caminoEnPuntos));
                 construirRuta.initiateRoute(caminoEnPuntos);
