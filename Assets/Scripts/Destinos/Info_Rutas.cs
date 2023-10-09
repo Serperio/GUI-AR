@@ -109,7 +109,7 @@ public class Info_Rutas : MonoBehaviour
          inputText = s.text;
          StartCoroutine(FindPointData(inputText));
      }*/
-    
+
     private void Start()
     {
         Ubi_actual.text = "Cañon";
@@ -124,44 +124,44 @@ public class Info_Rutas : MonoBehaviour
     }
 
 
-   /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
-    {
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
-        const string port = "3000";
-        const string baseURI = "http://" + IP + ":" + port + "/api/";
-        WWWForm form = new WWWForm();
-        form.AddField("name", name);
-        UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/find", form);
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Error post: " + www.error);
-        }
-        else
-        {
-            try
-            {
-                // Recuperar JSON
-                string response = www.downloadHandler.text;
-                // Transformar JSON a Point
-                Point point = JsonUtility.FromJson<Point>(response);
-                //textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Descripción: \n" +"\n"+ point.description;
-                string idpunto = point._id;
-                StartCoroutine(FindPointInfo(idpunto));
+    /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
+     {
+         //const string IP = "144.22.42.236";
+         const string IP = "localhost";
+         const string port = "3000";
+         const string baseURI = "http://" + IP + ":" + port + "/api/";
+         WWWForm form = new WWWForm();
+         form.AddField("name", name);
+         UnityWebRequest www = UnityWebRequest.Post(baseURI + "points/find", form);
+         yield return www.SendWebRequest();
+         if (www.result != UnityWebRequest.Result.Success)
+         {
+             Debug.Log("Error post: " + www.error);
+         }
+         else
+         {
+             try
+             {
+                 // Recuperar JSON
+                 string response = www.downloadHandler.text;
+                 // Transformar JSON a Point
+                 Point point = JsonUtility.FromJson<Point>(response);
+                 //textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Descripción: \n" +"\n"+ point.description;
+                 string idpunto = point._id;
+                 StartCoroutine(FindPointInfo(idpunto));
 
 
 
-            }
-            catch
-            {
-                OpenDetalle();
-                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Destino no valido.";
-            }
+             }
+             catch
+             {
+                 OpenDetalle();
+                 textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "Destino no valido.";
+             }
 
-        }
-        //StartCoroutine(FindPointData(name));
-    } */
+         }
+         //StartCoroutine(FindPointData(name));
+     } */
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
         //const string IP = "144.22.42.236";
@@ -169,7 +169,7 @@ public class Info_Rutas : MonoBehaviour
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
 
-        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/"+name+"/infopoints");
+        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -246,10 +246,10 @@ public class Info_Rutas : MonoBehaviour
             yield return www.SendWebRequest();
 
             // Oculta el mensaje de "cargando" después de que se complete la descarga
-           /* if (loadingMessage != null)
-            {
-                loadingMessage.SetActive(false);
-            }*/
+            /* if (loadingMessage != null)
+             {
+                 loadingMessage.SetActive(false);
+             }*/
 
             if (objeto == null)
             {
@@ -301,3 +301,4 @@ public class Info_Rutas : MonoBehaviour
         textoPunto.SetActive(false);
     }
 }
+
