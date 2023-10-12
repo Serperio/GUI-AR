@@ -29,11 +29,16 @@ public class EditDropdown : MonoBehaviour
         Debug.Log("iniciooo");
         dropdownPiso.captionText.text = "Seleccione una opción";
         dropdownEdificio.captionText.text = "Seleccione una opción";
-        StartCoroutine(DestinosDisponibles());
+        //StartCoroutine(DestinosDisponibles());
         botonAceptarFiltro.onClick.AddListener(EjecutarFiltro);
         // Escucha el evento de cambio de selección de los Dropdowns.
         //dropdownPiso.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownPiso, ref selectedValuePiso); });
         //dropdownEdificio.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownEdificio, ref selectedValueEdificio); });
+    }
+
+    public void CargarMenuEditar()
+    {
+        StartCoroutine(DestinosDisponibles());
     }
     private void EjecutarFiltro()
     {
@@ -274,6 +279,7 @@ public class EditDropdown : MonoBehaviour
         }
         else
         {
+            erase_content();
             // Recuperar JSON
             string response = www.downloadHandler.text;
             // Obtener listado de puntos

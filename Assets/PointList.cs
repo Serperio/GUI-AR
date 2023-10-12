@@ -22,8 +22,8 @@ namespace ARLocation.MapboxRoutes
             caminoEnPuntos = new List<Point>();
             float[] init_point_aux = myPositionGPS.GetLastPosition(); //Array latitude and longitude [0] [1]
             Puntito init_point = new Puntito("Inicial", init_point_aux[0], init_point_aux[1]);
-            init_point.latitud = -33.0366287231445;
-            init_point.longitud = -71.5944290161133;
+            init_point.latitud = -33.03481;
+            init_point.longitud = -71.59657;
             Puntito last_point = new Puntito("Error", 0, 0);
             StartCoroutine(APIHelper.GET("points", response =>
             {
@@ -77,7 +77,7 @@ namespace ARLocation.MapboxRoutes
                 }
                 foreach(Puntito auxPuntito in vertices)
                 {
-                    if (auxPuntito.nombre == "@Labux")
+                    if (auxPuntito.nombre == "testpoint")
                     {
                         init_point.Vecinos.Add(new Vecino(init_point, auxPuntito));
                     }
