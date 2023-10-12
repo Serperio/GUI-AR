@@ -2,6 +2,11 @@
 %TAG !u! tag:unity3d.com,2011:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+--- !u!114 &-4291972397115019087
+=======
+>>>>>>> edc8c144ee4b0744256ced60fdb89c3e96bbad04
 --- !u!114 &-7778248825030773379
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -17,12 +22,16 @@ MonoBehaviour:
   m_LoaderManagerInstance: {fileID: -39783899272004418}
   m_InitManagerOnStart: 1
 --- !u!114 &-39783899272004418
+<<<<<<< HEAD
 =======
 --- !u!114 &-4291972397115019087
 >>>>>>> 3e1541081de671595805ac1258cbb869275e48b3
 =======
 --- !u!114 &-7920802539810929433
 >>>>>>> c91ce29b95b220700595ceada1f8753cc665442c
+=======
+>>>>>>> 55bde4c0540071bcd6e4472ba643f28325730df0
+>>>>>>> edc8c144ee4b0744256ced60fdb89c3e96bbad04
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,7 +45,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AutomaticLoading: 0
   m_AutomaticRunning: 0
+<<<<<<< HEAD
   m_Loaders: []
+=======
+<<<<<<< HEAD
+  m_Loaders: []
+=======
+  m_Loaders:
+  - {fileID: 11400000, guid: 61eb6ebc6a3cd0648b246e578752270a, type: 2}
+  - {fileID: 11400000, guid: e3b9222f0da2f664d93abef67f455949, type: 2}
+>>>>>>> 55bde4c0540071bcd6e4472ba643f28325730df0
+>>>>>>> edc8c144ee4b0744256ced60fdb89c3e96bbad04
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -51,8 +70,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Keys: 07000000
   Values:
+<<<<<<< HEAD
   - {fileID: 1937978110996571670}
 --- !u!114 &1937978110996571670
+=======
+<<<<<<< HEAD
+  - {fileID: 4120954921334236343}
+--- !u!114 &4120954921334236343
+>>>>>>> edc8c144ee4b0744256ced60fdb89c3e96bbad04
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,3 +91,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LoaderManagerInstance: {fileID: -7920802539810929433}
   m_InitManagerOnStart: 1
+<<<<<<< HEAD
+=======
+=======
+  - {fileID: -7778248825030773379}
+>>>>>>> 55bde4c0540071bcd6e4472ba643f28325730df0
+>>>>>>> edc8c144ee4b0744256ced60fdb89c3e96bbad04

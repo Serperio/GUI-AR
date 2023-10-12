@@ -10,6 +10,8 @@ A partir de una matriz de puntos, genera la ruta mas corta de A, hasta B
 public class Puntito
 {
     public string ID { get; set; }
+
+    public string nombre { get; set;  }
     public double latitud { get; set; }
     public double longitud { get; set; }
     public List<Vecino> Vecinos { get; set; }
@@ -22,6 +24,16 @@ public class Puntito
         latitud = latitud2;
         longitud = longitud2;
         Vecinos = new List<Vecino>();
+        //Distancia = double.MaxValue;
+        Anterior = null;
+    }
+    public Puntito(string id, double latitud2, double longitud2, string nombreAux)
+    {
+        ID = id;
+        latitud = latitud2;
+        longitud = longitud2;
+        Vecinos = new List<Vecino>();
+        nombre = nombreAux;
         //Distancia = double.MaxValue;
         Anterior = null;
     }
@@ -44,7 +56,7 @@ public class Vecino
 class Dijkstra
 {
     public static List<Puntito> FindShortestPath(List<Puntito> vertices, Puntito punto_inicial, Puntito final)
-    {   
+    {
         List<Puntito> caminos = new List<Puntito>();
         caminos.Add(punto_inicial);
         if(punto_inicial == final) return caminos;
@@ -57,7 +69,6 @@ class Dijkstra
         Puntito aux = punto_inicial;
         no_visitados.Remove(aux);
         visitados.Add(aux);
-        //Debug.Log("Inicio: " + aux.ID);
 
         while (no_visitados.Count > 0)
         {
@@ -205,6 +216,7 @@ public class CreateRuta : MonoBehaviour
     }
 
     public void BuscaRuta(int ruta){
+        string rutita = "";
         Debug.Log("Ruta: "+ruta);
         Puntito A = new Puntito("Labpro", -33.03479f, -71.59643f);
         Puntito B = new Puntito("Escalera1", -33.03481f, -71.59651f);
@@ -228,16 +240,19 @@ public class CreateRuta : MonoBehaviour
         if(camino.Count > 0)
         {
             
-            texto_punto.text = "Ruta: - ";
+            //texto_punto.text = "Ruta: - ";
             foreach(Puntito punto in camino)
             {   
                 Debug.Log("Punto: " + punto.ID +" Ahora iremos a:");
-                texto_punto.text += punto.ID + " -> ";
+                //texto_punto.text += punto.ID + " -> ";
+                rutita+= punto.ID + " -> ";
             }
         } 
         else 
         {
-            texto_punto.text = "No se encontro camino factible";
+            //texto_punto.text = "No se encontro camino factible";
+            rutita += "No se encontro camino factible";
         }
+        print("Su Ruta: "+rutita);
     }
 }

@@ -9,7 +9,7 @@ public class splitRoute : MonoBehaviour
     // Ruta a mostrar
     [SerializeField]
     public List<Point> rutaEjemplo;
-    Point punto= new Point();
+    //Point punto= new Point();
 
     //Texto a cambiar
     [SerializeField]
@@ -21,8 +21,8 @@ public class splitRoute : MonoBehaviour
     void Start()
     {
         rutaEjemplo = new List<Point>();
-        punto.name = "Patio";
-        rutaEjemplo.Add(punto);
+        //punto.name = "Patio";
+        //rutaEjemplo.Add(punto);
         getRoute();
     }
 
