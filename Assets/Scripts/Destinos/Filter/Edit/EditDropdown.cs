@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
 
-public class FilterDropdown : MonoBehaviour
+public class EditDropdown : MonoBehaviour
 {
 
     public TMP_Dropdown dropdownPiso;
@@ -26,9 +26,10 @@ public class FilterDropdown : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("iniciooo");
         dropdownPiso.captionText.text = "Seleccione una opción";
         dropdownEdificio.captionText.text = "Seleccione una opción";
-
+        StartCoroutine(DestinosDisponibles());
         botonAceptarFiltro.onClick.AddListener(EjecutarFiltro);
         // Escucha el evento de cambio de selección de los Dropdowns.
         //dropdownPiso.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownPiso, ref selectedValuePiso); });

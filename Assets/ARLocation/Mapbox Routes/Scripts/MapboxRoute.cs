@@ -3,9 +3,9 @@ using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 
-
 namespace ARLocation.MapboxRoutes
 {
+    //public class MapboxRoute : ScriptableObject
     public class MapboxRoute : MonoBehaviour
     {
         // ================================================================================ //

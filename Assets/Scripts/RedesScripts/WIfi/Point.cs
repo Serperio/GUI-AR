@@ -10,5 +10,19 @@ public class Point {
     public int floor;
     public string tipo;
     public string[] vecinos;
-    public string edificio;
+
+    public Point(float x_aux, float y_aux, string name_aux)
+    {
+        x = x_aux;
+        y = y_aux;
+        name = name_aux;
+
+    }
+    public Point(float x_aux, float y_aux, string name_aux, string idAux)
+    {
+        x = x_aux;
+        y = y_aux;
+        name = name_aux;
+        _id = idAux;
+    }
 }

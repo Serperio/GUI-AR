@@ -63,7 +63,7 @@ public class ClosestPoint : MonoBehaviour
         if (nearestPoint != null)
         {
             closestPointGUI.text = "En: " + nearestPoint.name;
-            closestPointInfo.text = "En: " + nearestPoint.name;
+            closestPointInfo.text = nearestPoint.name;
         }
         else
         {

@@ -61,6 +61,8 @@ public class API : MonoBehaviour
     [SerializeField]
     GameObject NearbyScroll;
 
+    string pisoManual="-10";
+
     public List<Point> _pointlist = new List<Point>();
     public Prediccion pred;
 
@@ -236,7 +238,7 @@ public class API : MonoBehaviour
         StartCoroutine(WifiDisponibles());
     }
     // Agregar a Utilities
-    static List<string> listJson(string jsonData){
+    static public List<string> listJson(string jsonData){
         string json = jsonData.Substring(1,jsonData.Length-2);            
         bool startParentesis = false;
         bool endParentesis = false;
@@ -285,8 +287,26 @@ public class API : MonoBehaviour
             }
         }));
     }
+    public void cambiarPisoManual(TextMeshProUGUI a)
+    {
+        pisoManual = a.text;
+        print("pisoManual: " + pisoManual);
+        npiso.text = "Numero de piso: " + pisoManual;
+        npiso2.text = "Numero de piso: " + pisoManual;
+    }
 
     IEnumerator WifiDisponibles(){
+        if (pisoManual != "-10")
+        {
+            npiso.text = "Numero de piso: " +pisoManual;
+            npiso2.text = "Numero de piso: " + pisoManual;
+            yield return new WaitForSeconds(10);
+            pisoManual = "-10";
+            StartCoroutine(WifiDisponibles());
+
+        }
+        else
+        {
         // Obtener redes wifi conocidas
         yield return StartCoroutine(APIHelper.GET("wifi", response => {
             // Borrar lista cuando se llama
@@ -325,7 +345,12 @@ public class API : MonoBehaviour
             npiso.text = "Numero de piso: " + pred.prediction.ToString();
             npiso2.text = "Numero de piso: " + pred.prediction.ToString();
         }));
-    }
+            yield return new WaitForSeconds(10);
+            StartCoroutine(WifiDisponibles());
+
+        }
+
+        }
 
     public void Start(){
         DestinosDisponibles();

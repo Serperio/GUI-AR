@@ -112,7 +112,7 @@ public class Info_Rutas : MonoBehaviour
 
     private void Start()
     {
-        Ubi_actual.text = "Cañon";
+        //Ubi_actual.text = "Cañon";
         //InvokeRepeating("UpdatePointData", 0f, 10f);
         UpdatePointData();
 
@@ -122,7 +122,6 @@ public class Info_Rutas : MonoBehaviour
     {
         StartCoroutine(FindPointInfo(Ubi_actual.text));
     }
-
 
     /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
      {
@@ -226,7 +225,6 @@ public class Info_Rutas : MonoBehaviour
         }
         //StartCoroutine(FindPointData(name));
     }
-
     IEnumerator CargarImagen(string url, GameObject objeto /*,GameObject loadingMessage*/)
     {
         /*   if (loadingMessage != null)
