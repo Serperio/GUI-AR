@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class API : MonoBehaviour
 {
+    [SerializeField]
+    EditDropdown editDropdown;
     // Variables
     [SerializeField]
     TextMeshProUGUI npiso;
@@ -127,6 +129,9 @@ public class API : MonoBehaviour
                 vecinos.Add(vecino);
             }
         }
+
+        //TODO: quitar canvas de agregar punto luego de tener los nombres de los puntos.
+
         // Solo guardar vecinos si realmente hay vecinos
         if (vecinos.Count > 0)
         {
@@ -137,6 +142,8 @@ public class API : MonoBehaviour
             Utilities._ShowAndroidToastMessage("Guardando vecinos");
             StartCoroutine(APIHelper.POST("points/addArc", form));
         }
+
+        
     }
 
     IEnumerator actualizarPunto(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)
@@ -174,8 +181,8 @@ public class API : MonoBehaviour
         // Crear formulario
         WWWForm form = new WWWForm();
         // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
-        form.AddField("x", "0");
-        form.AddField("y", "0");
+        form.AddField("x", "-33.0348");
+        form.AddField("y", "-71.59656");
         // Pedir listado de puntos cercanos
         StartCoroutine(APIHelper.POST("points/nearby", form, response => {
             List<string> points = listJson(response);
@@ -223,7 +230,9 @@ public class API : MonoBehaviour
 
     public void BorrarPuntoDB(){
         WWWForm form = new WWWForm();
-        StartCoroutine(APIHelper.POST("points/" + borrarInput.text + "/delete", form));
+        StartCoroutine(APIHelper.POST("points/" + borrarInput.text + "/delete", form, (response)=> {
+            editDropdown.CargarMenuEditar();
+        }));
     }
 
     public void getWifis(List<Network> wifis){
@@ -263,7 +272,13 @@ public class API : MonoBehaviour
         return strings;
     }
 
-    void DestinosDisponibles(){
+    public void DestinosDisponibles(){
+        // Limpiar lista
+        foreach(Transform child in contenido.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        // Actualizar lista
         StartCoroutine(APIHelper.GET("points", response => {
             // Obtener listado de puntos
             List<string> data = listJson(response);
@@ -353,7 +368,7 @@ public class API : MonoBehaviour
         }
 
     public void Start(){
-        DestinosDisponibles();
+        //DestinosDisponibles();
         StartCoroutine(WifiDisponibles());
     }
 
