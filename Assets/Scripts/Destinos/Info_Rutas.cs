@@ -29,7 +29,8 @@ public class Info_Rutas : MonoBehaviour
     GameObject textoPunto; //Texto donde se escribe la informacion
     [SerializeField]
     private List<Info_Point> infopoint_especifica;
-
+    //[SerializeField]
+    //TextMeshProUGUI aux;
     static List<string> JsonToList(string jsonData)
     { //Convierte Json a Lista
         string json = jsonData.Substring(1, jsonData.Length - 2);
@@ -61,55 +62,7 @@ public class Info_Rutas : MonoBehaviour
         }
         return strings;
     }
-    /*
-    IEnumerator DestinosDisponibles()
-    { //Obtiene todos los destinos desde la base de datos
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
-        const string port = "3000";
-        const string baseURI = "http://" + IP + ":" + port + "/api/";
-
-        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points");
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Error post: " + www.error);
-        }
-        else
-        {
-            // Recuperar JSON
-            string response = www.downloadHandler.text;
-            // Obtener listado de puntos
-            List<string> data = JsonToList(response);
-            // Transformar JSON a Point
-            List<Point> points = new List<Point>();
-            foreach (string dato in data)
-            {
-                points.Add(JsonUtility.FromJson<Point>(dato));
-            }
-            // Entregar resultados
-            foreach (Point point in points)
-            {
-                if (point.tipo != "especial")
-                {
-                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                    texto.transform.parent = contenido.transform;
-                    texto.transform.localPosition = Vector3.zero;
-                    texto.transform.localScale = Vector3.one;
-                    Debug.Log(point.tipo);
-                }
-            }
-        }
-    }
-    */
-
-    /* public void GetInput(TMP_InputField s)
-     { //Obtener valor input
-         inputText = s.text;
-         StartCoroutine(FindPointData(inputText));
-     }*/
-
+   
     private void Start()
     {
         Ubi_actual.text = "Cañon";
@@ -122,6 +75,7 @@ public class Info_Rutas : MonoBehaviour
     {
         StartCoroutine(FindPointInfo(Ubi_actual.text));
     }
+
 
 
     /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
@@ -164,16 +118,68 @@ public class Info_Rutas : MonoBehaviour
      } */
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
+        string aux = "True";
+        infopoint_especifica = new List<Info_Point>();
+        //const string IP = "144.22.42.236";
+        const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
-
         UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
+        if (aux == "false")
+        {
+            UnityWebRequest game = UnityWebRequest.Get(baseURI + "points/" + name + "/juego");
+            yield return game.SendWebRequest();
+            if (game.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Error post: info_rutas" + game.error);
+            }
+            else
+            {
+                try
+                {
+                    Debug.Log("Entre al primero333");
+                    // Recuperar JSON
+                    string response = game.downloadHandler.text;
+                    //Point Infopoint = JsonUtility.FromJson<Point>(response);
+                    // Obtener listado de puntos
+                    Debug.Log(response);
+
+                    List<string> pointlist_juego = JsonToList(response);
+                    foreach (string info_juego in pointlist_juego)
+                    {
+                        Info_Point point = JsonUtility.FromJson<Info_Point>(info_juego);
+                        Debug.Log("point: " + point.imagen);
+                        infopoint_especifica.Add(point);
+                    }
+                    foreach (Info_Point point in infopoint_especifica)
+                    {
+                        Debug.Log("url:" + point.imagen + "\ndescripcion: " + point.descripcion + "\nidPOINT: " + point.ID_Point);
+                        Debug.Log("entre al segundo for");
+                        GameObject cada_point = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                        TextMeshProUGUI descripcion = cada_point.GetComponentInChildren<TextMeshProUGUI>();
+                        //Image miImagen = cada_point.GetComponentInChildren<Image>();
+                        Debug.Log(descripcion);
+                        StartCoroutine(CargarImagen(point.imagen, cada_point));
+                        descripcion.text = point.descripcion;
+                        cada_point.transform.parent = contenido.transform;
+                        cada_point.transform.localPosition = Vector3.zero;
+                        cada_point.transform.localScale = Vector3.one;
+                        //Debug.Log("Parte 2 \n");
+                    }
+                }
+                catch
+                {
+                    Debug.Log("Entre al segundo");
+                    OpenDetalle();
+                    textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
+                }
+            }
+
+        }
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Error post: " + www.error);
+            Debug.Log("Error post: info_rutas2 " + www.error);
         }
         else
         {
@@ -186,13 +192,11 @@ public class Info_Rutas : MonoBehaviour
                 // Obtener listado de puntos
                 Debug.Log("estoy aqui 1");
                 Debug.Log(response);
-
+                infopoint_especifica.Clear();
                 List<string> pointlist_total = JsonToList(response);
                 // Transformar JSON a Point
-                infopoint_especifica = new List<Info_Point>();
                 Debug.Log("estoy aqui 2");
                 Debug.Log(pointlist_total.Count);
-                infopoint_especifica.Clear();
                 foreach (string info in pointlist_total)
                 {
                     Info_Point point = JsonUtility.FromJson<Info_Point>(info);
