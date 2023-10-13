@@ -181,8 +181,10 @@ public class API : MonoBehaviour
         // Crear formulario
         WWWForm form = new WWWForm();
         // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
-        form.AddField("x", "-33.0348");
-        form.AddField("y", "-71.59656");
+        //form.AddField("x", "-33.0348");
+        //form.AddField("y", "-71.59656");
+        form.AddField("x", xPos);
+        form.AddField("y", yPos);
         // Pedir listado de puntos cercanos
         StartCoroutine(APIHelper.POST("points/nearby", form, response => {
             List<string> points = listJson(response);
