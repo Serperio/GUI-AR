@@ -533,6 +533,15 @@ namespace ARLocation.MapboxRoutes
             BuildRoute(res);
         }
 
+        public void LoadCustomRoute(RouteV2 route)
+        {
+            var res = new RouteResponse();
+            res.routes = new List<Route> { route.ToMapboxRoute() };
+            res.waypoints = route.GetWaypoints();
+
+            BuildRoute(res);
+        }
+
         /// <summary>
         /// Loads a route defined a start and end `Waypoint`s, and calls a given callback when the route is loaded.
         /// </summary>

@@ -22,8 +22,8 @@ namespace ARLocation.MapboxRoutes
             caminoEnPuntos = new List<Point>();
             float[] init_point_aux = myPositionGPS.GetLastPosition(); //Array latitude and longitude [0] [1]
             Puntito init_point = new Puntito("Inicial", init_point_aux[0], init_point_aux[1]);
-            init_point.latitud = -33.03481;
-            init_point.longitud = -71.59657;
+            init_point.latitud = -33.04028;
+            init_point.longitud = -71.59032;
             Puntito last_point = new Puntito("Error", 0, 0);
             StartCoroutine(APIHelper.GET("points", response =>
             {
@@ -40,9 +40,10 @@ namespace ARLocation.MapboxRoutes
                 foreach (Point point in points)
                 {
                     //Los demas puntos :)
-                    if (point.name == name)
+                    if (point.name == name) // Punto final
                     {
-                        last_point = new Puntito(point._id, point.x, point.y,point.name);
+                        Debug.Log("guardando last point");
+                        last_point = new Puntito(point._id, point.x, point.y, point.name);
                         vertices.Add(last_point);
                         string[] auxVecinos = point.vecinos;
                         foreach (string a in auxVecinos)
@@ -55,12 +56,14 @@ namespace ARLocation.MapboxRoutes
                                     b.Vecinos.Add(new Vecino(b, last_point));
                                 }
                             }
-                        }                        
+                        }
                     }
                     else
                     {
+                        // Crear punto
                         Puntito puntitoAux = new Puntito(point._id, point.x, point.y, point.name);
                         vertices.Add(puntitoAux);
+                        // Crear vecinos
                         string[] auxVecinos = point.vecinos;
                         foreach (string a in auxVecinos)
                         {
@@ -75,23 +78,27 @@ namespace ARLocation.MapboxRoutes
                         }
                     }
                 }
-                foreach(Puntito auxPuntito in vertices)
+                // Unir punto actual con punto mas cercano
+                foreach (Puntito auxPuntito in vertices)
                 {
-                    if (auxPuntito.nombre == "testpoint")
+                    if (auxPuntito.nombre == "pieza")
                     {
                         init_point.Vecinos.Add(new Vecino(init_point, auxPuntito));
                     }
                 }
-                foreach(Puntito auxprint in vertices)
+                // imprimir vecinos de cada punto
+                foreach (Puntito auxprint in vertices)
                 {
                     string aux = "";
-                    foreach(Vecino vecino in auxprint.Vecinos)
+                    foreach (Vecino vecino in auxprint.Vecinos)
                     {
-                        aux+=vecino.Actual.nombre;
+                        aux += vecino.Actual.nombre;
                     }
-                    print(auxprint.nombre+":"+aux);
+                    print(auxprint.nombre + ":" + aux);
                 }
+                print("@"+vertices[vertices.Count - 1].Vecinos[0].Actual.nombre);
                 //init_point.Vecinos.Add(new Vecino(init_point, last_point)); //->Jarcodear init point a un punto existente
+                //Debug.Log("@"+vertices.Count);
                 List<Puntito> camino = Dijkstra.FindShortestPath(vertices, init_point, last_point);
                 foreach (Puntito puntito in camino)
                 {
