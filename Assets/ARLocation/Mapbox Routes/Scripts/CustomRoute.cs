@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
 
 namespace ARLocation.MapboxRoutes
 {
     [CreateAssetMenu(fileName = "CustomRoute", menuName = "AR+GPS/Route")]
-    public class CustomRoute : MonoBehaviour
+    public class CustomRoute : ScriptableObject
     {
         [System.Serializable]
         public class Point
@@ -61,6 +60,7 @@ namespace ARLocation.MapboxRoutes
                 Points[Points.Count - 1].IsStep = true;
             }
         }
+
         public List<Waypoint> GetWaypoints()
         {
             var result = new List<Waypoint>();
@@ -75,6 +75,7 @@ namespace ARLocation.MapboxRoutes
 
             return result;
         }
+
         public Route ToMapboxRoute()
         {
             var route = new Route { };
@@ -104,20 +105,6 @@ namespace ARLocation.MapboxRoutes
             }
 
             return route;
-        }
-        public void makePoint(string name, float latitude, float longitude)
-        {
-            Points.Add(new Point { });
-            modifyPoint(Points.Count-1, name,latitude,longitude);
-        }
-        public void modifyPoint(int indice, string name, float latitude, float longitude)
-        {
-            Points[indice].Name = name;
-            Location locationAux= new Location();
-            locationAux.Latitude = latitude;
-            locationAux.Longitude = longitude;
-            locationAux.AltitudeMode = AltitudeMode.DeviceRelative;
-            Points[indice].Location = locationAux;
         }
     }
 }

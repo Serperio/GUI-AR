@@ -83,7 +83,7 @@ public class MyPositionGPS : MonoBehaviour
         }
 
         // Iniciar la obtencion de la ubicacion
-        Input.location.Start();
+        Input.location.Start(5f,5f);
 
         // Esperar hasta que se obtenga una ubicacion valida
         while (Input.location.status == LocationServiceStatus.Initializing)

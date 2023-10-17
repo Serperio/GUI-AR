@@ -7,6 +7,8 @@ public class MapRouteAPI : MonoBehaviour
     [SerializeField]
     // Codigo para generar rutas custom por codigo
     ARLocation.MapboxRoutes.RutaCustomAPI rutaCustomAPI;
+    [SerializeField]
+    MyPositionGPS myPositionGPS;
 
     public void generarRuta(string name)
     {
@@ -15,13 +17,15 @@ public class MapRouteAPI : MonoBehaviour
             // Obtener listado de puntos en formato List<Point> a partir de json
             List<Point> puntosRecuperados = pointsFromJsonList(response);
 
+            float[] position = myPositionGPS.GetLastPosition();
             // Convertir de List<Point> a formato de Dijkstra
-            List<Puntito> vertices = puntitosFromPointList(puntosRecuperados, -33.04028f, -71.59032f);
+            List<Puntito> vertices = puntitosFromPointList(puntosRecuperados, position[0], position[1]);
             
             // Encontrar punto final
             int verticeFinalCamino = getIndexFromListByName(vertices, name);
 
             // Generar ruta de Dijkstra
+            /*
             List<Puntito> ruta = Dijkstra.FindShortestPath(vertices, vertices[0], vertices[verticeFinalCamino]);
 
             // Imprimir ruta
@@ -31,6 +35,8 @@ public class MapRouteAPI : MonoBehaviour
                 textoRuta += punto.nombre+"->";
             }
             printf(textoRuta);
+            */
+            List<Puntito> ruta = new List<Puntito>();
             // Cargar ejecutar ruta en mapbox
             rutaCustomAPI.LoadRoute(ruta);
         }));
@@ -47,7 +53,7 @@ public class MapRouteAPI : MonoBehaviour
         int verticeActual = 1; // indice del vertice actual para no tener que buscarlo
         foreach (Point punto in puntos)
         {
-            if(punto.name == "pieza" || punto.name == "patio") // Puntos permitido para probar
+            if(punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@P223") // Puntos permitido para probar
             {
                 // Crear el vertice
                 vertices.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
@@ -71,7 +77,7 @@ public class MapRouteAPI : MonoBehaviour
             }
         }
         // agregar vecino del punto inicial al punto mas cercano
-        int indicePuntoCercano = getIndexFromListByName(vertices, "pieza");
+        int indicePuntoCercano = getIndexFromListByName(vertices, "@Escalera1");
         vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
         vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
 

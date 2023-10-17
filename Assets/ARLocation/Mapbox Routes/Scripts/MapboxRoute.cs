@@ -3,9 +3,9 @@ using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 
+
 namespace ARLocation.MapboxRoutes
 {
-    //public class MapboxRoute : ScriptableObject
     public class MapboxRoute : MonoBehaviour
     {
         // ================================================================================ //
@@ -247,7 +247,7 @@ namespace ARLocation.MapboxRoutes
             }
         }
 
-        private void clearRoute()
+        public void clearRoute()
         {
             foreach (var signpostInstances in s.SignPostInstances)
             {

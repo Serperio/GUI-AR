@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f3ef57f122164deba0f4502244ca1ae, type: 3}
+  m_Name: CustomRoute
+  m_EditorClassIdentifier: 
+  Name: 
+  Points:
+  - Location:
+      Latitude: -33.0367504236203
+      Longitude: -71.5944565787624
+      Altitude: 0
+      AltitudeMode: 1
+      Label: 
+    IsStep: 1
+    Name: Labux
+    Instruction: Labux
+  - Location:
+      Latitude: -33.03660448295994
+      Longitude: -71.5945859757019
+      Altitude: 0
+      AltitudeMode: 1
+      Label: 
+    IsStep: 1
+    Name: Escalera
+    Instruction: Escalera
+  - Location:
+      Latitude: -33.03668277134281
+      Longitude: -71.59427691596538
+      Altitude: 0
+      AltitudeMode: 1
+      Label: 
+    IsStep: 1
+    Name: P223
+    Instruction: P223
+  SceneViewScale: 1
