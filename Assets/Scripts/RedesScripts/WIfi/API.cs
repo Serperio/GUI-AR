@@ -153,19 +153,22 @@ public class API : MonoBehaviour
         yield return StartCoroutine(APIHelper.POST("points/" + nombreAntiguo + "/delete", form));
         // Request para guardar el punto
         WWWForm form2 = new WWWForm();
-        form2.AddField("x", x.ToString().Replace(",","."));
+        form2.AddField("x", x.ToString().Replace(",", "."));
         form2.AddField("y", y.ToString().Replace(",", "."));
         form2.AddField("floor", piso.ToString());
         form2.AddField("tipo", tipo);
         form2.AddField("name", name);
         form2.AddField("description", description);
-        yield return StartCoroutine(APIHelper.POST("points/add", form2));
+        yield return StartCoroutine(APIHelper.POST("points/add", form2, response => {
+            editDropdown.CargarMenuEditar();
+        }));
         //Request para guardar vecinos
         WWWForm form3 = new WWWForm();
         form3.AddField("origen", name);
         form3.AddField("vecinos", vecinos);
         Utilities._ShowAndroidToastMessage("Actualizando vecinos...");
         StartCoroutine(APIHelper.POST("points/addArc", form3));
+        
     }
 
     public void ActualizarPuntoDB(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)

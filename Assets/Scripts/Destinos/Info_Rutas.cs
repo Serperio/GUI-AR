@@ -118,9 +118,10 @@ public class Info_Rutas : MonoBehaviour
 
     }
 
-    private void UpdatePointData()
+    public void UpdatePointData()
     {
-        StartCoroutine(FindPointInfo(Ubi_actual.text));
+        StartCoroutine(FindPointInfo(Ubi_actual.text.Substring(4)));
+        //StartCoroutine(FindPointInfo());
     }
 
     /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
@@ -167,8 +168,8 @@ public class Info_Rutas : MonoBehaviour
         //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
-
         UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
+        print("@asdasd|" + name);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -221,9 +222,7 @@ public class Info_Rutas : MonoBehaviour
                 OpenDetalle();
                 textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
             }
-
         }
-        //StartCoroutine(FindPointData(name));
     }
     IEnumerator CargarImagen(string url, GameObject objeto /*,GameObject loadingMessage*/)
     {

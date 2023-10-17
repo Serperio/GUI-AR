@@ -6,12 +6,21 @@ namespace ARLocation.MapboxRoutes
 {
     public class RutaCustomAPI : MonoBehaviour
     {
-
+        [SerializeField]
+        GameObject botonCerrarRuta;
         public MapboxRoute mapbox;
 
         public void LoadRoute(List<Puntito> puntos)
         {
-            mapbox.GetComponent<MapboxRoute>().LoadCustomRoute(getRoute(puntos));
+            botonCerrarRuta.SetActive(true);
+            mapbox.gameObject.SetActive(true);
+            //mapbox.GetComponent<MapboxRoute>().LoadCustomRoute(getRoute(puntos));
+        }
+
+        public void DeleteRoute()
+        {
+            mapbox.GetComponent<MapboxRoute>().clearRoute();
+            mapbox.gameObject.SetActive(false);
         }
 
         public static RouteV2 getRoute(List<Puntito> puntos)
