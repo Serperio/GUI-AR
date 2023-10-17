@@ -55,6 +55,8 @@ public class API : MonoBehaviour
     public TextMeshProUGUI estadoWifiDB; //Texto para mostrar el estado del guardado de datos de wifi en la DB
     [SerializeField]
     TMP_InputField descripcionInput;
+    [SerializeField]
+    TMP_InputField sedeInput;
 
     [SerializeField]
     public MyPositionGPS GPS_handler; // Deberia ser singleton
@@ -67,6 +69,8 @@ public class API : MonoBehaviour
 
     public List<Point> _pointlist = new List<Point>();
     public Prediccion pred;
+
+    string ultimaSede = null;
 
     // Guardar datos para generar dataset de puntos wifi
     //  asociados a un piso en la coleccion beta
@@ -110,6 +114,7 @@ public class API : MonoBehaviour
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
         form.AddField("description", descripcionInput.text);
+        form.AddField("sede", sedeInput.text);
         yield return StartCoroutine(APIHelper.POST("points/add", form));
 
         GuardarVecinos(nameInput.text);
@@ -283,27 +288,53 @@ public class API : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        // Actualizar lista
-        StartCoroutine(APIHelper.GET("points", response => {
-            // Obtener listado de puntos
-            List<string> data = listJson(response);
-            // Transformar JSON a Point
-            List<Point> points = new List<Point>();
-            foreach (string dato in data)
+        StartCoroutine(APIHelper.GET("sedes", response => {
+            // Obtener sedes
+            List<string> jsons = listJson(response);
+            List<Sede> sedes = new List<Sede>();
+            foreach(string json in jsons)
             {
-                points.Add(JsonUtility.FromJson<Point>(dato));
+                sedes.Add(JsonUtility.FromJson<Sede>(json));
             }
-            // Entregar resultados
-            foreach (Point point in points)
+            // Encontrar sede actual
+            float[] lastPost = GPS_handler.GetLastPosition();
+            foreach (Sede sede in sedes)
             {
-                if (point.tipo != "especial")
+                if (sede.inSede(lastPost[0], lastPost[1]))
                 {
-                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                    texto.transform.parent = contenido.transform;
-                    texto.transform.localPosition = Vector3.zero;
-                    texto.transform.localScale = Vector3.one;
+                    ultimaSede = sede.name;
                 }
+            }
+
+            if (ultimaSede != null)
+            {
+
+                // Actualizar lista
+                StartCoroutine(APIHelper.GET("points/sede/"+ultimaSede, response => {
+                    // Obtener listado de puntos
+                    List<string> data = listJson(response);
+                    // Transformar JSON a Point
+                    List<Point> points = new List<Point>();
+                    foreach (string dato in data)
+                    {
+                        points.Add(JsonUtility.FromJson<Point>(dato));
+                    }
+                    // Entregar resultados
+                    foreach (Point point in points)
+                    {
+                        if (point.tipo != "especial")
+                        {
+                            GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                            texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                            texto.transform.parent = contenido.transform;
+                            texto.transform.localPosition = Vector3.zero;
+                            texto.transform.localScale = Vector3.one;
+                        }
+                    }
+                }));
+            } else
+            {
+                Utilities._ShowAndroidToastMessage("No se detecto sede");
             }
         }));
     }
@@ -394,6 +425,21 @@ public class API : MonoBehaviour
         string piso = inputCambiarPiso.text;
         npiso.text = "Numero de piso: " + piso;
         npiso2.text = "Numero de piso: " + piso;
+    }
+
+    public class Sede
+    {
+        public string name;
+        public float latitude1;
+        public float longitude1;
+        public float latitude2;
+        public float longitude2;
+
+        public bool inSede(float lat, float lon)
+        {
+            // Ver si esta dentro de la caja de la sede
+            return (lat > latitude1 && lat < latitude2 && lon > longitude1 && lon < longitude2);
+        }
     }
     // Agregar a utilites
     

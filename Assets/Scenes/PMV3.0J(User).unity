@@ -24590,6 +24590,7 @@ MonoBehaviour:
   edificioDatasetInput: {fileID: 0}
   estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
+  sedeInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
   NearbyScroll: {fileID: 0}
@@ -48405,6 +48406,7 @@ MonoBehaviour:
   edificioDatasetInput: {fileID: 2054918459}
   estadoWifiDB: {fileID: 699429236}
   descripcionInput: {fileID: 99175992}
+  sedeInput: {fileID: 0}
   GPS_handler: {fileID: 1610084573}
   prefabNearby: {fileID: 1347903987953523585, guid: a2bd0e7d5c8e37b4794af1cd4177d67d,
     type: 3}
