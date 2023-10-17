@@ -18,6 +18,8 @@ public class MyPositionGPS : MonoBehaviour
     private float _lastLatitude;
     private float _lastLongitude;
 
+    private string sede;
+
     //Lista con los puntos que quedan por recorrer
     List<Punto> puntos = new List<Punto>();
 
