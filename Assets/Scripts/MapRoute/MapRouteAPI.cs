@@ -7,11 +7,22 @@ public class MapRouteAPI : MonoBehaviour
     [SerializeField]
     // Codigo para generar rutas custom por codigo
     ARLocation.MapboxRoutes.RutaCustomAPI rutaCustomAPI;
+
     [SerializeField]
     MyPositionGPS myPositionGPS;
 
+    private List<Puntito> ultimaRuta;
+    private List<string> puntosProhibidos = new List<string>();
+    private string lastName = "";
+    private bool escalerasPermitidas = true;
+
+    [SerializeField]
+    GameObject popUpNoExisteRuta;
+
+
     public void generarRuta(string name)
     {
+        lastName = name;
         // Recuperar datos desde la api
         StartCoroutine(APIHelper.GET("points", response => {
             // Obtener listado de puntos en formato List<Point> a partir de json
@@ -25,8 +36,15 @@ public class MapRouteAPI : MonoBehaviour
             int verticeFinalCamino = getIndexFromListByName(vertices, name);
 
             // Generar ruta de Dijkstra
-            /*
-            List<Puntito> ruta = Dijkstra.FindShortestPath(vertices, vertices[0], vertices[verticeFinalCamino]);
+            List<Puntito> ruta = new List<Puntito>();
+            try
+            {
+                 ruta = Dijkstra.FindShortestPath(vertices, vertices[0], vertices[verticeFinalCamino]);
+            }
+            catch
+            {
+                popUpNoExisteRuta.SetActive(true);
+            }
 
             // Imprimir ruta
             string textoRuta = "";
@@ -35,11 +53,26 @@ public class MapRouteAPI : MonoBehaviour
                 textoRuta += punto.nombre+"->";
             }
             printf(textoRuta);
-            */
-            List<Puntito> ruta = new List<Puntito>();
+
+            //List<Puntito> ruta = new List<Puntito>();
+
+            // Guardar ultima ruta encontrada
+            ultimaRuta = ruta;
+
             // Cargar ejecutar ruta en mapbox
             rutaCustomAPI.LoadRoute(ruta);
         }));
+    }
+
+    public List<Puntito> getLastRoute()
+    {
+        return ultimaRuta;
+    }
+
+    public void LoadPuntosProhibidos(List<string> puntos)
+    {
+        puntosProhibidos = puntos;
+        generarRuta(lastName);
     }
 
     private List<Puntito> puntitosFromPointList(List<Point> puntos, float latitud, float longitud)
@@ -53,8 +86,13 @@ public class MapRouteAPI : MonoBehaviour
         int verticeActual = 1; // indice del vertice actual para no tener que buscarlo
         foreach (Point punto in puntos)
         {
-            if(punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@P223") // Puntos permitido para probar
+            // Puntos permitido para probar para evitar que el algoritmo falle
+            if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223") 
             {
+                // Filtro de puntos prohibidos
+                if (puntosProhibidos.Contains(punto.name)) continue;
+                // Saltarse las escaleras
+                if (escalerasPermitidas == false && punto.tipo == "Escalera") continue;
                 // Crear el vertice
                 vertices.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
                 // Revisar si tiene vecinos
@@ -77,11 +115,16 @@ public class MapRouteAPI : MonoBehaviour
             }
         }
         // agregar vecino del punto inicial al punto mas cercano
-        int indicePuntoCercano = getIndexFromListByName(vertices, "@Escalera1");
+        int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
         vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
         vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
 
         return vertices;
+    }
+
+    public void setEscalerasPermitidas (bool permitido)
+    {
+        escalerasPermitidas = permitido;
     }
 
     private int getIndexFromListByName(List<Puntito> puntos, string nombre)

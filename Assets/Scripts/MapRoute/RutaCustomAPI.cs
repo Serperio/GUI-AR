@@ -8,11 +8,14 @@ namespace ARLocation.MapboxRoutes
     {
         [SerializeField]
         GameObject botonCerrarRuta;
+        [SerializeField]
+        GameObject botonActualizarRuta;
         public MapboxRoute mapbox;
 
         public void LoadRoute(List<Puntito> puntos)
         {
             botonCerrarRuta.SetActive(true);
+            botonActualizarRuta.SetActive(true);
             mapbox.gameObject.SetActive(true);
             //mapbox.GetComponent<MapboxRoute>().LoadCustomRoute(getRoute(puntos));
         }
