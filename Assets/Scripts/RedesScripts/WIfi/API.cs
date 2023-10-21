@@ -306,6 +306,9 @@ public class API : MonoBehaviour
                 }
             }
 
+            // Solo para debug ------------------
+            if (lastPost[0] == 0) ultimaSede = "CC";
+
             if (ultimaSede != null)
             {
 
