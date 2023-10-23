@@ -114,12 +114,13 @@ public class Info_Rutas : MonoBehaviour
     {
         //Ubi_actual.text = "Cañon";
         //InvokeRepeating("UpdatePointData", 0f, 10f);
-        UpdatePointData();
+        Ubi_actual.text = "Cañon";
+        InvokeRepeating("UpdatePointData", 1.0f, 2.0f);
 
     }
-
     private void UpdatePointData()
     {
+        infopoint_especifica.Clear();
         StartCoroutine(FindPointInfo(Ubi_actual.text));
     }
 
@@ -163,65 +164,75 @@ public class Info_Rutas : MonoBehaviour
      } */
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
-        const string port = "3000";
-        const string baseURI = "http://" + IP + ":" + port + "/api/";
-
-        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
+        if (name != "Cañon")
         {
-            Debug.Log("Error post: " + www.error);
+            infopoint_especifica.Clear();
+            Debug.Log("AAAA");
         }
         else
         {
-            try
+
+
+            const string IP = "144.22.42.236";
+            //const string IP = "localhost";
+            const string port = "3000";
+            const string baseURI = "http://" + IP + ":" + port + "/api/";
+
+            UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("Entre al primero222");
-                // Recuperar JSON
-                string response = www.downloadHandler.text;
-                //Point Infopoint = JsonUtility.FromJson<Point>(response);
-                // Obtener listado de puntos
-                Debug.Log("estoy aqui 1");
-                Debug.Log(response);
-
-                List<string> pointlist_total = JsonToList(response);
-                // Transformar JSON a Point
-                infopoint_especifica = new List<Info_Point>();
-                Debug.Log("estoy aqui 2");
-                Debug.Log(pointlist_total.Count);
-                infopoint_especifica.Clear();
-                foreach (string info in pointlist_total)
-                {
-                    Info_Point point = JsonUtility.FromJson<Info_Point>(info);
-                    Debug.Log("point: " + point.imagen);
-                    infopoint_especifica.Add(point);
-                }
-                foreach (Info_Point point in infopoint_especifica)
-                {
-                    Debug.Log("url:" + point.imagen + "\ndescripcion: " + point.descripcion + "\nidPOINT: " + point.ID_Point);
-                    Debug.Log("entre al segundo for");
-                    GameObject cada_point = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                    TextMeshProUGUI descripcion = cada_point.GetComponentInChildren<TextMeshProUGUI>();
-                    //Image miImagen = cada_point.GetComponentInChildren<Image>();
-                    Debug.Log(descripcion);
-                    StartCoroutine(CargarImagen(point.imagen, cada_point));
-                    descripcion.text = point.descripcion;
-
-                    cada_point.transform.parent = contenido.transform;
-                    cada_point.transform.localPosition = Vector3.zero;
-                    cada_point.transform.localScale = Vector3.one;
-                    //Debug.Log("Parte 2 \n");
-                }
+                Debug.Log("Error post: " + www.error);
             }
-            catch
+            else
             {
-                Debug.Log("Entre al segundo");
-                OpenDetalle();
-                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
-            }
+                try
+                {
+                    Debug.Log("Entre al primero222");
+                    // Recuperar JSON
+                    string response = www.downloadHandler.text;
+                    //Point Infopoint = JsonUtility.FromJson<Point>(response);
+                    // Obtener listado de puntos
+                    Debug.Log("estoy aqui 1");
+                    Debug.Log(response);
 
+                    List<string> pointlist_total = JsonToList(response);
+                    // Transformar JSON a Point
+                    infopoint_especifica = new List<Info_Point>();
+                    Debug.Log("estoy aqui 2");
+                    Debug.Log(pointlist_total.Count);
+                    infopoint_especifica.Clear();
+                    foreach (string info in pointlist_total)
+                    {
+                        Info_Point point = JsonUtility.FromJson<Info_Point>(info);
+                        Debug.Log("point: " + point.imagen);
+                        infopoint_especifica.Add(point);
+                    }
+                    foreach (Info_Point point in infopoint_especifica)
+                    {
+                        Debug.Log("url:" + point.imagen + "\ndescripcion: " + point.descripcion + "\nidPOINT: " + point.ID_Point);
+                        Debug.Log("entre al segundo for");
+                        GameObject cada_point = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                        TextMeshProUGUI descripcion = cada_point.GetComponentInChildren<TextMeshProUGUI>();
+                        //Image miImagen = cada_point.GetComponentInChildren<Image>();
+                        Debug.Log(descripcion);
+                        StartCoroutine(CargarImagen(point.imagen, cada_point));
+                        descripcion.text = point.descripcion;
+
+                        cada_point.transform.parent = contenido.transform;
+                        cada_point.transform.localPosition = Vector3.zero;
+                        cada_point.transform.localScale = Vector3.one;
+                        //Debug.Log("Parte 2 \n");
+                    }
+                }
+                catch
+                {
+                    Debug.Log("Entre al segundo");
+                    OpenDetalle();
+                    textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
+                }
+
+            }
         }
         //StartCoroutine(FindPointData(name));
     }
