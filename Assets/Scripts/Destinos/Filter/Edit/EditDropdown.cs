@@ -23,7 +23,7 @@ public class EditDropdown : MonoBehaviour
     GameObject Text; //Campo del Input (el boton para cada cosa)
     private int? selectedValuePiso; // Variable para almacenar el valor seleccionado del Dropdown de Piso
     private string selectedValueEdificio; // Variable para almacenar el valor seleccionado del Dropdown de Edificio
-
+    List<Point> points = new List<Point>();
     private void Start()
     {
         Debug.Log("iniciooo");
@@ -93,6 +93,7 @@ public class EditDropdown : MonoBehaviour
             Debug.Log("borrando: " + child.gameObject);
             Destroy(child.gameObject);
         }
+        points.Clear();
     }
     /*
     private void OnDropdownValueChanged(TMP_Dropdown dropdown, ref int selectedValue)
@@ -186,8 +187,9 @@ public class EditDropdown : MonoBehaviour
 
     IEnumerator DestinosDisponiblesFilter(int? filtroPiso, string filtroEdificio)
     {
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
+        points.Clear();
+        //const string IP = "144.22.42.236";
+        const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
 
@@ -204,7 +206,6 @@ public class EditDropdown : MonoBehaviour
             // Obtener listado de puntos
             List<string> data = JsonToList(response);
             // Transformar JSON a Point
-            List<Point> points = new List<Point>();
             foreach (string dato in data)
             {
                 Point point = JsonUtility.FromJson<Point>(dato);
@@ -261,12 +262,22 @@ public class EditDropdown : MonoBehaviour
 
     IEnumerator DestinosDisponibles()
     { //Obtiene todos los destinos desde la base de datos
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
+        //const string IP = "144.22.42.236";
+
+        // Limpiar la lista actual de puntos
+        foreach (Transform child in contenido_filter.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        points.Clear();
+
+        const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
-
-        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points");
+        long timestamp = System.DateTime.Now.Ticks; // Genera una marca de tiempo única
+        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points?timestamp=" + timestamp);
+        www.SetRequestHeader("Cache-Control", "no-cache");
+        Debug.Log("timestap");
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -276,13 +287,14 @@ public class EditDropdown : MonoBehaviour
         {
             // Recuperar JSON
             string response = www.downloadHandler.text;
+            Debug.Log(response);
             // Obtener listado de puntos
             List<string> data = JsonToList(response);
             // Transformar JSON a Point
-            List<Point> points = new List<Point>();
             foreach (string dato in data)
             {
                 points.Add(JsonUtility.FromJson<Point>(dato));
+                Debug.Log("añadido:" + dato);
             }
             // Entregar resultados
             foreach (Point point in points)
@@ -307,6 +319,7 @@ public class EditDropdown : MonoBehaviour
         SinFiltro_Seccion.gameObject.SetActive(true);
         erase_content();
         StartCoroutine(DestinosDisponibles());
+        Debug.Log("genere los destinos");
         dropdownPiso.value = 0; // Establecer el valor seleccionado del dropdownPiso en -1 (ninguna selección)
         dropdownEdificio.value = 0;
         dropdownPiso.RefreshShownValue(); // Actualizar el valor mostrado en el dropdown
