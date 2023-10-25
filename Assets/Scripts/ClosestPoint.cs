@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Globalization;
 
 public class ClosestPoint : MonoBehaviour
 {
@@ -14,13 +16,61 @@ public class ClosestPoint : MonoBehaviour
     API api;
     [SerializeField]
     MyPositionGPS gpsloc;
+    [SerializeField]
+    TextMeshProUGUI mensajeFinal;
+    [SerializeField]
+    GameObject panelErrorDB;
     List<Point> pointList1;
     List<Point> pointList;
+    private System.DateTime fecha;
 
     // Start is called before the first frame update
     void Start()
     {
+        SubirDummyInteres();
         StartCoroutine(NearestPoint());
+    }
+    
+    public void SubirDummyInteres()
+    {
+        StartCoroutine(EnviarDataPuntoInteres("dummy1", (float)-33.03518, (float)-71.59681));
+        EnviarDataPuntoInteres("dummy2", (float)-33.03481, (float)-71.59657);
+        EnviarDataPuntoInteres("dummy3", (float)-33.036278, (float)-71.5957897);
+    }
+
+    public IEnumerator EnviarDataPuntoInteres(string name, float latitud, float longitud)
+    {
+        //const string IP = "144.22.42.236";
+        //Debug.Log("Inicio: "+PuntoInicial+"\nfinal: "+PuntoFinal+"\Fecha+hora: "+Fecha);
+        const string IP = "144.22.42.236";
+        const string port = "3000";
+        const string baseURI = "http://"+IP+":"+port+"/api/";
+        // Crear formulario
+        fecha = System.DateTime.Now;
+        print("ENVOLA FUNCIONAAA SIONO");
+        print("fecha es: "+fecha);
+        WWWForm form = new WWWForm();
+        form.AddField("nombre", name);
+        form.AddField("longitud", longitud.ToString(CultureInfo.InvariantCulture));
+        form.AddField("latitud", latitud.ToString(CultureInfo.InvariantCulture));
+        form.AddField("fecha", fecha.ToString("dddd, dd MMMM yyyy hh:mm tt"));
+        //Realizar request
+        UnityWebRequest www = UnityWebRequest.Post(baseURI+"puntosinteres/add", form);
+        yield return www.SendWebRequest();
+        // Resolucion de la request
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: "+ www.error);
+            Debug.Log("NO SE PUDO SUBIR INTERESSSSSSSSSSSSSSSSSS");
+            mensajeFinal.text = "Error al Mandar Estadisticas\nBD no disponible";
+            panelErrorDB.SetActive(true);
+        }
+        else
+        {
+            //mensajeFinal.text = "Estadisticas Enviadas!!";
+            Debug.Log("Form upload complete!");
+        }
+        yield break;
     }
 
     public IEnumerator NearestPoint()
@@ -36,9 +86,9 @@ public class ClosestPoint : MonoBehaviour
         //closestPointGUI.text= api._pointlist.Count.ToString();
         closestPointGUI.text = "Cargando...";
         closestPointInfo.text = "Cargando...";
-
+        Debug.Log("ENTRAMOS A NEARESTPOINT");
+        //SubirDummyInteres();
         pointList = new List<Point>();
-
 
         foreach (Point point in pointList1)
         {
@@ -46,7 +96,6 @@ public class ClosestPoint : MonoBehaviour
             {
                 pointList.Add(point);
             }
-
         }
 
         foreach (Point point in pointList)
@@ -59,16 +108,19 @@ public class ClosestPoint : MonoBehaviour
                 nearestPoint = point;
             }
         }
-        //closestPointGUI.text = "Entro+2";
         if (nearestPoint != null)
         {
             closestPointGUI.text = "En: " + nearestPoint.name;
             closestPointInfo.text = nearestPoint.name;
+            if(nearestPoint.tipo == "Ruta")
+            {
+                EnviarDataPuntoInteres(nearestPoint.name,latitude,longitude);
+            }
         }
         else
         {
-            closestPointGUI.text = "No se conoce la ubicación";
-            closestPointInfo.text = "No se conoce la ubicación";
+            closestPointGUI.text = "No se conoce la ubicaciï¿½n";
+            closestPointInfo.text = "No se conoce la ubicaciï¿½n";
         }
         StartCoroutine(NearestPoint());
     }

@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/PMV3.0J(User).unity
     guid: f3f5449c019e2f9408fb2f52a0c56d23
   m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 89a6d18d3df8d3e4fa917b0f9a963bc0,
+      type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: de8a8e4f987434338a4b1062feb8d069,
+      type: 2}
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
+      guid: 68bae7ad067a6324dbf4dc67be596353, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
+      guid: f84168800c2ca2f4bb613b8bfd54e672, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: 090e9f5223e888c45bd74b4f5533b265, type: 2}
+    com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 1eb95d77acb39444e8cf44313496a874,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: fc3ec5c8b3ba6dc48b06089dbd407309,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: f2c64e2c1961321438dee4610aff647e,

@@ -34,5 +34,6 @@ public class splitRoute : MonoBehaviour
             listadoRutas += point.name + "\n\n";
         }
         textoEnInterfazRutas.text = listadoRutas;
+        //Debug.Log("WEAS ES SPLITROUTE");
     }
 }

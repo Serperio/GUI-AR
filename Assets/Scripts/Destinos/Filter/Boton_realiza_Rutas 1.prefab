@@ -135,6 +135,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: -8027901390068593076}
+        m_TargetAssemblyTypeName: ARLocation.MapboxRoutes.DetalleBoton, Assembly-CSharp
+        m_MethodName: ObtenerInfoRuta
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &-8027901390068593076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f649dfbfce27ddbcaa67f8ee79fe444e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  api: {fileID: 0}
+  mensajeFinal: {fileID: 0}
 --- !u!1 &7552687807138432732
 GameObject:
   m_ObjectHideFlags: 0

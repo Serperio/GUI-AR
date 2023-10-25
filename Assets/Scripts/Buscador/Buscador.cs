@@ -167,6 +167,8 @@ public class Buscador : MonoBehaviour
                         instancia.GetComponent<RectTransform>().transform.SetParent(listado.transform);
                         instancia.transform.localScale = Vector3.one;
                         instancia.GetComponentInChildren<Text>().text = p.name;
+                        Debug.Log("AQUI ERA LA WEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        Debug.Log("WENAAAAAAAAAA PO VIEJA QLA MARACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+p.tipo);
                     }
                 }
             }
