@@ -3,9 +3,9 @@ using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 
+
 namespace ARLocation.MapboxRoutes
 {
-    //public class MapboxRoute : ScriptableObject
     public class MapboxRoute : MonoBehaviour
     {
         // ================================================================================ //
@@ -247,7 +247,7 @@ namespace ARLocation.MapboxRoutes
             }
         }
 
-        private void clearRoute()
+        public void clearRoute()
         {
             foreach (var signpostInstances in s.SignPostInstances)
             {
@@ -525,6 +525,15 @@ namespace ARLocation.MapboxRoutes
         /// Loads a custom route defined by a `CustomRoute` ScriptableObject.
         /// </summary>
         public void LoadCustomRoute(CustomRoute route)
+        {
+            var res = new RouteResponse();
+            res.routes = new List<Route> { route.ToMapboxRoute() };
+            res.waypoints = route.GetWaypoints();
+
+            BuildRoute(res);
+        }
+
+        public void LoadCustomRoute(RouteV2 route)
         {
             var res = new RouteResponse();
             res.routes = new List<Route> { route.ToMapboxRoute() };

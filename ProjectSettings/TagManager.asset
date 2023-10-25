@@ -8,6 +8,8 @@ TagManager:
   - Arrow
   - NearbyPoint
   - Vecino
+  - FiltroRuta
+  - FiltroEscalera
   layers:
   - Default
   - TransparentFX
