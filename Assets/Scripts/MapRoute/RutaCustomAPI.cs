@@ -10,6 +10,8 @@ namespace ARLocation.MapboxRoutes
         GameObject botonCerrarRuta;
         [SerializeField]
         GameObject botonActualizarRuta;
+
+        public List<Puntito> puntosConEscaleras;
         public MapboxRoute mapbox;
 
         public void LoadRoute(List<Puntito> puntos)
