@@ -32,6 +32,11 @@ public class Buscador : MonoBehaviour
     private int lastFloor;
     private string nombreAntiguo;
 
+    [SerializeField]
+    GameObject listaDeContenido;
+    [SerializeField]
+    GameObject botonDeLaListita;
+
     string inputText; //texto que hay en el Gameobject Text
 
     static List<string> JsonToList(string jsonData){ //Convierte Json a Lista
@@ -105,8 +110,8 @@ public class Buscador : MonoBehaviour
     IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
     {
         Debug.Log("Nombre punto: "+name);
-        const string IP = "144.22.42.236";
-        //const string IP = "localhost";
+        //const string IP = "144.22.42.236";
+        const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         WWWForm form = new WWWForm();
@@ -175,6 +180,50 @@ public class Buscador : MonoBehaviour
     //Dsps Cambiar a UIbehaviour, (comportamiento de botones)
     public void BuscarSitiosDisponibles(){
         StartCoroutine(DestinosDisponibles());
+    }
+
+    public void FiltrarPorNombre(TMP_InputField texto)
+    {
+        StartCoroutine(APIHelper.GET("points", response =>
+        {
+            List<string> jsonPoints = API.listJson(response);
+            List<Point> puntos = new List<Point>(); 
+            foreach(string json in jsonPoints)
+            {
+                puntos.Add(JsonUtility.FromJson<Point>(json));
+            }
+
+            string nombre = texto.text;
+            // Limpiar la listita de contenido
+            foreach (Transform child in listaDeContenido.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (Point p in puntos)
+            {
+                if (p.name.ToLower() == nombre.ToLower())
+                {
+                    foreach (Transform child in listaDeContenido.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                    // Agregarlo a la listita de contenido
+                    GameObject texto2 = Instantiate(botonDeLaListita, Vector3.zero, Quaternion.identity);
+                    texto2.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = p.name;
+                    texto2.transform.parent = listaDeContenido.transform;
+                    texto2.transform.localPosition = Vector3.zero;
+                    texto2.transform.localScale = Vector3.one;
+                }
+                else if (string.IsNullOrEmpty(nombre))
+                {
+                    GameObject texto2 = Instantiate(botonDeLaListita, Vector3.zero, Quaternion.identity);
+                    texto2.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = p.name;
+                    texto2.transform.parent = listaDeContenido.transform;
+                    texto2.transform.localPosition = Vector3.zero;
+                    texto2.transform.localScale = Vector3.one;
+                }
+            }
+        }));
     }
 
     public void ActualizarPunto()

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class API : MonoBehaviour
 {
+    [SerializeField]
+    EditDropdown editDropdown;
     // Variables
     [SerializeField]
     TextMeshProUGUI npiso;
@@ -53,6 +55,8 @@ public class API : MonoBehaviour
     public TextMeshProUGUI estadoWifiDB; //Texto para mostrar el estado del guardado de datos de wifi en la DB
     [SerializeField]
     TMP_InputField descripcionInput;
+    [SerializeField]
+    TMP_InputField sedeInput;
 
     [SerializeField]
     public MyPositionGPS GPS_handler; // Deberia ser singleton
@@ -65,6 +69,8 @@ public class API : MonoBehaviour
 
     public List<Point> _pointlist = new List<Point>();
     public Prediccion pred;
+
+    string ultimaSede = null;
 
     // Guardar datos para generar dataset de puntos wifi
     //  asociados a un piso en la coleccion beta
@@ -108,6 +114,7 @@ public class API : MonoBehaviour
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
         form.AddField("description", descripcionInput.text);
+        form.AddField("sede", sedeInput.text);
         yield return StartCoroutine(APIHelper.POST("points/add", form));
 
         GuardarVecinos(nameInput.text);
@@ -127,6 +134,9 @@ public class API : MonoBehaviour
                 vecinos.Add(vecino);
             }
         }
+
+        //TODO: quitar canvas de agregar punto luego de tener los nombres de los puntos.
+
         // Solo guardar vecinos si realmente hay vecinos
         if (vecinos.Count > 0)
         {
@@ -137,6 +147,8 @@ public class API : MonoBehaviour
             Utilities._ShowAndroidToastMessage("Guardando vecinos");
             StartCoroutine(APIHelper.POST("points/addArc", form));
         }
+
+        
     }
 
     IEnumerator actualizarPunto(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)
@@ -146,19 +158,22 @@ public class API : MonoBehaviour
         yield return StartCoroutine(APIHelper.POST("points/" + nombreAntiguo + "/delete", form));
         // Request para guardar el punto
         WWWForm form2 = new WWWForm();
-        form2.AddField("x", x.ToString().Replace(",","."));
+        form2.AddField("x", x.ToString().Replace(",", "."));
         form2.AddField("y", y.ToString().Replace(",", "."));
         form2.AddField("floor", piso.ToString());
         form2.AddField("tipo", tipo);
         form2.AddField("name", name);
         form2.AddField("description", description);
-        yield return StartCoroutine(APIHelper.POST("points/add", form2));
+        yield return StartCoroutine(APIHelper.POST("points/add", form2, response => {
+            editDropdown.CargarMenuEditar();
+        }));
         //Request para guardar vecinos
         WWWForm form3 = new WWWForm();
         form3.AddField("origen", name);
         form3.AddField("vecinos", vecinos);
         Utilities._ShowAndroidToastMessage("Actualizando vecinos...");
         StartCoroutine(APIHelper.POST("points/addArc", form3));
+        
     }
 
     public void ActualizarPuntoDB(string name, string nombreAntiguo, string description, string tipo, string vecinos, float x, float y, int piso)
@@ -174,8 +189,10 @@ public class API : MonoBehaviour
         // Crear formulario
         WWWForm form = new WWWForm();
         // TODO: Reemplazar por xPos e yPos cuando sea un entorno real
-        form.AddField("x", "0");
-        form.AddField("y", "0");
+        //form.AddField("x", "-33.0348");
+        //form.AddField("y", "-71.59656");
+        form.AddField("x", xPos);
+        form.AddField("y", yPos);
         // Pedir listado de puntos cercanos
         StartCoroutine(APIHelper.POST("points/nearby", form, response => {
             List<string> points = listJson(response);
@@ -223,7 +240,9 @@ public class API : MonoBehaviour
 
     public void BorrarPuntoDB(){
         WWWForm form = new WWWForm();
-        StartCoroutine(APIHelper.POST("points/" + borrarInput.text + "/delete", form));
+        StartCoroutine(APIHelper.POST("points/" + borrarInput.text + "/delete", form, (response)=> {
+            editDropdown.CargarMenuEditar();
+        }));
     }
 
     public void getWifis(List<Network> wifis){
@@ -263,27 +282,62 @@ public class API : MonoBehaviour
         return strings;
     }
 
-    void DestinosDisponibles(){
-        StartCoroutine(APIHelper.GET("points", response => {
-            // Obtener listado de puntos
-            List<string> data = listJson(response);
-            // Transformar JSON a Point
-            List<Point> points = new List<Point>();
-            foreach (string dato in data)
+    public void DestinosDisponibles(){
+        // Limpiar lista
+        foreach(Transform child in contenido.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        StartCoroutine(APIHelper.GET("sedes", response => {
+            // Obtener sedes
+            List<string> jsons = listJson(response);
+            List<Sede> sedes = new List<Sede>();
+            foreach(string json in jsons)
             {
-                points.Add(JsonUtility.FromJson<Point>(dato));
+                sedes.Add(JsonUtility.FromJson<Sede>(json));
             }
-            // Entregar resultados
-            foreach (Point point in points)
+            // Encontrar sede actual
+            float[] lastPost = GPS_handler.GetLastPosition();
+            foreach (Sede sede in sedes)
             {
-                if (point.tipo != "especial")
+                if (sede.inSede(lastPost[0], lastPost[1]))
                 {
-                    GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
-                    texto.transform.parent = contenido.transform;
-                    texto.transform.localPosition = Vector3.zero;
-                    texto.transform.localScale = Vector3.one;
+                    ultimaSede = sede.name;
                 }
+            }
+
+            // Solo para debug ------------------
+            if (lastPost[0] == 0) ultimaSede = "CC";
+
+            if (ultimaSede != null)
+            {
+
+                // Actualizar lista
+                StartCoroutine(APIHelper.GET("points/sede/"+ultimaSede, response => {
+                    // Obtener listado de puntos
+                    List<string> data = listJson(response);
+                    // Transformar JSON a Point
+                    List<Point> points = new List<Point>();
+                    foreach (string dato in data)
+                    {
+                        points.Add(JsonUtility.FromJson<Point>(dato));
+                    }
+                    // Entregar resultados
+                    foreach (Point point in points)
+                    {
+                        if (point.tipo != "especial")
+                        {
+                            GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                            texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                            texto.transform.parent = contenido.transform;
+                            texto.transform.localPosition = Vector3.zero;
+                            texto.transform.localScale = Vector3.one;
+                        }
+                    }
+                }));
+            } else
+            {
+                Utilities._ShowAndroidToastMessage("No se detecto sede");
             }
         }));
     }
@@ -353,7 +407,7 @@ public class API : MonoBehaviour
         }
 
     public void Start(){
-        DestinosDisponibles();
+        //DestinosDisponibles();
         StartCoroutine(WifiDisponibles());
     }
 
@@ -374,6 +428,21 @@ public class API : MonoBehaviour
         string piso = inputCambiarPiso.text;
         npiso.text = "Numero de piso: " + piso;
         npiso2.text = "Numero de piso: " + piso;
+    }
+
+    public class Sede
+    {
+        public string name;
+        public float latitude1;
+        public float longitude1;
+        public float latitude2;
+        public float longitude2;
+
+        public bool inSede(float lat, float lon)
+        {
+            // Ver si esta dentro de la caja de la sede
+            return (lat > latitude1 && lat < latitude2 && lon > longitude1 && lon < longitude2);
+        }
     }
     // Agregar a utilites
     

@@ -11796,7 +11796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &507798790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20716,6 +20716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0eacf184d215e248b3f5b4ffb43e982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editDropdown: {fileID: 0}
   npiso: {fileID: 0}
   npiso2: {fileID: 0}
   inputCambiarPiso: {fileID: 0}
@@ -40828,6 +40829,8 @@ MonoBehaviour:
   inputNombre: {fileID: 0}
   inputDescripcion: {fileID: 0}
   inputTipo: {fileID: 0}
+  listaDeContenido: {fileID: 0}
+  botonDeLaListita: {fileID: 0}
 --- !u!114 &1610084573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40855,6 +40858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0eacf184d215e248b3f5b4ffb43e982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editDropdown: {fileID: 0}
   npiso: {fileID: 0}
   npiso2: {fileID: 0}
   inputCambiarPiso: {fileID: 0}
@@ -53122,7 +53126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2025367763
 MonoBehaviour:
   m_ObjectHideFlags: 0

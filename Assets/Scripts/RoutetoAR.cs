@@ -46,11 +46,11 @@ namespace ARLocation.MapboxRoutes
             {
                 if (count >= 2)
                 {
-                    customRoute.makePoint(point.name, point.x, point.y);
+                    //customRoute.makePoint(point.name, point.x, point.y);
                 }
                 else
                 {
-                    customRoute.modifyPoint(count, point.name, point.x, point.y);
+                    //customRoute.modifyPoint(count, point.name, point.x, point.y);
                 }
                 count++;
             }

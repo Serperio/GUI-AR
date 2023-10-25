@@ -201,7 +201,7 @@ namespace ARLocation.MapboxRoutes
                             Debug.Log($":{s}:");
                         }
 
-                        /*var customRoute = ScriptableObject.CreateInstance<MapboxRoutes.CustomRoute>();
+                        var customRoute = ScriptableObject.CreateInstance<MapboxRoutes.CustomRoute>();
                         customRoute.Points = new List<CustomRoute.Point>();
                         for (var k = 0; k < split.Length; k += 3)
                         {
@@ -234,7 +234,7 @@ namespace ARLocation.MapboxRoutes
                         var baseName = System.IO.Path.GetFileNameWithoutExtension(path);
                         var filename = System.IO.Path.Combine(dirPath, baseName + (placemarkNodeList.Count == 0 ? "": $"({i})") + ".asset");
 
-                        AssetDatabase.CreateAsset(customRoute, filename);*/
+                        AssetDatabase.CreateAsset(customRoute, filename);
                     }
                 }
             }

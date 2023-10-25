@@ -3,33 +3,25 @@ using System.Collections.Generic;
 
 namespace ARLocation.MapboxRoutes
 {
-    [CreateAssetMenu(fileName = "CustomRoute", menuName = "AR+GPS/Route")]
-    public class CustomRoute : ScriptableObject
+    public class RouteV2 : MonoBehaviour
     {
-        [System.Serializable]
         public class Point
         {
-            [Tooltip("The geographical location of this route point.")]
+ 
             public Location Location;
 
-            [Tooltip("If true, this point is considered a \"Step\" in thre route. A route \"Step\" is a point of the route where"
-                    + "a meneuver is expected to happen, e.g., \"TurnRight\".")]
             public bool IsStep;
 
-            [Tooltip("The name of the point (optional)")]
             public string Name;
 
-            [Tooltip("The instruction to the user informing of the maneuver to be exectured (in case \"IsStep\" is true).")]
             public string Instruction;
         }
 
-        [Tooltip("The name of the custom route.")]
+
         public string Name;
 
-        [Tooltip("A list of point defining the custom route.")]
         public List<Point> Points = new List<Point>() { new Point { }, new Point { } };
 
-        [HideInInspector]
         public float SceneViewScale = 1.0f;
 
         private bool isDirty = true;
