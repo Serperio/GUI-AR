@@ -153,6 +153,7 @@ public class Info_Rutas : MonoBehaviour
         //Ubi_actual.text = "Cañon";
         //InvokeRepeating("UpdatePointData", 0f, 10f);
         //InvokeRepeating("UpdatePointData", 1.0f, 2.0f);
+        StartCoroutine(Estado_juego());
 
     }
 
@@ -244,14 +245,16 @@ public class Info_Rutas : MonoBehaviour
                 BotonJuego_Desactivado.gameObject.SetActive(true);
             }
         }));
+        yield return new WaitForSeconds(1);
+        StartCoroutine(Estado_juego());
     }
 
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
         name = "Cañon";
-        //const string IP = "144.22.42.236";
-        yield return StartCoroutine(Estado_juego());
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //yield return StartCoroutine(Estado_juego());
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
@@ -388,8 +391,8 @@ public class Info_Rutas : MonoBehaviour
 
     IEnumerator FindGameInfo(string name) //Buscar los datos de un punto por nombre
     {
-        //const string IP = "144.22.42.236";
-        const string IP = "localhost";
+        const string IP = "144.22.42.236";
+        //const string IP = "localhost";
         const string port = "3000";
         const string baseURI = "http://" + IP + ":" + port + "/api/";
         UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/juego");
