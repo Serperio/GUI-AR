@@ -55,12 +55,13 @@ public class Vecino
 
 class Dijkstra
 {
+
     public static List<Puntito> FindShortestPath(List<Puntito> vertices, Puntito punto_inicial, Puntito final)
     {
         List<Puntito> caminos = new List<Puntito>();
         caminos.Add(punto_inicial);
         if(punto_inicial == final) return caminos;
-        
+
         //punto_inicial.Distancia = 0;
 
         HashSet<Puntito> visitados = new HashSet<Puntito>();
@@ -69,7 +70,6 @@ class Dijkstra
         Puntito aux = punto_inicial;
         no_visitados.Remove(aux);
         visitados.Add(aux);
-
         while (no_visitados.Count > 0)
         {
             if(HayPuntoFinal(aux.Vecinos, final))
@@ -90,7 +90,6 @@ class Dijkstra
                 visitados.Add(actual);
                 //Debug.Log("Actual es: " + actual.ID);
                 //caminos.Add(actual);
-
                 foreach (Vecino vecinito in actual.Vecinos)
                 {
                     Puntito vecino = vecinito.Vec;

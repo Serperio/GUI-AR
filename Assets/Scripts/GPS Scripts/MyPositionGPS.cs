@@ -18,6 +18,8 @@ public class MyPositionGPS : MonoBehaviour
     private float _lastLatitude;
     private float _lastLongitude;
 
+    private string sede;
+
     //Lista con los puntos que quedan por recorrer
     List<Punto> puntos = new List<Punto>();
 
@@ -83,7 +85,7 @@ public class MyPositionGPS : MonoBehaviour
         }
 
         // Iniciar la obtencion de la ubicacion
-        Input.location.Start();
+        Input.location.Start(5f,5f);
 
         // Esperar hasta que se obtenga una ubicacion valida
         while (Input.location.status == LocationServiceStatus.Initializing)
