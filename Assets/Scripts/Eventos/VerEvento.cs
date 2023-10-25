@@ -108,7 +108,7 @@ public class VerEvento : MonoBehaviour
                 cada_evento.transform.localPosition = Vector3.zero;
                 cada_evento.transform.localScale = Vector3.one;
                 //Debug.Log("Parte 2 \n");
-                Debug.Log("Nombre:"+evento.nombre+"\ndescripcion: "+evento.descripcion+"\nURL_img: "+evento.img+"\nFecha: +"+parseDate.ToString("dd-MM-yyyy"));
+                //Debug.Log("Nombre:"+evento.nombre+"\ndescripcion: "+evento.descripcion+"\nURL_img: "+evento.img+"\nFecha: +"+parseDate.ToString("dd-MM-yyyy"));
             }
         }
     }

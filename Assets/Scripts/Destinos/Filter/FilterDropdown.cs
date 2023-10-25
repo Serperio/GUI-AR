@@ -26,20 +26,20 @@ public class FilterDropdown : MonoBehaviour
 
     private void Start()
     {
-        dropdownPiso.captionText.text = "Seleccione una opción";
-        dropdownEdificio.captionText.text = "Seleccione una opción";
+        dropdownPiso.captionText.text = "Seleccione una opciï¿½n";
+        dropdownEdificio.captionText.text = "Seleccione una opciï¿½n";
 
         botonAceptarFiltro.onClick.AddListener(EjecutarFiltro);
-        // Escucha el evento de cambio de selección de los Dropdowns.
+        // Escucha el evento de cambio de selecciï¿½n de los Dropdowns.
         //dropdownPiso.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownPiso, ref selectedValuePiso); });
         //dropdownEdificio.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownEdificio, ref selectedValueEdificio); });
     }
     private void EjecutarFiltro()
     {
         if (((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
-            ((dropdownPiso.captionText.text == "Seleccione una opción") && (dropdownEdificio.captionText.text == "Seleccione una opción")) ||
-            ((dropdownPiso.captionText.text == "Seleccione una opción") && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
-            ((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && (dropdownEdificio.captionText.text == "Seleccione una opción")))
+            ((dropdownPiso.captionText.text == "Seleccione una opciï¿½n") && (dropdownEdificio.captionText.text == "Seleccione una opciï¿½n")) ||
+            ((dropdownPiso.captionText.text == "Seleccione una opciï¿½n") && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
+            ((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && (dropdownEdificio.captionText.text == "Seleccione una opciï¿½n")))
         {
 
             Debug.Log("Entre al Null");
@@ -52,7 +52,7 @@ public class FilterDropdown : MonoBehaviour
             script1.FlipUI(canva_filtros);
 
             //borrar_filtro.SetActive(true);
-            if (!string.IsNullOrEmpty(dropdownPiso.captionText.text) && dropdownPiso.captionText.text != "Seleccione una opción")
+            if (!string.IsNullOrEmpty(dropdownPiso.captionText.text) && dropdownPiso.captionText.text != "Seleccione una opciï¿½n")
             {
                 selectedValuePiso = int.Parse(dropdownPiso.captionText.text); //Pasar el valor del piso de string a int
                 Debug.Log("Entre 1: " + selectedValuePiso + " " + selectedValuePiso.GetType());
@@ -62,7 +62,7 @@ public class FilterDropdown : MonoBehaviour
                 selectedValuePiso = null;
             }
 
-            if (!string.IsNullOrEmpty(dropdownEdificio.captionText.text) && dropdownEdificio.captionText.text != "Seleccione una opción")
+            if (!string.IsNullOrEmpty(dropdownEdificio.captionText.text) && dropdownEdificio.captionText.text != "Seleccione una opciï¿½n")
             {
                 selectedValueEdificio = dropdownEdificio.captionText.text;
                 Debug.Log("Entre 2: " + selectedValueEdificio + " " + selectedValueEdificio.GetType());
@@ -75,8 +75,8 @@ public class FilterDropdown : MonoBehaviour
             // Limpia el contenido actual en contenido_filter
             erase_content();
 
-            Debug.Log("TEST ASIGNACION PISO: " + selectedValuePiso);
-            Debug.Log("TEST ASIGNACION EDIFICIO: " + selectedValueEdificio);
+            //Debug.Log("TEST ASIGNACION PISO: " + selectedValuePiso);
+            //Debug.Log("TEST ASIGNACION EDIFICIO: " + selectedValueEdificio);
 
             int? filtroPiso = selectedValuePiso;
             string filtroEdificio = selectedValueEdificio;
@@ -98,7 +98,7 @@ public class FilterDropdown : MonoBehaviour
     {
         int index = dropdown.value;
         Debug.Log("Valor seleccionado antes if: " + index);
-        // Cuando se selecciona una opción en el Dropdown, actualiza el mensaje o placeholder.
+        // Cuando se selecciona una opciï¿½n en el Dropdown, actualiza el mensaje o placeholder.
         if (index >= 0)
         {
             selectedValue = dropdown.options[index].text;
@@ -116,7 +116,7 @@ public class FilterDropdown : MonoBehaviour
 
     /* private void SetPlaceholderText(TMP_Text textComponent, string text)
      {
-         // Función para establecer el mensaje o placeholder de un objeto TextMeshPro.
+         // Funciï¿½n para establecer el mensaje o placeholder de un objeto TextMeshPro.
          textComponent.text = text;
      }*/
 
@@ -224,7 +224,7 @@ public class FilterDropdown : MonoBehaviour
                     }
                     /*  Debug.Log("filtro piso: " + point.floor + " " + filtroPiso);
                       Debug.Log("filtro edificio: " + point.edificio + " " + filtroEdificio);
-                      Debug.Log("Entré al if :D"+ point.name);  
+                      Debug.Log("Entrï¿½ al if :D"+ point.name);  
                       Debug.Log("piso: " + point.floor);
                       Debug.Log("edif: " + point.edificio);
                       Debug.Log("esp: " + point.tipo);
@@ -243,7 +243,7 @@ public class FilterDropdown : MonoBehaviour
                     texto.transform.parent = contenido_filter.transform;
                     texto.transform.localPosition = Vector3.zero;
                     texto.transform.localScale = Vector3.one;
-                    Debug.Log(point.tipo);
+                    //Debug.Log(point.tipo);
                 }
             }
             else
@@ -293,7 +293,8 @@ public class FilterDropdown : MonoBehaviour
                     texto.transform.parent = contenido_filter.transform;
                     texto.transform.localPosition = Vector3.zero;
                     texto.transform.localScale = Vector3.one;
-                    Debug.Log(point.tipo);
+                    Debug.Log("WENAAAAAAAAAA PO VIEJA QLA MARACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+point.tipo);
+                    //Debug.Log("WENAAAAAAAAAA PO VIEJA QLA MARACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 }
             }
             ScrollDestinos.SetActive(true);
@@ -306,7 +307,7 @@ public class FilterDropdown : MonoBehaviour
         SinFiltro_Seccion.gameObject.SetActive(true);
         erase_content();
         StartCoroutine(DestinosDisponibles());
-        dropdownPiso.value = 0; // Establecer el valor seleccionado del dropdownPiso en -1 (ninguna selección)
+        dropdownPiso.value = 0; // Establecer el valor seleccionado del dropdownPiso en -1 (ninguna selecciï¿½n)
         dropdownEdificio.value = 0;
         dropdownPiso.RefreshShownValue(); // Actualizar el valor mostrado en el dropdown
         dropdownEdificio.RefreshShownValue(); // Actualizar el valor mostrado en el dropdown

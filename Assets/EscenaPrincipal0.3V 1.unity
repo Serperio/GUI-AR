@@ -2806,7 +2806,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1521353553}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11393,6 +11393,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -21819,7 +21821,7 @@ RectTransform:
   m_Father: {fileID: 1162013142}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.00000011920929}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -30307,6 +30309,7 @@ GameObject:
   - component: {fileID: 2027810462}
   - component: {fileID: 2027810463}
   - component: {fileID: 2027810464}
+  - component: {fileID: 2027810465}
   m_Layer: 0
   m_Name: AppManager
   m_TagString: Untagged
@@ -30424,6 +30427,8 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   borrarInput: {fileID: 0}
   pisoDatasetInput: {fileID: 0}
+  edificioDatasetInput: {fileID: 0}
+  estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
@@ -30477,7 +30482,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contenido: {fileID: 740249462}
   Text: {fileID: 1070627333}
+  Ubi_actual: {fileID: 0}
   textoPunto: {fileID: 6179456721144223768}
+  infopoint_especifica: []
 --- !u!114 &2027810464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30492,6 +30499,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contenido: {fileID: 1233158107}
   Text: {fileID: 296607684671626289, guid: 164cccd46154c57468bd016dc4b7446b, type: 3}
+--- !u!114 &2027810465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027810451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab8af4d09f99e546a781c738ed190f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puntoFinal: 
+  api: {fileID: 0}
+  mensajeFinal: {fileID: 0}
+  puntoInicial: 
 --- !u!1 &2036420388
 GameObject:
   m_ObjectHideFlags: 0

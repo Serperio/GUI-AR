@@ -31,7 +31,7 @@ public class MyPositionGPS : MonoBehaviour
     //Variables donde se guarda el error que muestra el programa
     float horizontalAccuracy;
     float verticalAccuracy;
-
+    
     //Campo donde se mostrara el margen de rror
     [SerializeField]
     TextMeshProUGUI Error;
@@ -55,6 +55,7 @@ public class MyPositionGPS : MonoBehaviour
 
     void Start()
     {
+        //csp.SubirDummyInteres();
         puntos.Add(new Punto(-33.03479f, -71.59643f, 2,1000f));
         puntos.Add(new Punto(-33.03481f, -71.59651f, 2, 1000f));
         puntos.Add(new Punto(-33.03503f, -71.5967f, 2, 1000f));
