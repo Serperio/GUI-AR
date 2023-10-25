@@ -44,7 +44,9 @@ namespace ARLocation.MapboxRoutes
             ruta = GameObject.Find("AppManager").GetComponent<CreateRuta>();
             mapRouteAPI = GameObject.Find("AppManager").GetComponent<MapRouteAPI>();
             PanelDBError = GameObject.Find("PanelErrorDBBuscado");
-            mensajeFinal = GameObject.Find("TextoErrorDB").GetComponentInChildren<TextMeshProUGUI>();
+            mensajeFinal = GameObject.Find("TextoErrorDB").GetComponent<TextMeshProUGUI>(); 
+            gpsloc = GameObject.Find("AppManager").GetComponent<MyPositionGPS>();
+            api = GameObject.Find("AppManager").GetComponent<API>();
         }
         public void Detalle()
         {
@@ -84,6 +86,7 @@ namespace ARLocation.MapboxRoutes
     {
         GameObject.Find("AppManager").GetComponent<API>().NearbyPointsAPI();
         float[] positions = gpsloc.GetLastPosition();
+            Debug.Log("Posicion:" + positions[0]);
         float latitude = positions[0]; //Pasar
         float longitude = positions[1]; //Pasar de gps
         Point nearestPoint = null;
@@ -109,6 +112,7 @@ namespace ARLocation.MapboxRoutes
                 nearestPoint = point;
             }
         }
+        if (nearestPoint == null) return "No";
         return nearestPoint.name;
     }
 
@@ -127,11 +131,11 @@ namespace ARLocation.MapboxRoutes
         const string baseURI = "http://"+IP+":"+port+"/api/";
         // Crear formulario
         WWWForm form = new WWWForm();
-        form.AddField("PuntoInicial", PuntoInicial);
-        form.AddField("PuntoFinal", PuntoFinal);
-        form.AddField("Longitud", longitud.ToString(CultureInfo.InvariantCulture));
-        form.AddField("Latitud", latitud.ToString(CultureInfo.InvariantCulture));
-        form.AddField("Fecha", Fecha.ToString("dddd, dd MMMM yyyy hh:mm tt"));
+        form.AddField("puntoInicial", PuntoInicial);
+        form.AddField("puntoFinal", PuntoFinal);
+        form.AddField("longitud", longitud.ToString(CultureInfo.InvariantCulture));
+        form.AddField("latitud", latitud.ToString(CultureInfo.InvariantCulture));
+        form.AddField("fecha", Fecha.ToString("dddd, dd MMMM yyyy hh:mm tt"));
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"puntobuscado/add", form);
         yield return www.SendWebRequest();
