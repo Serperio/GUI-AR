@@ -29,9 +29,47 @@ public class Info_Rutas : MonoBehaviour
     GameObject textoPunto; //Texto donde se escribe la informacion
     [SerializeField]
     private List<Info_Point> infopoint_especifica;
+    private bool estado_juego;
+    private bool aceptar_juego = false;
+    [SerializeField]
+    Button BotonJuego_Desactivado;
+    [SerializeField]
+    Button BotonJuego_Activado;
 
     static List<string> JsonToList(string jsonData)
     { //Convierte Json a Lista
+        string json = jsonData.Substring(1, jsonData.Length - 2);
+        bool startParentesis = false;
+        bool endParentesis = false;
+        string dato = "";
+        List<string> strings = new List<string>();
+        foreach (char caracter in json)
+        {
+            if (caracter == '{')
+            {
+                dato = "";
+                startParentesis = true;
+            }
+            else if (caracter == '}')
+            {
+                endParentesis = true;
+            }
+            if (startParentesis)
+            {
+                dato += caracter;
+            }
+            if (endParentesis)
+            {
+                startParentesis = false;
+                endParentesis = false;
+                strings.Add(dato);
+            }
+        }
+        return strings;
+    }
+
+    static List<string> listJson(string jsonData)
+    {
         string json = jsonData.Substring(1, jsonData.Length - 2);
         bool startParentesis = false;
         bool endParentesis = false;
@@ -114,14 +152,16 @@ public class Info_Rutas : MonoBehaviour
     {
         //Ubi_actual.text = "Cañon";
         //InvokeRepeating("UpdatePointData", 0f, 10f);
-        Ubi_actual.text = "Cañon";
-        InvokeRepeating("UpdatePointData", 1.0f, 2.0f);
+        //InvokeRepeating("UpdatePointData", 1.0f, 2.0f);
 
     }
-    private void UpdatePointData()
+
+    public void UpdatePointData()
     {
         infopoint_especifica.Clear();
-        StartCoroutine(FindPointInfo(Ubi_actual.text));
+        Ubi_actual.text = "Cañon";
+        StartCoroutine(FindPointInfo(Ubi_actual.text.Substring(4)));
+        //StartCoroutine(FindPointInfo());
     }
 
     /* IEnumerator FindPointData(string name) //Buscar los datos de un punto por nombre
@@ -162,35 +202,86 @@ public class Info_Rutas : MonoBehaviour
          }
          //StartCoroutine(FindPointData(name));
      } */
+
+    public void Aceptar_Juego()
+    {
+        Debug.Log("antes de aceptar el juego:" + aceptar_juego);
+        aceptar_juego = true;
+        Debug.Log("despues de aceptar el juego:" + aceptar_juego);
+        BotonJuego_Activado.gameObject.SetActive(true);
+
+    }
+
+    public void Cancelar_Juego()
+    {
+        Debug.Log("antes de cancelar el juego:" + aceptar_juego);
+        aceptar_juego = false;
+        Debug.Log("despues de cancelar el juego:" + aceptar_juego);
+        BotonJuego_Activado.gameObject.SetActive(false);
+
+    }
+
+    IEnumerator Estado_juego()
+    {
+        yield return StartCoroutine(APIHelper.GET("activar_juego", response => {
+            // Obtener listado de puntos
+            List<string> info = listJson(response);
+            // Transformar JSON a Point
+            Debug.Log("info: "+info);
+            List<Juego> point = new List<Juego>();
+            foreach (string dato in info)
+            {
+                Debug.Log(dato);
+                point.Add(JsonUtility.FromJson<Juego>(dato));
+            }
+            // Entregar resultados
+            Debug.Log(point);
+            estado_juego = point[0].estado;
+
+            if(estado_juego == true)
+            {
+                Debug.Log("estado_juego activado");
+                BotonJuego_Desactivado.gameObject.SetActive(true);
+            }
+        }));
+    }
+
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        if (name != "Cañon")
+        name = "Cañon";
+        //const string IP = "144.22.42.236";
+        yield return StartCoroutine(Estado_juego());
+        const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
+        print("@asdasd|" + name);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            infopoint_especifica.Clear();
-            Debug.Log("AAAA");
+            Debug.Log("Error post: " + www.error);
         }
         else
         {
-
-
-            const string IP = "144.22.42.236";
-            //const string IP = "localhost";
-            const string port = "3000";
-            const string baseURI = "http://" + IP + ":" + port + "/api/";
-
-            UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/infopoints");
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
+            foreach (Transform child in contenido.transform)
             {
-                Debug.Log("Error post: " + www.error);
+                Destroy(child.gameObject);
+            }
+            if (estado_juego == true && aceptar_juego == true)
+            {
+                Debug.Log("estado juego activado");
+                yield return StartCoroutine(FindGameInfo(name));
             }
             else
             {
-                try
-                {
-                    Debug.Log("Entre al primero222");
-                    // Recuperar JSON
-                    string response = www.downloadHandler.text;
+                Debug.Log("Estado juego desactivado?: " + estado_juego);
+                Debug.Log("Desactivado el aceptar_juego: "+aceptar_juego);
+            }
+            try
+            {
+                
+                // Recuperar JSON
+                string response = www.downloadHandler.text;
                     //Point Infopoint = JsonUtility.FromJson<Point>(response);
                     // Obtener listado de puntos
                     Debug.Log("estoy aqui 1");
@@ -201,7 +292,6 @@ public class Info_Rutas : MonoBehaviour
                     infopoint_especifica = new List<Info_Point>();
                     Debug.Log("estoy aqui 2");
                     Debug.Log(pointlist_total.Count);
-                    infopoint_especifica.Clear();
                     foreach (string info in pointlist_total)
                     {
                         Info_Point point = JsonUtility.FromJson<Info_Point>(info);
@@ -224,17 +314,14 @@ public class Info_Rutas : MonoBehaviour
                         cada_point.transform.localScale = Vector3.one;
                         //Debug.Log("Parte 2 \n");
                     }
-                }
-                catch
-                {
-                    Debug.Log("Entre al segundo");
-                    OpenDetalle();
-                    textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
-                }
-
+            }
+            catch
+            {
+                Debug.Log("Entre al segundo");
+                OpenDetalle();
+                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
             }
         }
-        //StartCoroutine(FindPointData(name));
     }
     IEnumerator CargarImagen(string url, GameObject objeto /*,GameObject loadingMessage*/)
     {
@@ -299,15 +386,72 @@ public class Info_Rutas : MonoBehaviour
         }
     }
 
+    IEnumerator FindGameInfo(string name) //Buscar los datos de un punto por nombre
+    {
+        //const string IP = "144.22.42.236";
+        const string IP = "localhost";
+        const string port = "3000";
+        const string baseURI = "http://" + IP + ":" + port + "/api/";
+        UnityWebRequest www = UnityWebRequest.Get(baseURI + "points/" + name + "/juego");
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Error post: " + www.error);
+        }
+        else
+        {
+            try
+            {
+                // Recuperar JSON
+                string response = www.downloadHandler.text;
+                //Point Infopoint = JsonUtility.FromJson<Point>(response);
+                // Obtener listado de puntos
+                Debug.Log("response gamee:"+response);
+
+                List<string> pointlist_total = JsonToList(response);
+                // Transformar JSON a Point
+                infopoint_especifica = new List<Info_Point>();
+                infopoint_especifica.Clear();
+                Debug.Log("pointggmaeee: " + pointlist_total);
+                foreach (string info in pointlist_total)
+                {
+                    Info_Point point = JsonUtility.FromJson<Info_Point>(info);
+                    infopoint_especifica.Add(point);
+                }
+                foreach (Info_Point point in infopoint_especifica)
+                {
+                    Debug.Log("url:" + point.imagen + "\ndescripcion: " + point.descripcion + "\nidPOINT: " + point.ID_Point);
+                    Debug.Log("entre al segundo for");
+                    GameObject cada_point = Instantiate(Text, Vector3.zero, Quaternion.identity);
+                    TextMeshProUGUI descripcion = cada_point.GetComponentInChildren<TextMeshProUGUI>();
+                    //Image miImagen = cada_point.GetComponentInChildren<Image>();
+                    Debug.Log(descripcion);
+                    StartCoroutine(CargarImagen(point.imagen, cada_point));
+                    descripcion.text = point.descripcion;
+
+                    cada_point.transform.parent = contenido.transform;
+                    cada_point.transform.localPosition = Vector3.zero;
+                    cada_point.transform.localScale = Vector3.one;
+                    //Debug.Log("Parte 2 \n");
+                }
+            }
+            catch
+            {
+                Debug.Log("Entre al segundo");
+                OpenDetalle();
+                textoPunto.GetComponentInChildren<TextMeshProUGUI>().text = "El destino no tiene puntos de interés.";
+            }
+        }
+    }
 
     public void OpenDetalle()
     {
-        textoPunto.SetActive(true);
+    textoPunto.SetActive(true);
     }
 
     public void CloseDetalle()
     {
-        textoPunto.SetActive(false);
+    textoPunto.SetActive(false);
     }
 }
 
