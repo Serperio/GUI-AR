@@ -14,6 +14,7 @@ public class Puntito
     public string nombre { get; set;  }
     public double latitud { get; set; }
     public double longitud { get; set; }
+    public string tipoPunto { get; set; }
     public List<Vecino> Vecinos { get; set; }
     //public double Distancia { get; set; }
     public Puntito Anterior { get; set; }
@@ -37,6 +38,17 @@ public class Puntito
         //Distancia = double.MaxValue;
         Anterior = null;
     }
+    public Puntito(string id, double latitud2, double longitud2, string nombreAux, string tipoPuntoAux)
+    {
+        ID = id;
+        latitud = latitud2;
+        longitud = longitud2;
+        Vecinos = new List<Vecino>();
+        nombre = nombreAux;
+        tipoPunto = tipoPuntoAux;
+        //Distancia = double.MaxValue;
+        Anterior = null;
+    }
 }
 
 public class Vecino
@@ -56,7 +68,7 @@ public class Vecino
 class Dijkstra
 {
 
-    public static List<Puntito> FindShortestPath(List<Puntito> vertices, Puntito punto_inicial, Puntito final)
+    public static List<Puntito> FindShortestPath(List<Puntito> vertices, Puntito punto_inicial, Puntito final, bool filtro=false)
     {
         List<Puntito> caminos = new List<Puntito>();
         caminos.Add(punto_inicial);
@@ -84,7 +96,7 @@ class Dijkstra
             }
             else
             {
-                Puntito actual = GetPointWithMinDistancia(aux.Vecinos, aux, visitados);
+                Puntito actual = GetPointWithMinDistancia(aux.Vecinos, aux, visitados,filtro);
                 // Debug.Log("Punto Actual: " + actual.ID);
                 no_visitados.Remove(actual);
                 visitados.Add(actual);
@@ -115,20 +127,45 @@ class Dijkstra
         return caminos;
     }
 
-    private static Puntito GetPointWithMinDistancia(List<Vecino> Vecinos, Puntito Actual, HashSet<Puntito> visitados)
+    private static Puntito GetPointWithMinDistancia(List<Vecino> Vecinos, Puntito Actual, HashSet<Puntito> visitados, bool filter) 
     {
-        Puntito minPoint = null;
-        double minDistancia = double.MaxValue;
+        if (filter){
+            Puntito minPoint = null;
+            double minDistancia = double.MaxValue;
 
-        foreach (Vecino vecino in Vecinos)
-        {
-            if (DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud) < minDistancia && !visitados.Contains(vecino.Vec))
+            foreach (Vecino vecino in Vecinos)
             {
-                minPoint = vecino.Vec;
-                minDistancia = DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud);
+                int aux = 0;
+                if (vecino.Actual.tipoPunto == "Escalera")
+                {
+                    aux = 100000;
+                }
+                //else
+                //{
+                //    aux = 100;
+                //}
+                if (DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud)+aux < minDistancia && !visitados.Contains(vecino.Vec))
+                {
+                    minPoint = vecino.Vec;
+                    minDistancia = DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud);
+                }
             }
+            return minPoint;
         }
+        else {
+            Puntito minPoint = null;
+            double minDistancia = double.MaxValue;
+
+            foreach (Vecino vecino in Vecinos)
+            {
+                if (DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud) < minDistancia && !visitados.Contains(vecino.Vec))
+                {
+                    minPoint = vecino.Vec;
+                    minDistancia = DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud);
+                }
+            }
         return minPoint;
+        }
     }
 
     private static bool HayPuntoFinal(List<Vecino> Vecinos, Puntito Final)
