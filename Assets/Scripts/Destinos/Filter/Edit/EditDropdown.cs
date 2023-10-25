@@ -24,23 +24,50 @@ public class EditDropdown : MonoBehaviour
     private int? selectedValuePiso; // Variable para almacenar el valor seleccionado del Dropdown de Piso
     private string selectedValueEdificio; // Variable para almacenar el valor seleccionado del Dropdown de Edificio
 
+// ----------------- //
+
+    [SerializeField]
+    string puntoFinal;
+    [SerializeField]
+    API api;
+    [SerializeField]
+    TextMeshProUGUI mensajeFinal;
+    private LocationInfo lastLocation;
+    private float lastLatitude;
+    private float lastLongitude; 
+    System.DateTime currentDateTime;
+    MyPositionGPS gpsloc;
+    public List<Point> pointList1;
+    public List<Point> pointList;
+    public string puntoInicial;
+
+// ----------------- //
+
     private void Start()
     {
-        Debug.Log("iniciooo");
-        dropdownPiso.captionText.text = "Seleccione una opción";
-        dropdownEdificio.captionText.text = "Seleccione una opción";
+        //Debug.Log("iniciooo");
+        dropdownPiso.captionText.text = "Seleccione una opciï¿½n";
+        dropdownEdificio.captionText.text = "Seleccione una opciï¿½n";
         StartCoroutine(DestinosDisponibles());
         botonAceptarFiltro.onClick.AddListener(EjecutarFiltro);
-        // Escucha el evento de cambio de selección de los Dropdowns.
+        // Escucha el evento de cambio de selecciï¿½n de los Dropdowns.
         //dropdownPiso.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownPiso, ref selectedValuePiso); });
         //dropdownEdificio.onValueChanged.AddListener(delegate { OnDropdownValueChanged(dropdownEdificio, ref selectedValueEdificio); });
     }
+
+// ------------------------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------------------------- //
+
+
     private void EjecutarFiltro()
     {
         if (((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
-            ((dropdownPiso.captionText.text == "Seleccione una opción") && (dropdownEdificio.captionText.text == "Seleccione una opción")) ||
-            ((dropdownPiso.captionText.text == "Seleccione una opción") && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
-            ((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && (dropdownEdificio.captionText.text == "Seleccione una opción")))
+            ((dropdownPiso.captionText.text == "Seleccione una opciï¿½n") && (dropdownEdificio.captionText.text == "Seleccione una opciï¿½n")) ||
+            ((dropdownPiso.captionText.text == "Seleccione una opciï¿½n") && string.IsNullOrEmpty(dropdownEdificio.captionText.text)) ||
+            ((string.IsNullOrEmpty(dropdownPiso.captionText.text)) && (dropdownEdificio.captionText.text == "Seleccione una opciï¿½n")))
         {
 
             Debug.Log("Entre al Null");
@@ -53,7 +80,7 @@ public class EditDropdown : MonoBehaviour
             script1.FlipUI(canva_filtros);
 
             //borrar_filtro.SetActive(true);
-            if (!string.IsNullOrEmpty(dropdownPiso.captionText.text) && dropdownPiso.captionText.text != "Seleccione una opción")
+            if (!string.IsNullOrEmpty(dropdownPiso.captionText.text) && dropdownPiso.captionText.text != "Seleccione una opciï¿½n")
             {
                 selectedValuePiso = int.Parse(dropdownPiso.captionText.text); //Pasar el valor del piso de string a int
                 Debug.Log("Entre 1: " + selectedValuePiso + " " + selectedValuePiso.GetType());
@@ -63,7 +90,7 @@ public class EditDropdown : MonoBehaviour
                 selectedValuePiso = null;
             }
 
-            if (!string.IsNullOrEmpty(dropdownEdificio.captionText.text) && dropdownEdificio.captionText.text != "Seleccione una opción")
+            if (!string.IsNullOrEmpty(dropdownEdificio.captionText.text) && dropdownEdificio.captionText.text != "Seleccione una opciï¿½n")
             {
                 selectedValueEdificio = dropdownEdificio.captionText.text;
                 Debug.Log("Entre 2: " + selectedValueEdificio + " " + selectedValueEdificio.GetType());
@@ -76,14 +103,13 @@ public class EditDropdown : MonoBehaviour
             // Limpia el contenido actual en contenido_filter
             erase_content();
 
-            Debug.Log("TEST ASIGNACION PISO: " + selectedValuePiso);
-            Debug.Log("TEST ASIGNACION EDIFICIO: " + selectedValueEdificio);
+            //Debug.Log("TEST ASIGNACION PISO: " + selectedValuePiso);
+            //Debug.Log("TEST ASIGNACION EDIFICIO: " + selectedValueEdificio);
 
             int? filtroPiso = selectedValuePiso;
             string filtroEdificio = selectedValueEdificio;
             StartCoroutine(DestinosDisponiblesFilter(filtroPiso, filtroEdificio));
         }
-
     }
 
     private void erase_content()
@@ -99,7 +125,7 @@ public class EditDropdown : MonoBehaviour
     {
         int index = dropdown.value;
         Debug.Log("Valor seleccionado antes if: " + index);
-        // Cuando se selecciona una opción en el Dropdown, actualiza el mensaje o placeholder.
+        // Cuando se selecciona una opciï¿½n en el Dropdown, actualiza el mensaje o placeholder.
         if (index >= 0)
         {
             selectedValue = dropdown.options[index].text;
@@ -117,7 +143,7 @@ public class EditDropdown : MonoBehaviour
 
     /* private void SetPlaceholderText(TMP_Text textComponent, string text)
      {
-         // Función para establecer el mensaje o placeholder de un objeto TextMeshPro.
+         // Funciï¿½n para establecer el mensaje o placeholder de un objeto TextMeshPro.
          textComponent.text = text;
      }*/
 
@@ -223,13 +249,6 @@ public class EditDropdown : MonoBehaviour
                     {
                         points.Add(point);
                     }
-                    /*  Debug.Log("filtro piso: " + point.floor + " " + filtroPiso);
-                      Debug.Log("filtro edificio: " + point.edificio + " " + filtroEdificio);
-                      Debug.Log("Entré al if :D"+ point.name);  
-                      Debug.Log("piso: " + point.floor);
-                      Debug.Log("edif: " + point.edificio);
-                      Debug.Log("esp: " + point.tipo);
-                      points.Add(point);*/
                 }
             }
             // Entregar resultados
@@ -290,10 +309,12 @@ public class EditDropdown : MonoBehaviour
                 if (point.tipo != "especial")
                 {
                     GameObject texto = Instantiate(Text, Vector3.zero, Quaternion.identity);
-                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                    //texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = point.name;
+                    texto.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "WEWEWEWEWEWE";
                     texto.transform.parent = contenido_filter.transform;
                     texto.transform.localPosition = Vector3.zero;
                     texto.transform.localScale = Vector3.one;
+                    //texto.onClick.onClick.AddListener(() => ObtenerInfoRuta(point.name));
                     Debug.Log(point.tipo);
                 }
             }
@@ -307,7 +328,7 @@ public class EditDropdown : MonoBehaviour
         SinFiltro_Seccion.gameObject.SetActive(true);
         erase_content();
         StartCoroutine(DestinosDisponibles());
-        dropdownPiso.value = 0; // Establecer el valor seleccionado del dropdownPiso en -1 (ninguna selección)
+        dropdownPiso.value = 0; // Establecer el valor seleccionado del dropdownPiso en -1 (ninguna selecciï¿½n)
         dropdownEdificio.value = 0;
         dropdownPiso.RefreshShownValue(); // Actualizar el valor mostrado en el dropdown
         dropdownEdificio.RefreshShownValue(); // Actualizar el valor mostrado en el dropdown

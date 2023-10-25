@@ -12,10 +12,10 @@ namespace ARLocation.MapboxRoutes
         Info_Rutas info_Rutas;
         [SerializeField]
         RoutetoAR construirRuta;
-        //Declaracion de parametros de un punto
 
         List<Point> caminoEnPuntos;
 
+        ClosestPoint csp;
 
         public void GetPath(string name)
         {
@@ -90,18 +90,29 @@ namespace ARLocation.MapboxRoutes
                         aux+=vecino.Actual.nombre;
                     }
                     print(auxprint.nombre+":"+aux);
+                    //print("AQUI ERA LA WEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 }
-                //init_point.Vecinos.Add(new Vecino(init_point, last_point)); //->Jarcodear init point a un punto existente
+                
+                init_point.Vecinos.Add(new Vecino(init_point, last_point)); //->Jarcodear init point a un punto existente
                 List<Puntito> camino = Dijkstra.FindShortestPath(vertices, init_point, last_point);
-                foreach (Puntito puntito in camino)
+                if(camino != null && camino.Count > 0)
                 {
-                    caminoEnPuntos.Add(new Point((float)puntito.latitud, (float)puntito.longitud, puntito.nombre));
+                    foreach (Puntito puntito in camino)
+                    {
+                        caminoEnPuntos.Add(new Point((float)puntito.latitud, (float)puntito.longitud, puntito.nombre));
+                    }
+                    print(printPath(caminoEnPuntos));
+                
+                    construirRuta.initiateRoute(caminoEnPuntos);
                 }
-                print(printPath(caminoEnPuntos));
-                construirRuta.initiateRoute(caminoEnPuntos);
+                else
+                {
+                    Debug.Log("NO HAY CAMINO, FLACO, DESPEJE");
+                }
             }));
-
-
+            Debug.Log("APUNTO DE SUBIR DUMMYS");
+            csp.EnviarDataPuntoInteres("dummy44", (float)-33.03518, (float)-71.59681);
+            Debug.Log("DUMMYS subidossssssssssssssssssssssssss");
         }
         string printPath(List<Point> lista)
         {
