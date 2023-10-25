@@ -335,6 +335,7 @@ public class API : MonoBehaviour
                         }
                     }
                 }));
+                Debug.Log("puntos cargados");
             } else
             {
                 Utilities._ShowAndroidToastMessage("No se detecto sede");
