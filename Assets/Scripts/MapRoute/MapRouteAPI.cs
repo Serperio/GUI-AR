@@ -18,6 +18,8 @@ public class MapRouteAPI : MonoBehaviour
     private string lastName = "";
     private bool escalerasPermitidas = true;
     List<Puntito> auxiliar;
+    [SerializeField]
+    GameObject canvaWarning;
 
     [SerializeField]
     GameObject popUpNoExisteRuta;
@@ -57,7 +59,7 @@ public class MapRouteAPI : MonoBehaviour
                     try
                     {
                         ruta = Dijkstra.FindShortestPath(auxiliar, auxiliar[0], auxiliar[auxiliarFinalCamino],true); //Cambiar a puntos recuperados escaleras
-                        //PopupWarning
+                        canvaWarning.SetActive(true);
                     }
                     catch
                     {

@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public static class APIHelper
 {
-    //const string _IP = "144.22.42.236";
-    const string _IP = "localhost";
+    const string _IP = "144.22.42.236";
+    //const string _IP = "localhost";
     const string _PORT = "3000";
     const string base_uri = "http://" + _IP + ":" + _PORT + "/api/";
 
