@@ -21,6 +21,8 @@ public class Login : MonoBehaviour
     [SerializeField]
     string Text;
 
+
+
     [SerializeField]
     TextMeshProUGUI mensajeee;
 

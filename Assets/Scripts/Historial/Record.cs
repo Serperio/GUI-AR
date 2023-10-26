@@ -110,7 +110,7 @@ public class Record : MonoBehaviour
         }
     }
 
-    private void DeleteAllUserRequests(string userMail, string request)
+    private void DeleteAllUserRequests(string userMail)
     {
         //-------------------------------------------
         string connectionString = "mongodb://localhost:27017/";
