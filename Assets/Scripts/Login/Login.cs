@@ -24,7 +24,7 @@ public class Login : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI mensajeee;
 
-    bool isAdmin=false;
+    bool isAdmin = false;
     [SerializeField]
     UIBehaviour ui;
 
@@ -69,11 +69,11 @@ public class Login : MonoBehaviour
             //Cargar escena tutorial
             if (isAdmin)
             {
-            ui.LoaderScenes(3);
+                ui.LoaderScenes(3);
             }
             else
             {
-            ui.LoaderScenes(1); //Cambiar a modo usuarioé 
+                ui.LoaderScenes(1); //Cambiar a modo usuarioé 
             }
         }
     }
@@ -91,42 +91,40 @@ public class Login : MonoBehaviour
 
         //if (request.result == UnityWebRequest.Result.Success)
         //{
-            string response1 = request.downloadHandler.text;
-            Debug.Log("Log response:" + request.downloadHandler.text);
+        string response1 = request.downloadHandler.text;
+        Debug.Log("Log response:" + request.downloadHandler.text);
 
-            response = JsonUtility.FromJson<ApiResponse>(response1);
+        response = JsonUtility.FromJson<ApiResponse>(response1);
 
-            Debug.Log("Log response:"+ request.downloadHandler.text);
+        Debug.Log("Log response:" + request.downloadHandler.text);
 
-            if (response.message == "User not found")
+        if (response.message == "User not found")
+        {
+            status = false;
+            Text = "Correo o contraseña inválidos";
+        }
+        else
+        {
+            if (response.message == "User Logged In")
             {
-                status = false;
-                Text = "Correo o contraseña inválidos";
+                Text = "";
+                Debug.Log(response.admin);
+                isAdmin = response.admin;
+                status = true;
             }
             else
             {
-                if (response.message == "User Logged In")
-                {
-                    Text = "";
-                    Debug.Log(response.admin);
-                    isAdmin=response.admin;
-                    status = true;
-                }
-                else
-                {
-                    status = false;
-                    Text = "Correo o contraseña inválido";
-                }
+                status = false;
+                Text = "Correo o contraseña inválido";
             }
+        }
 
-        //}
-        //else
-        //{
-            // Hubo un error en la solicitud
-        //    Debug.LogError("Error en la solicitud: " + request.error);
-        //    status = false;
-        //    Text = "Ha ocurrido un error de conexión. Inténtelo más tarde";
-        //}
     }
 
+    public void CloseSession()
+    {
+        status = false;
+        ui.LoaderScenes(0);
+        //Record.ClearSearchHistory();
+    }
 }

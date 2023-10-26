@@ -171,6 +171,9 @@ public class Buscador : MonoBehaviour
                         Debug.Log("WENAAAAAAAAAA PO VIEJA QLA MARACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+p.tipo);
                     }
                 }
+                //---------------------------------------------------
+                //Record.UpdateSearchHistoryUI(name)
+                //---------------------------------------------------
             }
             // Mostrar informacion
             OpenDetalle();
