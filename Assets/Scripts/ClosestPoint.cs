@@ -24,6 +24,8 @@ public class ClosestPoint : MonoBehaviour
     List<Point> pointList;
     private System.DateTime fecha;
 
+    public Point lastPosition = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,6 +112,7 @@ public class ClosestPoint : MonoBehaviour
         }
         if (nearestPoint != null)
         {
+            lastPosition = nearestPoint;
             closestPointGUI.text = "En: " + nearestPoint.name;
             closestPointInfo.text = nearestPoint.name;
             if(nearestPoint.tipo == "Ruta")

@@ -17094,7 +17094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000038146973, y: -92.28281}
+  m_AnchoredPosition: {x: 0.0000038146973, y: -92.282715}
   m_SizeDelta: {x: 604.11, y: 61.4924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &506103869
@@ -55329,6 +55329,8 @@ MonoBehaviour:
   watchRoute: {fileID: 242707537}
   canvaWarning: {fileID: 469074130}
   popUpNoExisteRuta: {fileID: 1142720981}
+  actualizarRutaButton: {fileID: 1773050162}
+  closest: {fileID: 1610084571}
 --- !u!114 &1610084590
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,48 @@ public class MapRouteAPI : MonoBehaviour
 
     [SerializeField]
     GameObject popUpNoExisteRuta;
+    [SerializeField]
+    GameObject actualizarRutaButton;
+    [SerializeField]
+    ClosestPoint closest;
+    /*
+    private void Start()
+    {
+        // Revisar si se tiene que modificar la ruta
+        StartCoroutine(ModificarRuta());
+    }
+    
+    private void Update()
+    {
+        if(ultimaRuta.Count <= 2)
+        {
+            actualizarRutaButton.SetActive(false);
+        }
+        // Quitar punto de la ruta si ya llegue
+        if (closest.lastPosition.name == ultimaRuta[0].nombre)
+        {
+            ultimaRuta.RemoveAt(0);
+        }
 
+    }
+    */
+    IEnumerator ModificarRuta()
+    {
+        float[] position = myPositionGPS.GetLastPosition();
+        float[] sigPunto = { (float)ultimaRuta[0].latitud, (float)ultimaRuta[0].longitud };
+        if (distanciaCoord(position, sigPunto) >= 0.05)
+        {
+            generarRuta(lastName);
+            yield return new WaitForSeconds(5); // esperar a que se genere la nueva ruta
+        }
+        yield return new WaitForSeconds(2); // esperar para ver si tiene que actualizar
+        StartCoroutine(ModificarRuta());
+    }
+
+    public float distanciaCoord(float[] p1, float[] p2)
+    {
+        return Mathf.Sqrt(Mathf.Pow(p1[0]-p2[0], 2)+ Mathf.Pow(p1[1]- p2[1], 2)) * 100; //0.01 grados de diferencia es mas o menos 1 kilometro
+    }
 
     public void generarRuta(string name)
     {
@@ -179,6 +220,14 @@ public class MapRouteAPI : MonoBehaviour
                 verticeActual++; // Pasar al siguiente vertice en la lista
             }
         }
+
+        // TODO: Pedir punto mas cercano
+        Point lastPos =  closest.lastPosition;
+        // agregar vecino del punto inicial al punto mas cercano
+        /*
+        int indicePuntoCercano = getIndexFromListByName(vertices, lastPos.name);
+        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, lastPos.name);
+        */
         // agregar vecino del punto inicial al punto mas cercano
         int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
         int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
