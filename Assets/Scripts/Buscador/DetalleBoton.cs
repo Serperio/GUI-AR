@@ -23,7 +23,7 @@ namespace ARLocation.MapboxRoutes
         [SerializeField]
         API api;
         [SerializeField]
-        TextMeshProUGUI mensajeFinal;
+        GameObject mensajeFinal;
         [SerializeField]
         GameObject PanelDBError;
         private LocationInfo lastLocation;
@@ -44,7 +44,7 @@ namespace ARLocation.MapboxRoutes
             ruta = GameObject.Find("AppManager").GetComponent<CreateRuta>();
             mapRouteAPI = GameObject.Find("AppManager").GetComponent<MapRouteAPI>();
             PanelDBError = GameObject.Find("PanelErrorDBBuscado");
-            mensajeFinal = GameObject.Find("TextoErrorDB").GetComponent<TextMeshProUGUI>(); 
+            mensajeFinal = GameObject.Find("TextoErrorDB");
             gpsloc = GameObject.Find("AppManager").GetComponent<MyPositionGPS>();
             api = GameObject.Find("AppManager").GetComponent<API>();
         }
@@ -143,12 +143,12 @@ namespace ARLocation.MapboxRoutes
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log("Error post: "+ www.error);
-            mensajeFinal.text = "Error al Mandar Estadisticas";
             PanelDBError.SetActive(true);
+            mensajeFinal.GetComponent<TextMeshProUGUI>().text = "Error al Mandar Estadisticas";
         }
         else
-        {
-            mensajeFinal.text = "Estadisticas Enviadas!!";
+            {
+            mensajeFinal.GetComponent<TextMeshProUGUI>().text = "Estadisticas Enviadas!!";
             Debug.Log("Form upload complete!");
         }
         yield break;
