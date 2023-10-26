@@ -27,7 +27,8 @@ public class MapRouteAPI : MonoBehaviour
     GameObject actualizarRutaButton;
     [SerializeField]
     ClosestPoint closest;
-    /*
+    private bool recalculado = false;
+    
     private void Start()
     {
         // Revisar si se tiene que modificar la ruta
@@ -36,22 +37,36 @@ public class MapRouteAPI : MonoBehaviour
     
     private void Update()
     {
-        if(ultimaRuta.Count <= 2)
+        if(ultimaRuta != null && ultimaRuta.Count <= 2)
         {
             actualizarRutaButton.SetActive(false);
         }
         // Quitar punto de la ruta si ya llegue
-        if (closest.lastPosition.name == ultimaRuta[0].nombre)
+        if (ultimaRuta != null && closest.lastPosition != null && ultimaRuta.Count >= 2 && closest.lastPosition.name == ultimaRuta[1].nombre)
         {
-            ultimaRuta.RemoveAt(0);
+            ultimaRuta.RemoveAt(1);
         }
 
     }
-    */
+    
     IEnumerator ModificarRuta()
     {
         float[] position = myPositionGPS.GetLastPosition();
-        float[] sigPunto = { (float)ultimaRuta[0].latitud, (float)ultimaRuta[0].longitud };
+        float[] sigPunto = { 0,0};
+        if (ultimaRuta != null && ultimaRuta.Count >= 2)
+        {
+            sigPunto[0] =  (float)ultimaRuta[1].latitud;
+            sigPunto[1] = (float)ultimaRuta[1].longitud;
+        }
+        if(closest.lastPosition != null)
+        {
+            if(closest.lastPosition.name == "@Escalera2" && !recalculado) {
+                Utilities._ShowAndroidToastMessage("Recalculando ruta");
+                generarRuta(lastName);
+                recalculado = true;
+            }
+            
+        }
         if (distanciaCoord(position, sigPunto) >= 0.05)
         {
             generarRuta(lastName);
@@ -224,18 +239,23 @@ public class MapRouteAPI : MonoBehaviour
         // TODO: Pedir punto mas cercano
         Point lastPos =  closest.lastPosition;
         // agregar vecino del punto inicial al punto mas cercano
-        /*
-        int indicePuntoCercano = getIndexFromListByName(vertices, lastPos.name);
-        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, lastPos.name);
-        */
-        // agregar vecino del punto inicial al punto mas cercano
-        int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
-        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
-        vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
-        auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercanoAux]));
-        vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
-        auxiliar[indicePuntoCercanoAux].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercanoAux], auxiliar[0]));
-        rutaCustomAPI.puntosConEscaleras = auxiliar;
+        
+        if(lastPos != null)
+        {
+            int indicePuntoCercano = getIndexFromListByName(vertices, lastPos.name);
+            int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, lastPos.name);
+        
+            // agregar vecino del punto inicial al punto mas cercano
+            /*
+            int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
+            int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
+            */
+            vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
+            auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercanoAux]));
+            vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
+            auxiliar[indicePuntoCercanoAux].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercanoAux], auxiliar[0]));
+            rutaCustomAPI.puntosConEscaleras = auxiliar;
+        }
         return vertices;
     }
 
