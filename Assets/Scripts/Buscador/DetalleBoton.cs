@@ -158,7 +158,6 @@ namespace ARLocation.MapboxRoutes
 // -------------------------------------------------------------------------------- //
         public void RealizarRuta()
         {
-
             //listaPunto.GetPath(punto.text);
             mapRouteAPI.generarRuta(punto.text);
             ObtenerInfoRuta(punto.text);
