@@ -97,13 +97,14 @@ class Dijkstra
             else
             {
                 Puntito actual = GetPointWithMinDistancia(aux.Vecinos, aux, visitados,filtro);
-                // Debug.Log("Punto Actual: " + actual.ID);
+                Debug.Log("Punto Actual: " + actual.ID);
                 no_visitados.Remove(actual);
                 visitados.Add(actual);
                 //Debug.Log("Actual es: " + actual.ID);
                 //caminos.Add(actual);
                 foreach (Vecino vecinito in actual.Vecinos)
                 {
+                    Debug.Log("Vecino revisando:" + vecinito.Actual.nombre);
                     Puntito vecino = vecinito.Vec;
                     //double DistanciaFromInicio = actual.Distancia + vecinito.Distancia;
 
@@ -129,10 +130,10 @@ class Dijkstra
 
     private static Puntito GetPointWithMinDistancia(List<Vecino> Vecinos, Puntito Actual, HashSet<Puntito> visitados, bool filter) 
     {
-        if (filter){
+        if (filter) {
             Puntito minPoint = null;
             double minDistancia = double.MaxValue;
-
+            Debug.Log("Punto a revisar:"+Actual.nombre + Actual.Vecinos.Count);
             foreach (Vecino vecino in Vecinos)
             {
                 int aux = 0;
@@ -144,10 +145,10 @@ class Dijkstra
                 //{
                 //    aux = 100;
                 //}
-                if (DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud)+aux < minDistancia && !visitados.Contains(vecino.Vec))
+                if ((DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud) + aux < minDistancia) && !visitados.Contains(vecino.Vec))
                 {
                     minPoint = vecino.Vec;
-                    minDistancia = DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud);
+                    minDistancia = DistanciaLatLon.distance(vecino.Vec.latitud, Actual.latitud, vecino.Vec.longitud, Actual.longitud) + aux;
                 }
             }
             return minPoint;

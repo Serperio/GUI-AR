@@ -52,17 +52,24 @@ public class MapRouteAPI : MonoBehaviour
             {
                 if (escalerasPermitidas)
                 {
-                popUpNoExisteRuta.SetActive(true);
+                    Debug.Log("No existe ruta con escaleras permitidas");
+                    popUpNoExisteRuta.SetActive(true);
                 }
                 else
                 {
                     try
                     {
-                        ruta = Dijkstra.FindShortestPath(auxiliar, auxiliar[0], auxiliar[auxiliarFinalCamino],true); //Cambiar a puntos recuperados escaleras
+                        ruta = Dijkstra.FindShortestPath(auxiliar, auxiliar[0], auxiliar[auxiliarFinalCamino], true); //Cambiar a puntos recuperados escaleras
                         canvaWarning.SetActive(true);
+                        Debug.Log("Existe ruta con escaleras");
                     }
                     catch
                     {
+                        Debug.Log("No existe ruta con escaleras");
+                        foreach (Puntito puntito in auxiliar)
+                        {
+                            Debug.Log("Punto:"+ puntito.nombre);
+                        }
                         popUpNoExisteRuta.SetActive(true);
                     }
                 }
@@ -104,7 +111,7 @@ public class MapRouteAPI : MonoBehaviour
         // Definir punto inicial
         Puntito inicio = new Puntito("inicio", latitud, longitud, "inicio");
         // Lista para guardar los vertices/puntos en formato Dijkstra
-        auxiliar = new List<Puntito> { inicio };
+        auxiliar = new List<Puntito> { new Puntito("inicio", latitud, longitud, "inicio") };
         List<Puntito> vertices = new List<Puntito> { inicio }; // indice 0 corresponde siempre al inicio
 
         // Recorrer puntos recuperados para generar lista de vertices
@@ -120,6 +127,7 @@ public class MapRouteAPI : MonoBehaviour
                 // Saltarse las escaleras
                 if (escalerasPermitidas == false && punto.tipo == "Escalera") {
                     auxiliar.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
+                    Debug.Log("punto especial:" + punto.name);
                     // Revisar si tiene vecinos
                     if (punto.vecinos.Length > 0)
                     {
@@ -131,11 +139,12 @@ public class MapRouteAPI : MonoBehaviour
                             if (indiceVecino != -1)
                             {
                                 // Agregar vecinos para ambos lados
-                                auxiliar[verticeActual].Vecinos.Add(new Vecino(auxiliar[verticeActual], auxiliar[indiceVecino]));
-                                auxiliar[indiceVecino].Vecinos.Add(new Vecino(auxiliar[indiceVecino], auxiliar[verticeActual]));
+                                auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecino]));
+                                auxiliar[indiceVecino].Vecinos.Add(new Vecino(auxiliar[indiceVecino], auxiliar[auxiliarActual]));
                             }
                         }
                     }
+                    Debug.Log("Vecinos especial:" + auxiliar[auxiliarActual].Vecinos.Count);
                     auxiliarActual++;
                     continue;
                 };
@@ -145,20 +154,26 @@ public class MapRouteAPI : MonoBehaviour
                 // Revisar si tiene vecinos
                 if (punto.vecinos.Length > 0)
                 {
+                    Debug.Log("Vecinos normal antes:" + punto.vecinos.Length);
                     // Agregar vecinos
                     foreach (string vecinoID in punto.vecinos)
                     {
                         // Encontrar indice del vecino en la lista de vertices
                         int indiceVecino = getIndexFromListByID(vertices, vecinoID);
+                        int indiceVecinoAux = getIndexFromListByID(auxiliar, vecinoID);
                         if (indiceVecino != -1)
                         {
-                            auxiliar[verticeActual].Vecinos.Add(new Vecino(auxiliar[verticeActual], auxiliar[indiceVecino]));
-                            auxiliar[indiceVecino].Vecinos.Add(new Vecino(auxiliar[indiceVecino], auxiliar[verticeActual]));
                             // Agregar vecinos para ambos lados
                             vertices[verticeActual].Vecinos.Add(new Vecino(vertices[verticeActual], vertices[indiceVecino]));
                             vertices[indiceVecino].Vecinos.Add(new Vecino(vertices[indiceVecino], vertices[verticeActual]));
                         }
+                        if (indiceVecinoAux != -1)
+                        {
+                            auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecinoAux]));
+                            auxiliar[indiceVecinoAux].Vecinos.Add(new Vecino(auxiliar[indiceVecinoAux], auxiliar[auxiliarActual]));
+                        }
                     }
+                    Debug.Log("Vecinos normal aux:" + auxiliar[auxiliarActual].nombre + "|" + auxiliar[auxiliarActual].Vecinos.Count);
                 }
                 auxiliarActual++;
                 verticeActual++; // Pasar al siguiente vertice en la lista
@@ -166,10 +181,11 @@ public class MapRouteAPI : MonoBehaviour
         }
         // agregar vecino del punto inicial al punto mas cercano
         int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
+        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
         vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
-        auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercano]));
+        auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercanoAux]));
         vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
-        auxiliar[indicePuntoCercano].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercano], auxiliar[0]));
+        auxiliar[indicePuntoCercanoAux].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercanoAux], auxiliar[0]));
         rutaCustomAPI.puntosConEscaleras = auxiliar;
         return vertices;
     }
