@@ -39,6 +39,8 @@ public class Buscador : MonoBehaviour
 
     string inputText; //texto que hay en el Gameobject Text
 
+    string userMail = Login.email
+
     static List<string> JsonToList(string jsonData){ //Convierte Json a Lista
         string json = jsonData.Substring(1,jsonData.Length-2);            
         bool startParentesis = false;
@@ -171,6 +173,8 @@ public class Buscador : MonoBehaviour
                         Debug.Log("WENAAAAAAAAAA PO VIEJA QLA MARACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+p.tipo);
                     }
                 }
+
+                SendUserRequests(userMail, name)
             }
             // Mostrar informacion
             OpenDetalle();

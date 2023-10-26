@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Record : MonoBehaviour
 {
+
+    string userMail = Login.email
+
     // Start is called before the first frame update
     void Start()
     {
