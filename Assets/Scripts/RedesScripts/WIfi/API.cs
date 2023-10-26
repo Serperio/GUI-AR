@@ -56,7 +56,7 @@ public class API : MonoBehaviour
     [SerializeField]
     TMP_InputField descripcionInput;
     [SerializeField]
-    TMP_InputField sedeInput;
+    TMP_Dropdown Dropdown_sede;
 
     [SerializeField]
     public MyPositionGPS GPS_handler; // Deberia ser singleton
@@ -100,6 +100,7 @@ public class API : MonoBehaviour
 
     IEnumerator guardarPunto()
     {
+        Debug.Log("dropdownnn: " + Dropdown_sede.captionText.text.GetType());
         Debug.Log("Guardando punto...");
         // Crear formulario
         WWWForm form = new WWWForm();
@@ -114,7 +115,7 @@ public class API : MonoBehaviour
         form.AddField("tipo", tipoInput.text);
         form.AddField("name", nameInput.text);
         form.AddField("description", descripcionInput.text);
-        form.AddField("sede", sedeInput.text);
+        form.AddField("sede", Dropdown_sede.captionText.text);
         yield return StartCoroutine(APIHelper.POST("points/add", form));
 
         GuardarVecinos(nameInput.text);
