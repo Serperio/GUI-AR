@@ -135,7 +135,7 @@ namespace ARLocation.MapboxRoutes
         form.AddField("puntoFinal", PuntoFinal);
         form.AddField("longitud", longitud.ToString(CultureInfo.InvariantCulture));
         form.AddField("latitud", latitud.ToString(CultureInfo.InvariantCulture));
-        form.AddField("fecha", Fecha.ToString("dddd, dd MMMM yyyy hh:mm tt"));
+        form.AddField("fecha", Fecha.ToString("yyyy-MM-dd"));
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"puntobuscado/add", form);
         yield return www.SendWebRequest();

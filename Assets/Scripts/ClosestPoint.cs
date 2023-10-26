@@ -53,7 +53,7 @@ public class ClosestPoint : MonoBehaviour
         form.AddField("nombre", name);
         form.AddField("longitud", longitud.ToString(CultureInfo.InvariantCulture));
         form.AddField("latitud", latitud.ToString(CultureInfo.InvariantCulture));
-        form.AddField("fecha", fecha.ToString("dddd, dd MMMM yyyy hh:mm tt"));
+        form.AddField("fecha", fecha.ToString("yyyy-MM-dd"));
         //Realizar request
         UnityWebRequest www = UnityWebRequest.Post(baseURI+"puntosinteres/add", form);
         yield return www.SendWebRequest();
