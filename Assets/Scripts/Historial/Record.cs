@@ -8,102 +8,59 @@ public class Record : MonoBehaviour
     HistorialBehaviour hist;
     string userMail;
 
+    List<string> masBuscados = new List<string>();
+
     // Start is called before the first frame update
     void Start()
     {
         userFrequentRequests = new List<string>();
         userMail = hist.correoVal;
-       // listShow();
+       listShow();
     }
 
-    /*public void listShow()
+    public void listShow()
     {
-        StartCoroutine(GetFrequentUserRequests(userMail, userFrequentRequests));
+        GetFrequentUserRequests();
     }
 
-    public void SendUserRequests(string userMail, string request)
+    public void SendUserRequests(string request)
     {
-        //-------------------------------------------
-        string connectionString = "mongodb://localhost:27017/";
-        client = new MongoClient(connectionString);
-        database = client.GetDatabase();
-        collection = database.GetCollection<BsonDocument>("Frecuencia");
-        //-------------------------------------------
-        var document = new BsonDocument
-        {
-            { "mail", userMail },
-            { "request", request },
-            { "timestamp", DateTime.Now }
-        };
-        collection.InsertOne(document);
-
+        WWWForm www = new WWWForm();
+        www.AddField("mail", userMail);
+        www.AddField("request", request);
+        StartCoroutine(APIHelper.POST("frecuencia/add", www, response => { Debug.Log("Enviado con exito"); }));
     }
 
 
-    IEnumerator GetFrequentUserRequests(string userMail, List<string> frequentRequests)
+    public void GetFrequentUserRequests()
     {
-        //-------------------------------------------
-        string connectionString = "mongodb://localhost:27017/";
-        client = new MongoClient(connectionString);
-        database = client.GetDatabase();
-        collection = database.GetCollection<BsonDocument>("Frecuencia");
-        //-------------------------------------------
-
-        var aggregatePipeline = new List<BsonDocument>
-        {
-            BsonDocument.Parse("{ $match: { correo: '" + userMail + "' } }"),
-            BsonDocument.Parse("{ $group: { _id: '$request', count: { $sum: 1 } } }"),
-            BsonDocument.Parse("{ $sort: { count: -1 } }"),
-            BsonDocument.Parse("{ $limit: 3 }")
-        };
-        var cursor = collection.Aggregate<BsonDocument>(aggregatePipeline).ToList();
-
-        frequentRequests.Clear();
-        foreach (var result in cursor)
-        {
-            string frecuentrequest = result["_id"].AsString;
-            frequentRequests.Add(frecuentrequest);
-        }
+        StartCoroutine(APIHelper.GET("frecuencia/"+userMail, response => {
+            List<string> requests = API.listJson(response);
+            List<Frecuencia> frecuencias = new List<Frecuencia>();
+            foreach(string json in requests)
+            {
+                frecuencias.Add(JsonUtility.FromJson<Frecuencia>(json));
+            }
+            masBuscados = new List<string>();
+            foreach (Frecuencia frecuencia in frecuencias)
+            {
+                masBuscados.Add(frecuencia.request);
+            }
+            hist.SugerenciasAPI = masBuscados;
+        }));
     }
 
-    /*private void DeleteUserRequests(string userMail, string request)
+    public void DeleteAllUserRequests()
     {
-        //-------------------------------------------
-        string connectionString = "mongodb://localhost:27017/";
-        client = new MongoClient(connectionString);
-        database = client.GetDatabase();
-        collection = database.GetCollection<BsonDocument>("Frecuencia");
-        //-------------------------------------------
-        try
-        {
-            var filtro = Builders<BsonDocument>.Filter.And(
-            Builders<BsonDocument>.Filter.Eq("correo", userMail),
-            Builders<BsonDocument>.Filter.Eq("request", request)
-            );
-            var resultado = collection.DeleteMany(filtro);
-        }
-        catch ()
-        {
-            Debug.Log("error");
-        }
+        WWWForm www = new WWWForm();
+        StartCoroutine(APIHelper.POST("frecuencia/" + userMail, www, response => {
+            Debug.Log("Borrado exitoso");
+        }));
     }
 
-    private void DeleteAllUserRequests(string userMail, string request)
+    public class Frecuencia
     {
-        //-------------------------------------------
-        string connectionString = "mongodb://localhost:27017/";
-        client = new MongoClient(connectionString);
-        database = client.GetDatabase();
-        collection = database.GetCollection<BsonDocument>("Frecuencia");
-        //-------------------------------------------
-        try
-        {
-            var filtro = Builders<BsonDocument>.Filter.Eq("mail", userMail);
-            var resultado = collection.DeleteMany(filtro);
-        }
-        catch ()
-        {
-            Debug.Log("error");
-        }
-    }*/
+        public string mail;
+        public string request;
+    }
 }

@@ -10,7 +10,7 @@ public class HistorialBehaviour : MonoBehaviour
     TMP_Dropdown tmpDrop;
     [SerializeField]
     TMP_InputField inputField;
-    List<string> SugerenciasAPI= new List<string>() { "Labpro", "abc" };
+    public List<string> SugerenciasAPI= new List<string>();
     private void Start()
     {
         correoVal = GameObject.Find("Correo").GetComponent<nValue>().correoUsuario;
