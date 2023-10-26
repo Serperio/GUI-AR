@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Record : MonoBehaviour
 {
 
-    private List<string> searchHistory = new List<string>();
+    /*private List<string> searchHistory = new List<string>();
     int n;
 
     void Start()
