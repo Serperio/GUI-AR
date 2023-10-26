@@ -33,7 +33,7 @@ public class ClosestPoint : MonoBehaviour
     
     public void SubirDummyInteres()
     {
-        StartCoroutine(EnviarDataPuntoInteres("dummy1", (float)-33.03518, (float)-71.59681));
+        //StartCoroutine(EnviarDataPuntoInteres("dummy1", (float)-33.03518, (float)-71.59681));
         EnviarDataPuntoInteres("dummy2", (float)-33.03481, (float)-71.59657);
         EnviarDataPuntoInteres("dummy3", (float)-33.036278, (float)-71.5957897);
     }
@@ -114,7 +114,7 @@ public class ClosestPoint : MonoBehaviour
             closestPointInfo.text = nearestPoint.name;
             if(nearestPoint.tipo == "Ruta")
             {
-                EnviarDataPuntoInteres(nearestPoint.name,latitude,longitude);
+                StartCoroutine(EnviarDataPuntoInteres(nearestPoint.name,latitude,longitude));
             }
         }
         else

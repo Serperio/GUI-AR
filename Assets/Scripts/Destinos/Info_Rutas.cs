@@ -160,7 +160,7 @@ public class Info_Rutas : MonoBehaviour
     public void UpdatePointData()
     {
         infopoint_especifica.Clear();
-        Ubi_actual.text = "Cañon";
+        //Ubi_actual.text = "Cañon";
         StartCoroutine(FindPointInfo(Ubi_actual.text.Substring(4)));
         //StartCoroutine(FindPointInfo());
     }
@@ -251,7 +251,7 @@ public class Info_Rutas : MonoBehaviour
 
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        name = "Cañon";
+        //name = "Cañon";
         const string IP = "144.22.42.236";
         //yield return StartCoroutine(Estado_juego());
         //const string IP = "localhost";
