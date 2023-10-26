@@ -11001,6 +11001,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469960572}
   m_CullTransparentMesh: 1
+--- !u!1001 &483416149
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 483.0618
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 798.9382
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 75.626236
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671976, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831857548121671979, guid: c91e33176d9484a4d83c3149b162e53d,
+        type: 3}
+      propertyPath: m_Name
+      value: Correo
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c91e33176d9484a4d83c3149b162e53d, type: 3}
+--- !u!114 &483416150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6831857548121671978, guid: c91e33176d9484a4d83c3149b162e53d,
+    type: 3}
+  m_PrefabInstance: {fileID: 483416149}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b6afd9cba21f74ab736b323982d8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &486601398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11796,7 +11877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &507798790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20733,6 +20814,7 @@ MonoBehaviour:
   edificioDatasetInput: {fileID: 0}
   estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
+  sedeInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
   NearbyScroll: {fileID: 0}
@@ -25837,6 +25919,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f649dfbfce27ddbcaa67f8ee79fe444e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  api: {fileID: 0}
+  mensajeFinal: {fileID: 0}
+  PanelDBError: {fileID: 0}
+  puntoInicial: 
 --- !u!114 &969141573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28462,6 +28548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f649dfbfce27ddbcaa67f8ee79fe444e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  api: {fileID: 0}
+  mensajeFinal: {fileID: 0}
+  PanelDBError: {fileID: 0}
+  puntoInicial: 
 --- !u!114 &1070627336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31492,6 +31582,7 @@ MonoBehaviour:
   emailGet: {fileID: 932069330}
   passGet: {fileID: 1382594364}
   n: {fileID: 6831857548121671979, guid: c91e33176d9484a4d83c3149b162e53d, type: 3}
+  nval: {fileID: 483416150}
   ui: {fileID: 1610084579}
   email: 
   password: 
@@ -31510,6 +31601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28bb4ed8458f6e4a96132618a672331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nval: {fileID: 483416150}
   emailGet: {fileID: 1336702059}
   passGet: {fileID: 1263884779}
   email: 
@@ -40809,6 +40901,8 @@ MonoBehaviour:
   closestPointInfo: {fileID: 0}
   api: {fileID: 0}
   gpsloc: {fileID: 0}
+  mensajeFinal: {fileID: 0}
+  panelErrorDB: {fileID: 0}
 --- !u!114 &1610084572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40875,6 +40969,7 @@ MonoBehaviour:
   edificioDatasetInput: {fileID: 0}
   estadoWifiDB: {fileID: 0}
   descripcionInput: {fileID: 0}
+  sedeInput: {fileID: 0}
   GPS_handler: {fileID: 0}
   prefabNearby: {fileID: 0}
   NearbyScroll: {fileID: 0}
@@ -41028,6 +41123,8 @@ MonoBehaviour:
   Ubi_actual: {fileID: 0}
   textoPunto: {fileID: 0}
   infopoint_especifica: []
+  BotonJuego_Desactivado: {fileID: 0}
+  BotonJuego_Activado: {fileID: 0}
 --- !u!114 &1610084585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53126,7 +53223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2025367763
 MonoBehaviour:
   m_ObjectHideFlags: 0

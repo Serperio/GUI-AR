@@ -1,64 +1,109 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
 public class Record : MonoBehaviour
 {
+    List<string> userFrequentRequests;
+    [SerializeField]
+    HistorialBehaviour hist;
+    string userMail;
 
-    /*private List<string> searchHistory = new List<string>();
-    int n;
-
+    // Start is called before the first frame update
     void Start()
     {
-        GameObject buttonTemplate = transform.GetChild(0).gameObject;
-        GameObject g;
+        userFrequentRequests = new List<string>();
+        userMail = hist.correoVal;
+       // listShow();
+    }
 
-        n = searchHistory.Count; //3?
+    /*public void listShow()
+    {
+        StartCoroutine(GetFrequentUserRequests(userMail, userFrequentRequests));
+    }
 
-        for (int i = 0; i < n; i++)
+    public void SendUserRequests(string userMail, string request)
+    {
+        //-------------------------------------------
+        string connectionString = "mongodb://localhost:27017/";
+        client = new MongoClient(connectionString);
+        database = client.GetDatabase();
+        collection = database.GetCollection<BsonDocument>("Frecuencia");
+        //-------------------------------------------
+        var document = new BsonDocument
         {
-            g = Instantiate(buttonTemplate, transform);
+            { "mail", userMail },
+            { "request", request },
+            { "timestamp", DateTime.Now }
+        };
+        collection.InsertOne(document);
 
-            g.transform.GetChild(1).GetComponent<Text>().text = searchHistory[i];
-
-            g.GetComponent<Button>().AddListener(i, Buscador.FindPointData(name));
-
-            g.GetComponent<Button>().AddEventListener(i, DeleteRecord(i));
-        }
-
-        Destroy(buttonTemplate);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    /*private void UpdateSearchHistoryUI(string text)
+    IEnumerator GetFrequentUserRequests(string userMail, List<string> frequentRequests)
     {
+        //-------------------------------------------
+        string connectionString = "mongodb://localhost:27017/";
+        client = new MongoClient(connectionString);
+        database = client.GetDatabase();
+        collection = database.GetCollection<BsonDocument>("Frecuencia");
+        //-------------------------------------------
 
-        if (string.NotNullOrEmpty(inputText))
+        var aggregatePipeline = new List<BsonDocument>
         {
-            if (searchHistory.Contains(inputText))
-            {
-                searchHistory.Remove(inputText);
-            }
-            searchHistory.Insert(0, inputText);
-            inputText = string.Empty;
+            BsonDocument.Parse("{ $match: { correo: '" + userMail + "' } }"),
+            BsonDocument.Parse("{ $group: { _id: '$request', count: { $sum: 1 } } }"),
+            BsonDocument.Parse("{ $sort: { count: -1 } }"),
+            BsonDocument.Parse("{ $limit: 3 }")
+        };
+        var cursor = collection.Aggregate<BsonDocument>(aggregatePipeline).ToList();
+
+        frequentRequests.Clear();
+        foreach (var result in cursor)
+        {
+            string frecuentrequest = result["_id"].AsString;
+            frequentRequests.Add(frecuentrequest);
         }
     }
 
-    public void DeleteRecord(int N)
-    {   
-        searchHistory.RemoveAt(N);
+    /*private void DeleteUserRequests(string userMail, string request)
+    {
+        //-------------------------------------------
+        string connectionString = "mongodb://localhost:27017/";
+        client = new MongoClient(connectionString);
+        database = client.GetDatabase();
+        collection = database.GetCollection<BsonDocument>("Frecuencia");
+        //-------------------------------------------
+        try
+        {
+            var filtro = Builders<BsonDocument>.Filter.And(
+            Builders<BsonDocument>.Filter.Eq("correo", userMail),
+            Builders<BsonDocument>.Filter.Eq("request", request)
+            );
+            var resultado = collection.DeleteMany(filtro);
+        }
+        catch ()
+        {
+            Debug.Log("error");
+        }
     }
 
-    public void ClearSearchHistory()
+    private void DeleteAllUserRequests(string userMail, string request)
     {
-        searchHistory.Clear();
-        //UpdateSearchHistoryUI();
-    }
-    */
+        //-------------------------------------------
+        string connectionString = "mongodb://localhost:27017/";
+        client = new MongoClient(connectionString);
+        database = client.GetDatabase();
+        collection = database.GetCollection<BsonDocument>("Frecuencia");
+        //-------------------------------------------
+        try
+        {
+            var filtro = Builders<BsonDocument>.Filter.Eq("mail", userMail);
+            var resultado = collection.DeleteMany(filtro);
+        }
+        catch ()
+        {
+            Debug.Log("error");
+        }
+    }*/
 }

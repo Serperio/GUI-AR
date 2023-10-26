@@ -11,6 +11,8 @@ using TMPro;
 public class Login : MonoBehaviour
 {
     [SerializeField]
+    nValue nval;
+    [SerializeField]
     TMP_InputField emailGet;
     [SerializeField]
     TMP_InputField passGet;
@@ -63,6 +65,7 @@ public class Login : MonoBehaviour
         password = passGet.text;
         if (status)
         {
+            nval.correoUsuario = emailGet.text;
             GameObject data = GameObject.Find("Data");
             Destroy(data);
             Debug.Log("ADMIN: " + isAdmin);
