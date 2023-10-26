@@ -169,6 +169,9 @@ public class Buscador : MonoBehaviour
                         instancia.GetComponentInChildren<Text>().text = p.name;
                     }
                 }
+                //---------------------------------------------------
+                //Record.UpdateSearchHistoryUI(name)
+                //---------------------------------------------------
             }
             // Mostrar informacion
             OpenDetalle();
