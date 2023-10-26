@@ -5,16 +5,12 @@ using TMPro;
 
 public class HistorialBehaviour : MonoBehaviour
 {
-    public string correoVal;
     [SerializeField]
     TMP_Dropdown tmpDrop;
     [SerializeField]
     TMP_InputField inputField;
-    public List<string> SugerenciasAPI= new List<string>();
     private void Start()
     {
-        correoVal = GameObject.Find("Correo").GetComponent<nValue>().correoUsuario;
-        tmpDrop.AddOptions(SugerenciasAPI);
     }
 
     public void makeSearch()
