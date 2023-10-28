@@ -64,14 +64,15 @@ public class MapRouteAPI : MonoBehaviour
                 Utilities._ShowAndroidToastMessage("Recalculando ruta");
                 generarRuta(lastName);
                 recalculado = true;
-            }
-            
+            }  
         }
+        /*
         if (distanciaCoord(position, sigPunto) >= 0.05)
         {
             generarRuta(lastName);
             yield return new WaitForSeconds(5); // esperar a que se genere la nueva ruta
         }
+        */
         yield return new WaitForSeconds(2); // esperar para ver si tiene que actualizar
         StartCoroutine(ModificarRuta());
     }
