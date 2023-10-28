@@ -55646,6 +55646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 2059033068015257505, guid: b827e490d4c67d241ac38f468c508cf8, type: 3}
   gps: {fileID: 1610084573}
+  arCameraTransform: {fileID: 836495767}
 --- !u!1 &1612102783
 GameObject:
   m_ObjectHideFlags: 0
