@@ -12,6 +12,8 @@ public class SimpleAR : MonoBehaviour
     Transform arCameraTransform;
     [SerializeField]
     GameObject guideLine;
+    [SerializeField]
+    ClosestPoint closestPoint;
 
     private Vector2 testPosition = new Vector2( -33.0403f, -71.59032f );
     private bool startTracking = false;
@@ -21,11 +23,14 @@ public class SimpleAR : MonoBehaviour
 
     private GameObject lastInstance = null;
 
+    // new Puntito("2", -33.04031, -71.59031, "pieza") 
+    private List<Puntito> route = new List<Puntito>() { new Puntito("1", -33.04036, -71.59033, "patio"), new Puntito("1", -33.04036, -71.59033, "patio")};
+
     private void Start()
     {
         //Instantiate(marker, new Vector3(0, 0, 10), Quaternion.identity);
         Input.compass.enabled = true;
-        Input.location.Start();
+        //Input.location.Start();
         StartCoroutine(InitializeCompass());
     }
 
@@ -63,40 +68,65 @@ public class SimpleAR : MonoBehaviour
             Vector2 origin = new Vector2(lastPosition[0], lastPosition[1]);
             GPSEncoder.SetLocalOrigin(origin);
         }
-        // Convertir punto de destino a coordenadas de unity
-        Vector3 unityPosition = GPSEncoder.GPSToUCS(testPosition);
-        // Calcular cambio de angulo de la camara desde el angulo de inicio de la aplicacion
-        float newAngle = Input.compass.trueHeading;
-        float angleDifference = newAngle - initialAngle;
-        Vector3 newPosition =  Vector3.zero;
-        // Variable para saber si se debe corregir el angulo de la camara
-        bool useNewPosition = false;
-        // Revisar si la direccion de la camara es correcta o no
-        if (Mathf.Abs(newAngle - aproximateAngleFromCamera()) >= maxAngleDiference)
+        // Hacer ruta mientras queden puntos por recorrer
+        if(route.Count > 1)
         {
-            useNewPosition = true;
-            // Rotar coordenas segun diferencia de angulo
-            newPosition = new Vector3(unityPosition.x * Mathf.Cos(angleDifference * Mathf.PI / 180) - unityPosition.z* Mathf.Sin(angleDifference * Mathf.PI / 180),unityPosition.y, unityPosition.x * Mathf.Sin(angleDifference * Mathf.PI / 180) + unityPosition.z * Mathf.Cos(angleDifference * Mathf.PI / 180));
-        }
-        // Instanciar capsula en al posicion correspondiente
-        if (useNewPosition)
+            // Quitar punto al que se llego
+            if(closestPoint.lastPosition != null && closestPoint.lastPosition.name == route[1].nombre)
+            {
+                route.RemoveAt(1);
+            }
+            // Convertir punto de destino a coordenadas de unity
+            Vector3 unityPosition = GPSEncoder.GPSToUCS(puntitoToVector2(route[1]));
+            // Calcular cambio de angulo de la camara desde el angulo de inicio de la aplicacion
+            float newAngle = Input.compass.trueHeading;
+            float angleDifference = newAngle - initialAngle;
+            Vector3 newPosition =  Vector3.zero;
+            // Rotacion que se debe hacer para apuntar al norte
+            float rotationToNorth = initialAngle;
+            // Variable para saber si se debe corregir el angulo de la camara
+            bool useNewPosition = false;
+            // Revisar si la direccion de la camara es correcta o no
+            if (Mathf.Abs(newAngle - aproximateAngleFromCamera()) >= maxAngleDiference)
+            {
+                //useNewPosition = true;
+                // Rotar coordenas segun diferencia de angulo
+                newPosition = new Vector3(unityPosition.x * Mathf.Cos(angleDifference * Mathf.PI / 180) - unityPosition.z* Mathf.Sin(angleDifference * Mathf.PI / 180),unityPosition.y, unityPosition.x * Mathf.Sin(angleDifference * Mathf.PI / 180) + unityPosition.z * Mathf.Cos(angleDifference * Mathf.PI / 180));
+            }
+            // Instanciar capsula en al posicion correspondiente
+            if (useNewPosition)
+            {
+                lastInstance = Instantiate(marker, newPosition, Quaternion.identity);
+            }
+            else
+            {
+                lastInstance =  Instantiate(marker, new Vector3(unityPosition.x * Mathf.Cos(rotationToNorth * Mathf.PI / 180) - unityPosition.z * Mathf.Sin(rotationToNorth * Mathf.PI / 180), unityPosition.y, unityPosition.x * Mathf.Sin(rotationToNorth * Mathf.PI / 180) + unityPosition.z * Mathf.Cos(rotationToNorth * Mathf.PI / 180)), Quaternion.identity);
+            }
+            // Linea para apuntar a la posicion que se debe ir
+            guideLine.GetComponent<LineRenderer>().SetPosition(0, arCameraTransform.position);
+            guideLine.GetComponent<LineRenderer>().SetPosition(1, lastInstance.transform.position);
+            // Mensajes de debug
+            Debug.Log("Unity Position: " + unityPosition.x + "," + unityPosition.y+","+unityPosition.z+" ("+Input.compass.trueHeading+","+initialAngle+")");
+            Debug.Log("Unity New Position: " + newPosition.x + "," + newPosition.y + "," + newPosition.z);
+            Debug.Log("Unity Camera Position: " + arCameraTransform.position.x + "," + arCameraTransform.position.y + "," + arCameraTransform.position.z + "("+arCameraTransform.rotation.eulerAngles+")");
+            Debug.Log("Unity Using New Position: " + useNewPosition);
+        } else
         {
-            lastInstance = Instantiate(marker, newPosition, Quaternion.identity);
+            Debug.Log("Unity Ruta completa");
         }
-        else
-        {
-            lastInstance =  Instantiate(marker, unityPosition, Quaternion.identity);
-        }
-        // Linea para apuntar a la posicion que se debe ir
-        guideLine.GetComponent<LineRenderer>().SetPosition(0, arCameraTransform.position);
-        guideLine.GetComponent<LineRenderer>().SetPosition(1, lastInstance.transform.position);
-        // Mensajes de debug
-        Debug.Log("Unity Position: " + unityPosition.x + "," + unityPosition.y+","+unityPosition.z+" ("+Input.compass.trueHeading+","+initialAngle+")");
-        Debug.Log("Unity New Position: " + newPosition.x + "," + newPosition.y + "," + newPosition.z);
-        Debug.Log("Unity Camera Position: " + arCameraTransform.position.x + "," + arCameraTransform.position.y + "," + arCameraTransform.position.z + "("+arCameraTransform.rotation.eulerAngles+")");
-        Debug.Log("Unity Using New Position: " + useNewPosition);
     }
-
+    // Cargar la ruta a seguir
+    public void LoadRoute(List<Puntito> customRoute)
+    {
+        route = customRoute;
+        StartCoroutine(updateTarget());
+    }
+    // Conversion de formato punto a vector <latitud, longitud>
+    Vector2 puntitoToVector2(Puntito p)
+    {
+        return new Vector2((float)p.latitud, (float)p.longitud);
+    }
+    // Angulo al que deberia estar mirando la camara
     float aproximateAngleFromCamera()
     {
         return (initialAngle + arCameraTransform.rotation.eulerAngles.y) % 360;

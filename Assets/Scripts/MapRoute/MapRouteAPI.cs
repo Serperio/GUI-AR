@@ -28,6 +28,9 @@ public class MapRouteAPI : MonoBehaviour
     [SerializeField]
     ClosestPoint closest;
     private bool recalculado = false;
+
+    [SerializeField]
+    SimpleAR simpleAR;
     
     private void Start()
     {
@@ -147,7 +150,8 @@ public class MapRouteAPI : MonoBehaviour
             ultimaRuta = ruta;
 
             // Cargar ejecutar ruta en mapbox
-            rutaCustomAPI.LoadRoute(ruta);
+            //rutaCustomAPI.LoadRoute(ruta);
+            simpleAR.LoadRoute(ruta);
         }));
     }
 
@@ -177,7 +181,8 @@ public class MapRouteAPI : MonoBehaviour
         foreach (Point punto in puntos)
         {
             // Puntos permitido para probar para evitar que el algoritmo falle
-            if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
+            //if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
+            if (punto.name == "patio" || punto.name == "pieza" || punto.name == "plaza")
             {
                 // Filtro de puntos prohibidos
                 if (puntosProhibidos.Contains(punto.name)) continue;
@@ -240,24 +245,55 @@ public class MapRouteAPI : MonoBehaviour
         // TODO: Pedir punto mas cercano
         Point lastPos =  closest.lastPosition;
         // agregar vecino del punto inicial al punto mas cercano
-        
-        if(lastPos != null)
-        {
-            int indicePuntoCercano = getIndexFromListByName(vertices, lastPos.name);
-            int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, lastPos.name);
-        
-            // agregar vecino del punto inicial al punto mas cercano
-            /*
-            int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
-            int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
-            */
-            vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
-            auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercanoAux]));
-            vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
-            auxiliar[indicePuntoCercanoAux].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercanoAux], auxiliar[0]));
-            rutaCustomAPI.puntosConEscaleras = auxiliar;
-        }
+
+        //if(lastPos != null)
+        //{
+        /*
+        int indicePuntoCercano = getIndexFromListByName(vertices, lastPos.name);
+        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, lastPos.name);
+        */
+
+        float[] lastPosition = { latitud, longitud };
+        int indicePuntoCercano = closestPointIndex(vertices, lastPosition );
+        int indicePuntoCercanoAux = closestPointIndex(auxiliar, lastPosition);
+
+        Debug.Log("Unity indice: " + indicePuntoCercano);
+
+        // agregar vecino del punto inicial al punto mas cercano
+        /*
+        int indicePuntoCercano = getIndexFromListByName(vertices, "@Labux");
+        int indicePuntoCercanoAux = getIndexFromListByName(auxiliar, "@Labux");
+        */
+        vertices[0].Vecinos.Add(new Vecino(vertices[0], vertices[indicePuntoCercano]));
+        auxiliar[0].Vecinos.Add(new Vecino(auxiliar[0], auxiliar[indicePuntoCercanoAux]));
+        vertices[indicePuntoCercano].Vecinos.Add(new Vecino(vertices[indicePuntoCercano], vertices[0]));
+        auxiliar[indicePuntoCercanoAux].Vecinos.Add(new Vecino(auxiliar[indicePuntoCercanoAux], auxiliar[0]));
+        rutaCustomAPI.puntosConEscaleras = auxiliar;
+        //}
         return vertices;
+    }
+
+    public int closestPointIndex(List<Puntito> puntos, float[] position)
+    {
+        int minIndex = -1;
+        int index = 0;
+        float minDist = float.PositiveInfinity;
+        foreach(Puntito punto in puntos)
+        {
+            float distanceBetweenPoints = distance((float)punto.latitud, (float)punto.longitud, position[0], position[1]);
+            if (distanceBetweenPoints < minDist && index != 0)
+            {
+                minDist = distanceBetweenPoints;
+                minIndex = index;
+            }
+            index++;
+        }
+        return minIndex;
+    }
+
+    private float distance(float lat1, float long1, float lat2, float long2)
+    {
+        return Vector2.Distance(new Vector2(lat1, long1), new Vector2(lat2, long2));
     }
 
     public void setEscalerasPermitidas (bool permitido)

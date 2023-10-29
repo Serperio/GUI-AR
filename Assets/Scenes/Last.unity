@@ -41701,7 +41701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1126973731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55829,6 +55829,7 @@ MonoBehaviour:
   popUpNoExisteRuta: {fileID: 1142720981}
   actualizarRutaButton: {fileID: 1773050162}
   closest: {fileID: 1610084571}
+  simpleAR: {fileID: 1610084592}
 --- !u!114 &1610084590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55876,6 +55877,7 @@ MonoBehaviour:
   gps: {fileID: 1610084573}
   arCameraTransform: {fileID: 836495767}
   guideLine: {fileID: 1038375601}
+  closestPoint: {fileID: 1610084571}
 --- !u!1 &1612102783
 GameObject:
   m_ObjectHideFlags: 0
