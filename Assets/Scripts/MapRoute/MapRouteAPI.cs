@@ -181,8 +181,8 @@ public class MapRouteAPI : MonoBehaviour
         foreach (Point punto in puntos)
         {
             // Puntos permitido para probar para evitar que el algoritmo falle
-            //if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
-            if (punto.name == "patio" || punto.name == "pieza" || punto.name == "plaza")
+            //if (punto.name == "patio" || punto.name == "pieza" || punto.name == "plaza")
+            if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
             {
                 // Filtro de puntos prohibidos
                 if (puntosProhibidos.Contains(punto.name)) continue;
