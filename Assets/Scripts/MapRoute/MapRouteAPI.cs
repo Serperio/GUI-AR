@@ -182,64 +182,64 @@ public class MapRouteAPI : MonoBehaviour
         {
             // Puntos permitido para probar para evitar que el algoritmo falle
             //if (punto.name == "patio" || punto.name == "pieza" || punto.name == "plaza")
-            if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
-            {
-                // Filtro de puntos prohibidos
-                if (puntosProhibidos.Contains(punto.name)) continue;
-                // Saltarse las escaleras
-                if (escalerasPermitidas == false && punto.tipo == "Escalera") {
-                    auxiliar.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
-                    Debug.Log("punto especial:" + punto.name);
-                    // Revisar si tiene vecinos
-                    if (punto.vecinos.Length > 0)
-                    {
-                        // Agregar vecinos
-                        foreach (string vecinoID in punto.vecinos)
-                        {
-                            // Encontrar indice del vecino en la lista de vertices
-                            int indiceVecino = getIndexFromListByID(auxiliar, vecinoID);
-                            if (indiceVecino != -1)
-                            {
-                                // Agregar vecinos para ambos lados
-                                auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecino]));
-                                auxiliar[indiceVecino].Vecinos.Add(new Vecino(auxiliar[indiceVecino], auxiliar[auxiliarActual]));
-                            }
-                        }
-                    }
-                    Debug.Log("Vecinos especial:" + auxiliar[auxiliarActual].Vecinos.Count);
-                    auxiliarActual++;
-                    continue;
-                };
-                // Crear el vertice
-                vertices.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
+            //if (punto.name == "@Labux" || punto.name == "@Escalera1" || punto.name == "@Escalera2" || punto.name == "@P223" || punto.name == "@Ascensor")
+            //{
+            // Filtro de puntos prohibidos
+            if (puntosProhibidos.Contains(punto.name)) continue;
+            // Saltarse las escaleras
+            if (escalerasPermitidas == false && punto.tipo == "Escalera") {
                 auxiliar.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
+                Debug.Log("punto especial:" + punto.name);
                 // Revisar si tiene vecinos
                 if (punto.vecinos.Length > 0)
                 {
-                    Debug.Log("Vecinos normal antes:" + punto.vecinos.Length);
                     // Agregar vecinos
                     foreach (string vecinoID in punto.vecinos)
                     {
                         // Encontrar indice del vecino en la lista de vertices
-                        int indiceVecino = getIndexFromListByID(vertices, vecinoID);
-                        int indiceVecinoAux = getIndexFromListByID(auxiliar, vecinoID);
+                        int indiceVecino = getIndexFromListByID(auxiliar, vecinoID);
                         if (indiceVecino != -1)
                         {
                             // Agregar vecinos para ambos lados
-                            vertices[verticeActual].Vecinos.Add(new Vecino(vertices[verticeActual], vertices[indiceVecino]));
-                            vertices[indiceVecino].Vecinos.Add(new Vecino(vertices[indiceVecino], vertices[verticeActual]));
-                        }
-                        if (indiceVecinoAux != -1)
-                        {
-                            auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecinoAux]));
-                            auxiliar[indiceVecinoAux].Vecinos.Add(new Vecino(auxiliar[indiceVecinoAux], auxiliar[auxiliarActual]));
+                            auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecino]));
+                            auxiliar[indiceVecino].Vecinos.Add(new Vecino(auxiliar[indiceVecino], auxiliar[auxiliarActual]));
                         }
                     }
-                    Debug.Log("Vecinos normal aux:" + auxiliar[auxiliarActual].nombre + "|" + auxiliar[auxiliarActual].Vecinos.Count);
                 }
+                Debug.Log("Vecinos especial:" + auxiliar[auxiliarActual].Vecinos.Count);
                 auxiliarActual++;
-                verticeActual++; // Pasar al siguiente vertice en la lista
+                continue;
+            };
+            // Crear el vertice
+            vertices.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
+            auxiliar.Add(new Puntito(punto._id, punto.x, punto.y, punto.name));
+            // Revisar si tiene vecinos
+            if (punto.vecinos.Length > 0)
+            {
+                Debug.Log("Vecinos normal antes:" + punto.vecinos.Length);
+                // Agregar vecinos
+                foreach (string vecinoID in punto.vecinos)
+                {
+                    // Encontrar indice del vecino en la lista de vertices
+                    int indiceVecino = getIndexFromListByID(vertices, vecinoID);
+                    int indiceVecinoAux = getIndexFromListByID(auxiliar, vecinoID);
+                    if (indiceVecino != -1)
+                    {
+                        // Agregar vecinos para ambos lados
+                        vertices[verticeActual].Vecinos.Add(new Vecino(vertices[verticeActual], vertices[indiceVecino]));
+                        vertices[indiceVecino].Vecinos.Add(new Vecino(vertices[indiceVecino], vertices[verticeActual]));
+                    }
+                    if (indiceVecinoAux != -1)
+                    {
+                        auxiliar[auxiliarActual].Vecinos.Add(new Vecino(auxiliar[auxiliarActual], auxiliar[indiceVecinoAux]));
+                        auxiliar[indiceVecinoAux].Vecinos.Add(new Vecino(auxiliar[indiceVecinoAux], auxiliar[auxiliarActual]));
+                    }
+                }
+                Debug.Log("Vecinos normal aux:" + auxiliar[auxiliarActual].nombre + "|" + auxiliar[auxiliarActual].Vecinos.Count);
             }
+            auxiliarActual++;
+            verticeActual++; // Pasar al siguiente vertice en la lista
+            //}
         }
 
         // TODO: Pedir punto mas cercano
