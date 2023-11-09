@@ -251,7 +251,7 @@ public class Info_Rutas : MonoBehaviour
 
     IEnumerator FindPointInfo(string name) //Buscar los datos de un punto por nombre
     {
-        //name = "Cañon";
+        name = "AuxiliarNoTocar";
         const string IP = "144.22.42.236";
         //yield return StartCoroutine(Estado_juego());
         //const string IP = "localhost";
